@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_menu_home"
+            android:title="A SECOMP" />
+        <item
+            android:id="@+id/nav_feed"
+            android:icon="@drawable/ic_menu_news"
+            android:title="Feed de Notícias" />
+        <item
+            android:id="@+id/nav_pessoas"
+            android:icon="@drawable/ic_menu_person"
+            android:title="Pessoas" />
+        <item
+            android:id="@+id/nav_minhasAtividades"
+            android:icon="@drawable/ic_menu_favorite"
+            android:title="Minhas Atividades" />
+        <item
+            android:id="@+id/nav_map"
+            android:icon="@drawable/ic_menu_map"
+            android:title="Mapa" />
+    </group>
+
+    <item android:title="Separar aqui">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_patrocinadores"
+                    android:icon="@drawable/ic_menu_patrocinador"
+                    android:title="Patrocinadores" />
+                <item
+                    android:id="@+id/nav_sobre"
+                    android:icon="@drawable/ic_menu_sobre"
+                    android:title="Sobre" />
+            </group>
+        </menu>
+    </item>
+
+</menu>

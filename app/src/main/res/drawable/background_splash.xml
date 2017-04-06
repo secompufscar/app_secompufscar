@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:drawable="@color/colorBackSplash"/>
+
+    <item>
+        <!--TODO: Ajustar o tamanho do logo da splash screen-->
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/logo_original"
+            android:mipMap="true"/>
+    </item>
+
+</layer-list>
