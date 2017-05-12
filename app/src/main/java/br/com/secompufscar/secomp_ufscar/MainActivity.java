@@ -2,8 +2,7 @@ package br.com.secompufscar.secomp_ufscar;
 
 import java.net.URL;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,13 +14,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 
 import java.io.IOException;
 
 import br.com.secompufscar.secomp_ufscar.utilities.NetworkUtils;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        Home.OnFragmentInteractionListener,
+        Patrocinadores.OnFragmentInteractionListener,
+        Cronograma.OnFragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,16 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getMenu().getItem(0).setChecked(true);
+
+        Fragment fragment_inicial = new Home();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment_inicial).commit();
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 
     @Override
@@ -83,6 +97,9 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             fragment = new Home();
+        }
+        else if(id == R.id.nav_cronograma) {
+            fragment = new Cronograma();
         } else if (id == R.id.nav_feed) {
 
         } else if (id == R.id.nav_pessoas) {
@@ -98,7 +115,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         if (fragment != null) {
-            FragmentManager fragmentManager = getFragmentManager();
+            FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
         }
 

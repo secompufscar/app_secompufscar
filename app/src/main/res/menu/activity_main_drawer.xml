@@ -7,9 +7,13 @@
             android:icon="@drawable/ic_menu_home"
             android:title="A SECOMP" />
         <item
+            android:id="@+id/nav_cronograma"
+            android:icon="@drawable/ic_menu_cronograma"
+            android:title="Cronograma"/>
+        <item
             android:id="@+id/nav_feed"
             android:icon="@drawable/ic_menu_news"
-            android:title="Feed de Notícias" />
+            android:title="Redes Sociais" />
         <item
             android:id="@+id/nav_pessoas"
             android:icon="@drawable/ic_menu_person"
