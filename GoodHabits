@@ -1,0 +1,12 @@
+### Boas práticas para se usar o Android Studio ###
+
+## Nome de classes Iniciadas com maiúsculo, se possuir >2, usar iniciais maiúsculas.
+
+## Variáveis minúsculo, se possuír 2 nomes, apenas a inicial do 2º nome maiúscula.
+
+## Identação: Tab
+
+## Abertura de funções classes 
+ * funcao(){
+   }
+

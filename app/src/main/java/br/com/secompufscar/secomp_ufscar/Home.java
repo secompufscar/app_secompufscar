@@ -2,13 +2,37 @@ package br.com.secompufscar.secomp_ufscar;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
+import java.util.ArrayList;
+
+import br.com.secompufscar.secomp_ufscar.utilities.ListTwitterAdapter;
+import twitter4j.ResponseList;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.User;
+import twitter4j.conf.ConfigurationBuilder;
+
+/*
+
+<------ AQUELE COMENTÁRIO MANEIRO ------->
+
+->Seria mais interessante e melhor, caso esses Fragments , fossem activities
+
+*/
 public class Home extends Fragment {
+    /*
+        Minhas declarações
+    */
+    private ListView lv;
+    private String tweetsArray[];
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -48,6 +72,11 @@ public class Home extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+            // Onde vai aparecer os tweets
+            lv = (ListView)getView().findViewById(R.id.listViewTwitter);
+
+
+
         }
     }
 
@@ -55,6 +84,7 @@ public class Home extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        new MegaChecker().execute("");
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
@@ -95,5 +125,96 @@ public class Home extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    // No android nós não podemos realizar network calls, na atual activity, por isso usamos um "AsyncTask"
+    // Uma thread que faz uma network call em background
+
+    public class MegaChecker extends AsyncTask<String,String,String>
+    {
+        boolean ok = true;
+        ArrayList<String> tweets = new ArrayList<>();
+
+        @Override
+        protected void onPreExecute()
+        {
+            /*new SimpleTooltip.Builder(getContext())
+                    .anchorView(lv)
+                    .text("Loading...")
+                    .gravity(Gravity.CENTER)
+                    .animated(true)
+                    .transparentOverlay(false)
+                    .build()
+                    .show();*/
+
+        }
+        @Override
+        protected String doInBackground(String... params) {
+
+
+            ConfigurationBuilder cf = new ConfigurationBuilder();
+            cf.setDebugEnabled(true)
+                    .setOAuthConsumerKey("hAvDqs2xpY5MrILVlPaR2zvdb")
+                    .setOAuthConsumerSecret("CZDkwMIbnhfpp3bkFfmCsSmfKXyebMFXmt19Qx9gkgLVQ9F53p")
+                    .setOAuthAccessToken("865280565217558528-KAJ29DWJZCwEtohlMvcuMGdBQLVsbGs")
+                    .setOAuthAccessTokenSecret("C8gFlTi5HhG79ffJyTO9eckdVqUL3ywBdUlJtIVLdHZi1");
+            TwitterFactory tf = new TwitterFactory(cf.build());
+            Twitter twitter = tf.getInstance();
+
+            // É possível colocar vários twitters aqui
+            String[] twitters={"secompufscar"};
+
+
+
+            try {
+                //Primeira e única posição na lista de Twitters
+                String[] srch = new String[]{twitters[0]};
+
+                //Procura pelo nome do twitter no twitter
+                ResponseList<User> users = twitter.lookupUsers(srch);
+
+                //Para todos os usuários encontrados
+                for (User user : users) {
+
+                    //Pega o nome encontrado, só pra ter certeza que pegamos o twitter certo
+                    System.out.println("TWITTER:" + user.getName());
+
+                    // Se a timeline não for nula então
+                    if (user.getStatus() != null) {
+                        System.out.println("Timeline");
+
+                        //Pega a timeline
+                        ResponseList<twitter4j.Status> statusess = twitter.getUserTimeline(twitters[0]);
+
+                        //Joga os tweets em um ArrayList
+                        //Pode ser melhorado
+                        for (twitter4j.Status status3 : statusess)
+                        {
+                            tweets.add(status3.getText());
+                        }
+                    }
+                }
+                //Passa o conteúdo do arraylist para um string array
+                tweetsArray = new String[tweets.size()];
+                for(int i=0;i<tweetsArray.length;i++)
+                {
+                    tweetsArray[i]=tweets.get(i).toString();
+                }
+
+            } catch (TwitterException e) {
+                ok = false;
+                e.printStackTrace();
+
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            if(ok) {
+                ListTwitterAdapter adapter = new ListTwitterAdapter(getActivity(), tweetsArray);
+                lv.setAdapter(adapter);
+            }
+        }
     }
 }
