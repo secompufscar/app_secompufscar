@@ -73,7 +73,7 @@ public class Home extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
             // Onde vai aparecer os tweets
-            lv = (ListView)getView().findViewById(R.id.listViewTwitter);
+
 
 
 
@@ -154,15 +154,15 @@ public class Home extends Fragment {
 
             ConfigurationBuilder cf = new ConfigurationBuilder();
             cf.setDebugEnabled(true)
-                    .setOAuthConsumerKey("hAvDqs2xpY5MrILVlPaR2zvdb")
-                    .setOAuthConsumerSecret("CZDkwMIbnhfpp3bkFfmCsSmfKXyebMFXmt19Qx9gkgLVQ9F53p")
-                    .setOAuthAccessToken("865280565217558528-KAJ29DWJZCwEtohlMvcuMGdBQLVsbGs")
-                    .setOAuthAccessTokenSecret("C8gFlTi5HhG79ffJyTO9eckdVqUL3ywBdUlJtIVLdHZi1");
+                    .setOAuthConsumerKey(getString(R.string.OAuthConsumer))
+                    .setOAuthConsumerSecret(getString(R.string.OAuthSecret))
+                    .setOAuthAccessToken(getString(R.string.OAuthToken))
+                    .setOAuthAccessTokenSecret(getString(R.string.OAuthTokenSecret));
             TwitterFactory tf = new TwitterFactory(cf.build());
             Twitter twitter = tf.getInstance();
 
             // É possível colocar vários twitters aqui
-            String[] twitters={"secompufscar"};
+            String[] twitters={"feedtisecomp"};
 
 
 
@@ -212,6 +212,7 @@ public class Home extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             if(ok) {
+                lv = (ListView)getView().findViewById(R.id.listViewTwitter);
                 ListTwitterAdapter adapter = new ListTwitterAdapter(getActivity(), tweetsArray);
                 lv.setAdapter(adapter);
             }

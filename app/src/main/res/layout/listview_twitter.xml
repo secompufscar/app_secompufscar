@@ -9,7 +9,7 @@
         android:textSize="26dp"
         android:layout_margin="16dp"
         android:layout_width="match_parent"
-        android:textColor="#fff"
+        android:textColor="#000"
         android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
         android:focusable="false"
