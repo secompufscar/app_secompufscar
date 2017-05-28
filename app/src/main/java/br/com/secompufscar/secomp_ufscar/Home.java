@@ -1,10 +1,12 @@
 package br.com.secompufscar.secomp_ufscar;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import br.com.secompufscar.secomp_ufscar.utilities.ListTwitterAdapter;
+import io.github.douglasjunior.androidSimpleTooltip.SimpleTooltip;
 import twitter4j.ResponseList;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -138,20 +141,13 @@ public class Home extends Fragment {
         @Override
         protected void onPreExecute()
         {
-            /*new SimpleTooltip.Builder(getContext())
-                    .anchorView(lv)
-                    .text("Loading...")
-                    .gravity(Gravity.CENTER)
-                    .animated(true)
-                    .transparentOverlay(false)
-                    .build()
-                    .show();*/
+
 
         }
         @Override
         protected String doInBackground(String... params) {
-
-
+            //Declaração da #NOW
+            String now = "";
             ConfigurationBuilder cf = new ConfigurationBuilder();
             cf.setDebugEnabled(true)
                     .setOAuthConsumerKey(getString(R.string.OAuthConsumer))
@@ -162,7 +158,7 @@ public class Home extends Fragment {
             Twitter twitter = tf.getInstance();
 
             // É possível colocar vários twitters aqui
-            String[] twitters={"feedtisecomp"};
+            String[] twitters={getString(R.string.twitter_user)};
 
 
 
@@ -181,7 +177,7 @@ public class Home extends Fragment {
 
                     // Se a timeline não for nula então
                     if (user.getStatus() != null) {
-                        System.out.println("Timeline");
+
 
                         //Pega a timeline
                         ResponseList<twitter4j.Status> statusess = twitter.getUserTimeline(twitters[0]);
@@ -194,19 +190,31 @@ public class Home extends Fragment {
                         }
                     }
                 }
+
+
                 //Passa o conteúdo do arraylist para um string array
                 tweetsArray = new String[tweets.size()];
                 for(int i=0;i<tweetsArray.length;i++)
                 {
                     tweetsArray[i]=tweets.get(i).toString();
+                    //Pega a última #Now usada
+                    if(tweetsArray[i].trim().contains(getString(R.string.now)) && now=="")
+                    {
+                        tweetsArray[i]=tweetsArray[i].replace(getString(R.string.now),"");
+                        now = tweetsArray[i].trim();
+                    }
+                    //Remove a #NOW dos tweets remanescentes
+                    if(tweetsArray[i].trim().contains(getString(R.string.now)))
+                    {
+                        tweetsArray[i]=tweetsArray[i].replace(getString(R.string.now),"");
+                    }
                 }
-
             } catch (TwitterException e) {
                 ok = false;
                 e.printStackTrace();
 
             }
-            return null;
+            return now;
         }
 
         @Override
@@ -215,6 +223,24 @@ public class Home extends Fragment {
                 lv = (ListView)getView().findViewById(R.id.listViewTwitter);
                 ListTwitterAdapter adapter = new ListTwitterAdapter(getActivity(), tweetsArray);
                 lv.setAdapter(adapter);
+            }
+            if(s!="")
+            {
+                //Usando tooltip
+                new SimpleTooltip.Builder(getContext())
+                        .anchorView(lv)
+                        .text(s)
+                        .textColor(Color.WHITE)
+                        .gravity(Gravity.TOP)
+                        .animated(true)
+                        .transparentOverlay(true)
+                        .build()
+                        .show();
+
+                // Usando snackbar
+                /*Snackbar snack = Snackbar.make(getView(),s, Snackbar.LENGTH_LONG);
+                View view = snack.getView();
+                snack.show();*/
             }
         }
     }
