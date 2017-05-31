@@ -25,7 +25,8 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         Home.OnFragmentInteractionListener,
         Patrocinadores.OnFragmentInteractionListener,
-        Cronograma.OnFragmentInteractionListener{
+        Cronograma.OnFragmentInteractionListener,
+        ListaAtividades.OnFragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,7 +140,6 @@ public class MainActivity extends AppCompatActivity
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
             return response;
         }
 
