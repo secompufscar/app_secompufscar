@@ -2,6 +2,7 @@ package br.com.secompufscar.secomp_ufscar;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.TabLayout;
@@ -12,8 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import br.com.secompufscar.secomp_ufscar.data.Atividade;
+import br.com.secompufscar.secomp_ufscar.utilities.NetworkUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -80,7 +86,6 @@ public class Cronograma extends Fragment {
 
         tabLayout = (TabLayout) view.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-
 
         return view;
 

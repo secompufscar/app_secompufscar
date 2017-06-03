@@ -1,6 +1,7 @@
 package br.com.secompufscar.secomp_ufscar;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.secompufscar.secomp_ufscar.data.Atividade;
+import br.com.secompufscar.secomp_ufscar.data.DatabaseHandler;
 import br.com.secompufscar.secomp_ufscar.utilities.ClickListener;
 import br.com.secompufscar.secomp_ufscar.utilities.RecyclerTouchListener;
 
@@ -40,7 +42,7 @@ public class ListaAtividades extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    private List<Atividade> atividadeList = new ArrayList<>();
+    public static List<Atividade> atividadeList = new ArrayList<Atividade>();
     private RecyclerView recycler_atividades;
     private AtividadesAdapter aAdapter;
 
@@ -74,7 +76,7 @@ public class ListaAtividades extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        prepararAtividades();
+        atividadeList = DatabaseHandler.getDB().getAllAtividades();
     }
 
     @Override
@@ -87,14 +89,20 @@ public class ListaAtividades extends Fragment {
         aAdapter = new AtividadesAdapter(atividadeList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recycler_atividades.setLayoutManager(mLayoutManager);
-//        TODO: Arrumar o problema que está dando aqui
+        //TODO: Arrumar o problema que está dando aqui
         recycler_atividades.setItemAnimator(new DefaultItemAnimator());
 
         recycler_atividades.addOnItemTouchListener(new RecyclerTouchListener(getActivity().getApplicationContext(), recycler_atividades, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
                 Atividade atividade = atividadeList.get(position);
-                Toast.makeText(getActivity().getApplicationContext(), atividade.nome + " is selected!", Toast.LENGTH_SHORT).show();
+
+//              Toast.makeText(getActivity().getApplicationContext(), atividade.getId() + " is selected!", Toast.LENGTH_SHORT).show();
+
+                Context context = view.getContext();
+                Intent detalhesAtividade = new Intent(context, AtividadeDetalhes.class);
+                detalhesAtividade.putExtra("id_atividade",atividade.getId());
+                context.startActivity(detalhesAtividade);
             }
 
             @Override
@@ -106,23 +114,6 @@ public class ListaAtividades extends Fragment {
         recycler_atividades.setAdapter(aAdapter);
 
         return view;
-    }
-
-    public void prepararAtividades(){
-        Atividade aux = new Atividade("Palestra 1", "Bento Prado", "Palestra");
-        atividadeList.add(aux);
-        aux = new Atividade("Palestra 2", "Bento Prado", "Palestra");
-        atividadeList.add(aux);
-        aux = new Atividade("Palestra 3", "Bento Prado", "Palestra");
-        atividadeList.add(aux);
-        aux = new Atividade("Palestra 4", "Bento Prado", "Palestra");
-        atividadeList.add(aux);
-        aux = new Atividade("Palestra 5", "Bento Prado", "Palestra");
-        atividadeList.add(aux);
-        aux = new Atividade("Palestra 6", "Bento Prado", "Palestra");
-        atividadeList.add(aux);
-        aux = new Atividade("Palestra 7", "Bento Prado", "Palestra");
-        atividadeList.add(aux);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -163,4 +154,5 @@ public class ListaAtividades extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 }

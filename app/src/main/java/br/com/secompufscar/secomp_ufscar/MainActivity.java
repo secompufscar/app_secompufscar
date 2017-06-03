@@ -5,20 +5,24 @@ import java.net.URL;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import br.com.secompufscar.secomp_ufscar.data.Atividade;
+import br.com.secompufscar.secomp_ufscar.data.DatabaseHandler;
 import br.com.secompufscar.secomp_ufscar.utilities.NetworkUtils;
 
 public class MainActivity extends AppCompatActivity
@@ -26,7 +30,12 @@ public class MainActivity extends AppCompatActivity
         Home.OnFragmentInteractionListener,
         Patrocinadores.OnFragmentInteractionListener,
         Cronograma.OnFragmentInteractionListener,
-        ListaAtividades.OnFragmentInteractionListener{
+        ListaAtividades.OnFragmentInteractionListener {
+
+    //TODO: Arrumar a questão dos dados
+    public static List<Atividade> atividadeList = new ArrayList<Atividade>();
+
+//    public static DatabaseHandler db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +58,10 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment_inicial = new Home();
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment_inicial).commit();
+
+        DatabaseHandler.setInstance(this);
+
+        new GetDataTask().execute();
     }
 
     @Override
@@ -98,8 +111,7 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             fragment = new Home();
-        }
-        else if(id == R.id.nav_cronograma) {
+        } else if (id == R.id.nav_cronograma) {
             fragment = new Cronograma();
         } else if (id == R.id.nav_feed) {
 
@@ -126,25 +138,27 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public class HttpResponseTask extends AsyncTask<URL, Void, String> {
-
+    private class GetDataTask extends AsyncTask<Void, Void, Void> {
         @Override
-        protected String doInBackground(URL... params) {
-            URL url = params[0];
+        protected Void doInBackground(Void... params) {
+            URL url = NetworkUtils.buildUrl("app");
             String response;
-            response = null;
 
             try {
                 response = NetworkUtils.getResponseFromHttpUrl(url);
-                Log.d("response", response);
+                if (response != null) {
+                    DatabaseHandler.getDB().addAllAtividades(Atividade.AtividadeParseJSON(response));
+                    Log.d("testsql",Integer.toString(DatabaseHandler.getDB().getAtividadesCount()));
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return response;
+
+            return null;
         }
 
         @Override
-        protected void onPostExecute(String s) {
+        protected void onPostExecute(Void s) {
 //            textForTest.setText(s);
         }
     }

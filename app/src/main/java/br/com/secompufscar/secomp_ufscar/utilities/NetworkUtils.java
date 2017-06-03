@@ -14,14 +14,14 @@ import java.util.Scanner;
 
 public class NetworkUtils {
 
-    final static String BASE_URL = "https://secompufscar.com.br/2016";
+    public final static String BASE_URL = "https://secompufscar.com.br/2016";
 
-    public static URL buildUrl() {
+    public static URL buildUrl(String path) {
         Uri builtUri = Uri.parse(BASE_URL).buildUpon()
-                .appendPath("app")
+                .appendPath(path)
                 .build();
 
-        Log.d("URL",builtUri.toString());
+        Log.d("URL", builtUri.toString());
 
         URL url = null;
 

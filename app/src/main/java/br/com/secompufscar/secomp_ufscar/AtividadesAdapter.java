@@ -12,18 +12,18 @@ import br.com.secompufscar.secomp_ufscar.data.Atividade;
 
 public class AtividadesAdapter extends RecyclerView.Adapter<AtividadesAdapter.MyViewHolder> {
 
-private List<Atividade> atividadeList;
+    private List<Atividade> atividadeList;
 
-public class MyViewHolder extends RecyclerView.ViewHolder {
-    public TextView nome, local, tipo;
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView nome, local, tipo;
 
-    public MyViewHolder(View view) {
-        super(view);
-        nome = (TextView) view.findViewById(R.id.atividade_nome);
-        local = (TextView) view.findViewById(R.id.atividade_local);
-        tipo = (TextView) view.findViewById(R.id.atividade_tipo);
+        public MyViewHolder(View view) {
+            super(view);
+            nome = (TextView) view.findViewById(R.id.atividade_nome);
+            local = (TextView) view.findViewById(R.id.atividade_local);
+            tipo = (TextView) view.findViewById(R.id.atividade_tipo);
+        }
     }
-}
 
 
     public AtividadesAdapter(List<Atividade> atividadeList) {
@@ -41,9 +41,10 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Atividade atividade = atividadeList.get(position);
-        holder.nome.setText(atividade.nome);
-        holder.local.setText(atividade.local);
-        holder.tipo.setText(atividade.tipo);
+        // TODO: Arrumar o layout dos itens e definir o que irá ter
+        holder.nome.setText(atividade.getNome());
+        holder.local.setText(atividade.getLocal());
+        holder.tipo.setText("");
     }
 
     @Override
