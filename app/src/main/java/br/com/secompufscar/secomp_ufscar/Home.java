@@ -1,5 +1,6 @@
 package br.com.secompufscar.secomp_ufscar;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
@@ -135,19 +136,21 @@ public class Home extends Fragment {
 
     public class MegaChecker extends AsyncTask<String,String,String>
     {
+        ProgressDialog progress;
         boolean ok = true;
         ArrayList<String> tweets = new ArrayList<>();
 
         @Override
         protected void onPreExecute()
         {
-
-
+            progress = ProgressDialog.show(getActivity(),"Carregando...","Atualizando os eventos!", true);
         }
         @Override
         protected String doInBackground(String... params) {
             //Declaração da #NOW
             String now = "";
+
+            //Configuração na API do twitter
             ConfigurationBuilder cf = new ConfigurationBuilder();
             cf.setDebugEnabled(true)
                     .setOAuthConsumerKey(getString(R.string.OAuthConsumer))
@@ -219,6 +222,7 @@ public class Home extends Fragment {
 
         @Override
         protected void onPostExecute(String s) {
+            progress.dismiss();
             if(ok) {
                 lv = (ListView)getView().findViewById(R.id.listViewTwitter);
                 ListTwitterAdapter adapter = new ListTwitterAdapter(getActivity(), tweetsArray);
@@ -229,7 +233,7 @@ public class Home extends Fragment {
                 //Usando tooltip
                 new SimpleTooltip.Builder(getContext())
                         .anchorView(lv)
-                        .text(s)
+                        .text(R.string.hapnow)
                         .textColor(Color.WHITE)
                         .gravity(Gravity.TOP)
                         .animated(true)
