@@ -4,11 +4,16 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
+import java.nio.ByteBuffer;
 import java.util.Scanner;
 
 
@@ -20,8 +25,6 @@ public class NetworkUtils {
         Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                 .appendPath(path)
                 .build();
-
-        Log.d("URL", builtUri.toString());
 
         URL url = null;
 
@@ -61,5 +64,27 @@ public class NetworkUtils {
         } finally {
             urlConnection.disconnect();
         }
+    }
+
+    public static byte[] getImageFromHttpUrl(String url) throws IOException{
+
+        try {
+            URL imageUrl = new URL(url);
+
+            HttpURLConnection urlConnection = (HttpURLConnection) imageUrl.openConnection();
+
+            InputStream in = urlConnection.getInputStream();
+            BufferedInputStream input = new BufferedInputStream(in);
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
+
+            int current = 0;
+            while ((current = input.read()) != -1) {
+                output.write((byte) current);
+            }
+            return output.toByteArray();
+        } catch (Exception e) {
+            Log.d("ImageManager", "Error: " + e.toString());
+        }
+        return null;
     }
 }

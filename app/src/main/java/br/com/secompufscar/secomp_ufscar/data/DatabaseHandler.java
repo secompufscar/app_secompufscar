@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
     }
 
-    public static synchronized DatabaseHandler getDB(){
+    public static synchronized DatabaseHandler getDB() {
         return db;
     }
 
@@ -51,7 +52,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NOME + " TEXT,"
                 + KEY_LOCAL + " TEXT," + KEY_DESCRICAO + " TEXT" + ")";
 
+        String CREATE_PESSOA_TABLE = "CREATE TABLE " + TABLE_PESSOA + "("
+                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NOME + " TEXT,"
+                + "foto" + " BLOB," + KEY_DESCRICAO + " TEXT" + ")";
+
         db.execSQL(CREATE_ATIVIDADE_TABLE);
+        db.execSQL(CREATE_PESSOA_TABLE);
     }
 
     // Upgrading database
@@ -59,13 +65,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ATIVIDADE);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PESSOA);
 
         // Create tables again
         onCreate(db);
     }
 
     /**
-     * CRUD(Create, Read, Update, Delete) Operations
+     * Operações com Atividades
      **/
 
     // Adicionando uma nova atividade
@@ -78,13 +85,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_LOCAL, atividade.getLocal());
         values.put(KEY_DESCRICAO, atividade.getDescricao());
 
-        Log.d("testesql", atividade.getDescricao());
-
-
         // Inserting Row
         db.insert(TABLE_ATIVIDADE, null, values);
         db.close(); // Closing database connection
     }
+
 
     public void addAllAtividades(List<Atividade> atividades) {
 
@@ -142,7 +147,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 atividade.setNome(cursor.getString(1));
                 atividade.setLocal(cursor.getString(2));
                 atividade.setDescricao(cursor.getString(3));
-                // Adding contact to list
+
                 atividades.add(atividade);
             } while (cursor.moveToNext());
         }
@@ -182,5 +187,40 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         cursor.close();
 
         return count;
+    }
+
+    public void addPessoa(Pessoa pessoa) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_ID, pessoa.getId());
+        values.put(KEY_NOME, pessoa.getNome());
+        Log.d("testeFoto", "Antes de Salvar: " + Integer.toString(pessoa.getFoto().length));
+
+        values.put("foto", pessoa.getFoto());
+        values.put(KEY_DESCRICAO, pessoa.getDescricao());
+
+        // Inserting Row
+        db.insert(TABLE_PESSOA, null, values);
+        Log.d("testeFoto", "Salvou");
+        db.close(); // Closing database connection
+    }
+    // TODO: Completar as informaçoes de pessoa
+    public Pessoa getPessoa(int id){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_PESSOA, new String[]{KEY_ID,
+                        KEY_NOME, "foto", KEY_DESCRICAO}, KEY_ID + "=?",
+                new String[]{String.valueOf(id)}, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        Pessoa pessoa = new Pessoa();
+        pessoa.setId(id);
+        pessoa.setNome(cursor.getString(1));
+        pessoa.setFoto(cursor.getBlob(2));
+        pessoa.setDescricao(cursor.getString(3));
+
+        return pessoa;
     }
 }

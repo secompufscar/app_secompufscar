@@ -18,7 +18,6 @@ public class Atividade {
     private final static String TAG_HORA_FIM = "hora_fim";
     private final static String TAG_NOME = "nome_atividade";
     private final static String TAG_MINISTRANTE = "ministrante_atividade";
-    private final static String TAG_FOTO = "foto_atividade";
     private final static String TAG_DESCRICAO = "descricao_atividade";
     private final static String TAG_LOCAL = "local_atividade";
 
@@ -139,29 +138,4 @@ public class Atividade {
             return null;
         }
     }
-
-//    public String encodeAsJSON() {
-//        GregorianCalendar calendar = new GregorianCalendar();
-//        calendar.setTime(getData());
-//        String data = String.valueOf(calendar.get(GregorianCalendar.DAY_OF_MONTH)) + "/" + String.valueOf(calendar.get(GregorianCalendar.MONTH));
-//        if (descricao != null)
-//            descricao = descricao.replace("\"", "\\\"");
-//        if (local != null)
-//            local = local.replace("\"", "\\\"");
-//        nome = nome.replace("\"", "\\\"");
-//        if (ministrante != null)
-//            ministrante = ministrante.replace("\"", "\\\"");
-//
-//        String JSONString = "{ \"data_inicio_atividade\": \"" + data + "\","
-//                + "\"foto_atividade\": \"" + urlImagem + " \","
-//                + "\"hora_inicio_atividade\": \"" + horarioInicio + "\","
-//                + "\"local_atividade\": \"" + local + "\","
-//                + "\"nome_atividade\": \"" + nome + "\","
-//                + "\"hora_fim_atividade\": \"" + horarioFim + "\","
-//                + "\"ministrante_atividade\": \"" + ministrante + "\","
-//                + "\"id_atividade\": " + eventoID + ","
-//                + "\"descricao_atividade\": \"" + descricao + "\"}";
-//
-//        return JSONString;
-//    }
 }

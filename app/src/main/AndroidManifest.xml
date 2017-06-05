@@ -11,6 +11,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!--Declaração das atividades-->
+
+        <!--Splash Screen-->
         <activity
             android:name=".SplashScreen"
             android:theme="@style/SplashTheme">
@@ -20,10 +24,13 @@
             </intent-filter>
         </activity>
 
+        <!--Main Activity-->
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme" />
+
+        <!--Detalhes de atividades (palestra, workshop, ...)-->
         <activity
             android:name=".AtividadeDetalhes"
             android:parentActivityName=".MainActivity"
@@ -33,6 +40,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+
     </application>
 
 </manifest>

@@ -17,6 +17,11 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <ImageView
+            android:layout_width="200px"
+            android:layout_height="200px"
+            android:id="@+id/imagemTeste"/>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

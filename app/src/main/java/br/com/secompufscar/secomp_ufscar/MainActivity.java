@@ -11,7 +11,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.app.Fragment;
@@ -148,7 +147,6 @@ public class MainActivity extends AppCompatActivity
                 response = NetworkUtils.getResponseFromHttpUrl(url);
                 if (response != null) {
                     DatabaseHandler.getDB().addAllAtividades(Atividade.AtividadeParseJSON(response));
-                    Log.d("testsql",Integer.toString(DatabaseHandler.getDB().getAtividadesCount()));
                 }
             } catch (IOException e) {
                 e.printStackTrace();
