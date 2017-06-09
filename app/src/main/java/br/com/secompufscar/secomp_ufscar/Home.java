@@ -1,22 +1,20 @@
 package br.com.secompufscar.secomp_ufscar;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.Gravity;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import br.com.secompufscar.secomp_ufscar.utilities.ListTwitterAdapter;
-import io.github.douglasjunior.androidSimpleTooltip.SimpleTooltip;
 import twitter4j.ResponseList;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -35,8 +33,14 @@ public class Home extends Fragment {
     /*
         Minhas declarações
     */
+    //Nossa amada lista de tweets (Visual)
     private ListView lv;
+    //Nosso amado array de tweets
     private String tweetsArray[];
+    //Swipe Refresh
+    private SwipeRefreshLayout swipeLayout;
+    //Happening now field
+    private TextView hn;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -76,21 +80,23 @@ public class Home extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-            // Onde vai aparecer os tweets
-
-
-
-
         }
+        // Faz a referência ao Swipe Refresh do XML
+
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        new MegaChecker().execute("");
+
+
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
+
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -108,6 +114,35 @@ public class Home extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+    }
+
+
+    //Executado quando a view está pronta. Caso o contrario o código tentaria
+    //Acessar o que ainda não existe
+    @Override
+    public void onStart() {
+        super.onStart();
+        hn = (TextView)getView().findViewById(R.id.info_text);
+        //Executa pra pegar os tweets
+        new MegaChecker().execute("");
+        //Referencia o layout definido no xml
+        swipeLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swiperefresh);
+        //Famoso migué
+        swipeLayout.setRefreshing(true);
+        //Seta as corzinhas do loading (Fun)
+        swipeLayout.setColorSchemeResources(R.color.orange, R.color.green, R.color.blue);
+        //Listener para executar o código quando der um swipezinho
+        swipeLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+
+                        //Executa a atualização dos tweets
+                        new MegaChecker().execute("");
+                    }
+                }
+
+        );
     }
 
     @Override
@@ -136,19 +171,19 @@ public class Home extends Fragment {
 
     public class MegaChecker extends AsyncTask<String,String,String>
     {
-        ProgressDialog progress;
+        //Declaração da #NOW
+        private String now = "";
         boolean ok = true;
         ArrayList<String> tweets = new ArrayList<>();
 
         @Override
         protected void onPreExecute()
         {
-            progress = ProgressDialog.show(getActivity(),"Carregando...","Atualizando os eventos!", true);
+
         }
         @Override
         protected String doInBackground(String... params) {
-            //Declaração da #NOW
-            String now = "";
+
 
             //Configuração na API do twitter
             ConfigurationBuilder cf = new ConfigurationBuilder();
@@ -212,9 +247,10 @@ public class Home extends Fragment {
                         tweetsArray[i]=tweetsArray[i].replace(getString(R.string.now),"");
                     }
                 }
+                //Se der ruim... Já sabe
             } catch (TwitterException e) {
                 ok = false;
-                e.printStackTrace();
+                return "";
 
             }
             return now;
@@ -222,29 +258,29 @@ public class Home extends Fragment {
 
         @Override
         protected void onPostExecute(String s) {
-            progress.dismiss();
-            if(ok) {
-                lv = (ListView)getView().findViewById(R.id.listViewTwitter);
-                ListTwitterAdapter adapter = new ListTwitterAdapter(getActivity(), tweetsArray);
-                lv.setAdapter(adapter);
-            }
+
+
             if(s!="")
             {
-                //Usando tooltip
-                new SimpleTooltip.Builder(getContext())
-                        .anchorView(lv)
-                        .text(R.string.hapnow)
-                        .textColor(Color.WHITE)
-                        .gravity(Gravity.TOP)
-                        .animated(true)
-                        .transparentOverlay(true)
-                        .build()
-                        .show();
+                hn.setText(now);
+            }
+            if(ok) {
 
-                // Usando snackbar
-                /*Snackbar snack = Snackbar.make(getView(),s, Snackbar.LENGTH_LONG);
-                View view = snack.getView();
-                snack.show();*/
+                //Referencia a lista do layout
+                lv = (ListView)getView().findViewById(R.id.listViewTwitter);
+                // Com o nosso adapter customizado, adiciona as informações nele
+                ListTwitterAdapter adapter = new ListTwitterAdapter(getActivity(), tweetsArray);
+                //Adiciona o listAdapter no visual
+                lv.setAdapter(adapter);
+            }
+            else
+            {
+                hn.setText(R.string.noconnection);
+            }
+            //Checa se o loading está ativo
+            if (swipeLayout.isRefreshing()) {
+                //Se estiver cancela ele, pois nossa tarefa já foi executada
+                swipeLayout.setRefreshing(false);
             }
         }
     }
