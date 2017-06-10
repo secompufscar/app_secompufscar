@@ -19,6 +19,7 @@
             app:popupTheme="@style/AppTheme.PopupOverlay"
             android:weightSum="1">
             <ImageView
+                android:layout_marginRight="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:src="@drawable/secomp_complete"

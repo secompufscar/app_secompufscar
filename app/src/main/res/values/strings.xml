@@ -24,4 +24,6 @@
     <string name="now">#NOW</string>
     <string name="hapnow">Happening Now</string>
     <string name="noconnection">Sem conexão com a internet</string>
+
+
 </resources>

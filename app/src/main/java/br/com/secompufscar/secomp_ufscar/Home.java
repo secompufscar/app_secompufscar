@@ -199,7 +199,6 @@ public class Home extends Fragment {
             String[] twitters={getString(R.string.twitter_user)};
 
 
-
             try {
                 //Primeira e única posição na lista de Twitters
                 String[] srch = new String[]{twitters[0]};
