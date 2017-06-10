@@ -17,8 +17,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import br.com.secompufscar.secomp_ufscar.data.Atividade;
 import br.com.secompufscar.secomp_ufscar.data.DatabaseHandler;
@@ -29,12 +27,8 @@ public class MainActivity extends AppCompatActivity
         Home.OnFragmentInteractionListener,
         Patrocinadores.OnFragmentInteractionListener,
         Cronograma.OnFragmentInteractionListener,
-        ListaAtividades.OnFragmentInteractionListener {
-
-    //TODO: Arrumar a questão dos dados
-    public static List<Atividade> atividadeList = new ArrayList<Atividade>();
-
-//    public static DatabaseHandler db;
+        ListaAtividades.OnFragmentInteractionListener,
+        Pessoas.OnFragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,7 +109,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_feed) {
 
         } else if (id == R.id.nav_pessoas) {
-
+            fragment = new Pessoas();
         } else if (id == R.id.nav_minhasAtividades) {
 
         } else if (id == R.id.nav_map) {

@@ -2,10 +2,13 @@ package br.com.secompufscar.secomp_ufscar;
 
 import android.app.ActionBar;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,39 +28,53 @@ import br.com.secompufscar.secomp_ufscar.utilities.NetworkUtils;
 
 public class AtividadeDetalhes extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener {
-
+    public static final String EXTRA_POSITION = "position";
     TextView texto;
     ImageView imageTeste;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_atividade_detalhes);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_atividade_detalhe);
-        setSupportActionBar(toolbar);
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        // Set Collapsing Toolbar layout to the screen
+        CollapsingToolbarLayout collapsingToolbar =
+                (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        // Set title of Detail page
+         collapsingToolbar.setTitle(getString(R.string.app_name));
 
-        texto = (TextView) findViewById(R.id.texto);
-        imageTeste = (ImageView) findViewById(R.id.imagemTeste);
+        int postion = getIntent().getIntExtra(EXTRA_POSITION, 0);
 
 
-        Intent intent = getIntent();
-        Bundle extras = intent.getExtras();
+        Resources resources = getResources();
+        String[] places = resources.getStringArray(R.array.places);
+        collapsingToolbar.setTitle(places[postion % places.length]);
 
-        if (extras != null) {
-            int teste = (int) extras.get("id_atividade");
-            texto.setText(DatabaseHandler.getDB().getAtividade(teste).getDescricao());
-        }
+        String[] placeDetails = resources.getStringArray(R.array.place_details);
+        TextView placeDetail = (TextView) findViewById(R.id.place_detail);
+        placeDetail.setText(placeDetails[postion % placeDetails.length]);
 
-        new setFotoTask().execute("https://secompufscar.com.br/media/images/secompufscar2017/equipe/felipe_sampaio_de_souza.jpg");
+        String[] placeLocations = resources.getStringArray(R.array.place_locations);
+        TextView placeLocation =  (TextView) findViewById(R.id.place_location);
+        placeLocation.setText(placeLocations[postion % placeLocations.length]);
+
+        TypedArray placePictures = resources.obtainTypedArray(R.array.places_picture);
+        ImageView placePicutre = (ImageView) findViewById(R.id.image);
+        placePicutre.setImageDrawable(placePictures.getDrawable(postion % placePictures.length()));
+
+        placePictures.recycle();
+//        new setFotoTask().execute("https://secompufscar.com.br/media/images/secompufscar2017/equipe/felipe_sampaio_de_souza.jpg");
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return false;
     }
-    // TODO:
+
+    // TODO: Retirar esse trecho de código, ele está aqui apenas para teste
     private class setFotoTask extends AsyncTask<String, Void, Bitmap> {
         @Override
         protected Bitmap doInBackground(String... params) {

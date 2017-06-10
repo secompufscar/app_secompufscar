@@ -3,13 +3,10 @@
 
     <item
         android:drawable="@color/colorBackSplash"/>
-
     <item>
-        <!--TODO: Ajustar o tamanho do logo da splash screen-->
         <bitmap
             android:gravity="center"
-            android:src="@drawable/logo_original"
+            android:src="@drawable/logo_icone"
             android:mipMap="true"/>
     </item>
-
 </layer-list>
