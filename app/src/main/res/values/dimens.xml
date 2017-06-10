@@ -21,4 +21,8 @@
     <dimen name="card_image_height">200dp</dimen>
     <dimen name="list_body">14sp</dimen>
     <dimen name="navheader_height">222dp</dimen>
+
+    <dimen name="happening_now_height">96dp</dimen>
+    <dimen name="hapnoew_elevation">16dp</dimen>
+    <dimen name="text_margin">4dp</dimen>
 </resources>
