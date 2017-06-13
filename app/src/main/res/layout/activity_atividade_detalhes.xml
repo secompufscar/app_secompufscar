@@ -32,7 +32,7 @@
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax"
-                tools:background="@drawable/logo_icone" />
+                tools:background="@drawable/image_test_detalhes" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
