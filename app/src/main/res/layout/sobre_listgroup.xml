@@ -8,10 +8,10 @@
         android:id="@+id/sobreListHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.08"
+        android:layout_weight="0.0"
         android:layout_margin="16dp"
         android:paddingStart="?android:attr/expandableListPreferredItemPaddingLeft"
         android:text="TextView"
-        android:textSize="26dp"
-        android:textColor="#000"/>
+        android:textSize="20dp"
+        android:textColor="#777"/>
 </LinearLayout>

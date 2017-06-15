@@ -1,14 +1,24 @@
 <resources>
-    <string name="app_name">SECOMP-UFSCar</string>
+
+    <!-- Títulos -->
+    <string name="app_name">SECOMP UFSCar</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
+    <!-- Botões -->
+    <string name="action_settings">Configurações</string>
 
-    <string name="title_activity_atividade_detalhe">AtividadeDetalhes</string>
+    <!-- Menu -->
 
-    <string name="detail_desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    <!-- Detalhes de Atividade -->
+    <string name="msg_favoritado">Atividade salva em Minhas Atividades</string>
+    <string name="msg_nao_favoritado">Atividade excluída de Minhas Atividades</string>
+    <string name="atividade_titulo_descricao">Descrição</string>
+    <string name="atividade_titulo_ministrantes">Ministrantes</string>
+
+    <!-- Outros -->
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
         eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
         nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
         irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
@@ -16,14 +26,15 @@
         deserunt mollit anim id est laborum.
     </string>
 
-    <string name="detail_location">"8 Rue Scribe, 75009 Paris, France"</string>
-
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="twitter_user">feedtisecomp</string>
     <string name="now">#NOW</string>
     <string name="hapnow">Happening Now</string>
     <string name="noconnection">Sem conexão com a internet</string>
+
+    <!-- Sobre -->
     <string name="sobreSecomp">Sobre a SECOMP</string>
     <string name="sobreDC">Sobre o DC</string>
     <string name="sobreUFSCar">Sobre a UFSCar</string>
@@ -42,4 +53,10 @@
     <string name="infoUFSCar6">Há, no total, 24.825 alunos matriculados na Universidade: 12.338 de graduação presencial; 1.584 de educação a distância; 369 são alunos de mestrado profissional; 1.915 de mestrado acadêmico; 1.690 de doutorado; e 6.929 de especialização.</string>
     <string name="infoUFSCar7">Em 2014, a UFSCar obteve a 18ª colocação entre as 300 universidades da América Latina incluídas no ranking elaborado pela Quacquarelli Symonds (QS). A instituição obteve 82 pontos na avaliação geral e é, portanto, considerada a 10ª melhor instituição brasileira.</string>
     <string name="infoUFSCar8">Texto obtido da página institucional da UFSCar, disponível em www.ufscar.br.</string>
+
+    <!-- Chaves do Twitter -->
+    <string name="OAuthConsumer">hAvDqs2xpY5MrILVlPaR2zvdb</string>
+    <string name="OAuthSecret">CZDkwMIbnhfpp3bkFfmCsSmfKXyebMFXmt19Qx9gkgLVQ9F53p</string>
+    <string name="OAuthToken">865280565217558528-KAJ29DWJZCwEtohlMvcuMGdBQLVsbGs</string>
+    <string name="OAuthTokenSecret">C8gFlTi5HhG79ffJyTO9eckdVqUL3ywBdUlJtIVLdHZi1</string>
 </resources>

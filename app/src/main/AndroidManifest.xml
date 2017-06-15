@@ -35,7 +35,8 @@
             android:name=".AtividadeDetalhes"
             android:parentActivityName=".MainActivity"
             android:label="Teste Detalhe"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:configChanges="orientation|keyboardHidden" >>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />

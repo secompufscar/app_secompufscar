@@ -24,7 +24,7 @@ public class Atividade {
     private int id;
     private String nome, local, tipo, descricao;
     private Date horarioInicio, horarioFim;
-
+    private boolean favorito;
     public Atividade() {
 
     }
@@ -34,12 +34,12 @@ public class Atividade {
         this.nome = nome;
         this.local = local;
         this.descricao = descricao;
+        this.favorito = false;
     }
 
     /**
      * Métodos set
      **/
-
     public void setId(int id) {
         this.id = id;
     }
@@ -84,6 +84,10 @@ public class Atividade {
         horarioFim = cal.getTime();
     }
 
+    public void setFavorito(boolean isFavorito){
+        this.favorito = isFavorito;
+    }
+
     /**
      * Métodos get
      * **/
@@ -104,9 +108,11 @@ public class Atividade {
         return this.descricao;
     }
 
+    public boolean isFavorito () {
+        return this.favorito;
+    }
 
     public static ArrayList<Atividade> AtividadeParseJSON(String json) {
-
         if (json != null) {
             try {
                 // Lista das atividades
@@ -124,8 +130,7 @@ public class Atividade {
                     atividade.descricao = atividadeObject.getString(TAG_DESCRICAO);
                     atividade.local = atividadeObject.getString(TAG_LOCAL);
 
-                    // Adicionando a atividade a lista
-                    Log.d("testsql","adicionaAtividade");
+                    // Adicionando a atividade na lista
                     atividadeList.add(atividade);
                 }
                 return atividadeList;

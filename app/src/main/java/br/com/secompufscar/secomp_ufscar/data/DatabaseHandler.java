@@ -23,12 +23,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // Nome das tabelas
     private static final String TABLE_ATIVIDADE = "atividade";
     private static final String TABLE_PESSOA = "pessoa";
+    private static final String TABLE_PATROCINADOR = "patrocinador";
 
-    // Columns names
+
+    // Nome das colunas de Atividade
     private static final String KEY_ID = "id";
     private static final String KEY_NOME = "nome";
     private static final String KEY_LOCAL = "local";
     private static final String KEY_DESCRICAO = "descricao";
+    private static final String KEY_FAVORITO = "favorito";
 
     private DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -45,22 +48,27 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return db;
     }
 
-    // Creating Tables
+    // Criação das tabelas
     @Override
     public void onCreate(SQLiteDatabase db) {
+        // Tabela Atividade
         String CREATE_ATIVIDADE_TABLE = "CREATE TABLE " + TABLE_ATIVIDADE + "("
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NOME + " TEXT,"
-                + KEY_LOCAL + " TEXT," + KEY_DESCRICAO + " TEXT" + ")";
+                + KEY_LOCAL + " TEXT," + KEY_DESCRICAO + " TEXT," + KEY_FAVORITO + " INTEGER" + ")";
 
+        // Tabela Pessoa
         String CREATE_PESSOA_TABLE = "CREATE TABLE " + TABLE_PESSOA + "("
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NOME + " TEXT,"
                 + "foto" + " BLOB," + KEY_DESCRICAO + " TEXT" + ")";
+
+        // Tabela Patrocinador
+        // TODO: A definir
 
         db.execSQL(CREATE_ATIVIDADE_TABLE);
         db.execSQL(CREATE_PESSOA_TABLE);
     }
 
-    // Upgrading database
+    // Atualização do banco
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed
@@ -72,10 +80,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     /**
-     * Operações com Atividades
+     * Operações para a tabela Atividade
      **/
 
-    // Adicionando uma nova atividade
+    // Adicionar uma nova atividade
     void addAtividade(Atividade atividade) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -85,12 +93,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_LOCAL, atividade.getLocal());
         values.put(KEY_DESCRICAO, atividade.getDescricao());
 
+        if(atividade.isFavorito()){
+            values.put(KEY_FAVORITO, 1);
+        } else {
+            values.put(KEY_FAVORITO, 0);
+        }
+
         // Inserting Row
         db.insert(TABLE_ATIVIDADE, null, values);
         db.close(); // Closing database connection
     }
 
-
+    // Adiciona várias atividades de uma única vez
     public void addAllAtividades(List<Atividade> atividades) {
 
         if (atividades != null) {
@@ -105,6 +119,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 values.put(KEY_LOCAL, atividades.get(i).getLocal());
                 values.put(KEY_DESCRICAO, atividades.get(i).getDescricao());
 
+                if(atividades.get(i).isFavorito()){
+                    values.put(KEY_FAVORITO, 1);
+                } else {
+                    values.put(KEY_FAVORITO, 0);
+                }
+
                 db.insert(TABLE_ATIVIDADE, null, values);
             }
 
@@ -112,73 +132,119 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
     }
 
-    // Recuperando uma atividade
+    // Recupera uma atividade pelo seu ID
     public Atividade getAtividade(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_ATIVIDADE, new String[]{KEY_ID,
-                        KEY_NOME, KEY_LOCAL, KEY_DESCRICAO}, KEY_ID + "=?",
+                        KEY_NOME, KEY_LOCAL, KEY_DESCRICAO, KEY_FAVORITO}, KEY_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
         Atividade atividade = new Atividade(id, cursor.getString(1), cursor.getString(2), cursor.getString(3));
 
+        if(cursor.getInt(4) == 1){
+            atividade.setFavorito(true);
+        }
+
+        db.close();
+
         return atividade;
     }
 
-    // Getting All Contacts
+    // Retorna uma lista com todas as atividades
     public List<Atividade> getAllAtividades() {
         List<Atividade> atividades = new ArrayList<Atividade>();
-        // Select All Query
-//        String selectQuery = "SELECT  * FROM " + TABLE_ATIVIDADE;
 
         SQLiteDatabase db = this.getWritableDatabase();
 
         Cursor cursor = db.query(TABLE_ATIVIDADE, new String[]{KEY_ID,
-                        KEY_NOME, KEY_LOCAL, KEY_DESCRICAO}, null,
+                        KEY_NOME, KEY_LOCAL, KEY_DESCRICAO, KEY_FAVORITO}, null,
                 null, null, null, KEY_NOME + " ASC", null);
 
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
                 Atividade atividade = new Atividade();
-                atividade.setId(Integer.parseInt(cursor.getString(0)));
+                atividade.setId(cursor.getInt(0));
                 atividade.setNome(cursor.getString(1));
                 atividade.setLocal(cursor.getString(2));
                 atividade.setDescricao(cursor.getString(3));
+
+                if(cursor.getInt(4) == 1){
+                    atividade.setFavorito(true);
+                }
 
                 atividades.add(atividade);
             } while (cursor.moveToNext());
         }
 
-        // return contact list
+        db.close();
+        // retorna a lista de atividades
         return atividades;
     }
 
-//    // Updating single contact
-//    public int updateContact(Atividade atividade) {
-//        SQLiteDatabase db = this.getWritableDatabase();
-//
-//        ContentValues values = new ContentValues();
-//        values.put(KEY_NAME, contact.getName());
-//        values.put(KEY_PH_NO, contact.getPhoneNumber());
-//
-//        // updating row
-//        return db.update(TABLE_CONTACTS, values, KEY_ID + " = ?",
-//                new String[] { String.valueOf(contact.getID()) });
-//    }
-//
-//    // Deleting single contact
-//    public void deleteContact(Contact contact) {
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        db.delete(TABLE_CONTACTS, KEY_ID + " = ?",
-//                new String[] { String.valueOf(contact.getID()) });
-//        db.close();
-//    }
+    public List<Atividade> getAllFavoritos() {
+        List<Atividade> atividades = new ArrayList<Atividade>();
 
+        SQLiteDatabase db = this.getWritableDatabase();
 
-    // Getting contacts Count
+        Cursor cursor = db.query(TABLE_ATIVIDADE, new String[]{KEY_ID,
+                        KEY_NOME, KEY_LOCAL, KEY_DESCRICAO, KEY_FAVORITO}, KEY_FAVORITO + "=?",
+                new String[]{"1"}, null, null, KEY_NOME + " ASC", null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Atividade atividade = new Atividade();
+                atividade.setId(cursor.getInt(0));
+                atividade.setNome(cursor.getString(1));
+                atividade.setLocal(cursor.getString(2));
+                atividade.setDescricao(cursor.getString(3));
+                atividade.setFavorito(true);
+                atividades.add(atividade);
+
+//                if(cursor.getInt(4) == 1){
+//                    atividade.setFavorito(true);
+//                    atividades.add(atividade);
+//                }
+
+            } while (cursor.moveToNext());
+        }
+
+        db.close();
+        // retorna a lista de atividades
+        return atividades;
+    }
+
+    // Atualiza uma atividade
+    public void updateAtividade(Atividade atividade) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        if(atividade.isFavorito()){
+            values.put(KEY_FAVORITO, 1);
+        } else {
+            values.put(KEY_FAVORITO, 0);
+        }
+
+        // atualiza a atividade no banco
+        db.update(TABLE_ATIVIDADE, values, KEY_ID + " = ?",
+                new String[]{String.valueOf(atividade.getId())});
+        db.close();
+    }
+
+    // Deleta uma Atividade
+    public void deleteContact(Atividade atividade) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_ATIVIDADE, KEY_ID + " = ?",
+                new String[]{String.valueOf(atividade.getId())});
+        db.close();
+    }
+
+    // Retorna a quantidade de atividades
     public int getAtividadesCount() {
         String countQuery = "SELECT  * FROM " + TABLE_ATIVIDADE;
         SQLiteDatabase db = this.getReadableDatabase();
@@ -188,6 +254,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         return count;
     }
+
+    /**
+     * Operações para a tabela Atividade
+     **/
 
     public void addPessoa(Pessoa pessoa) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -205,8 +275,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Log.d("testeFoto", "Salvou");
         db.close(); // Closing database connection
     }
+
     // TODO: Completar as informaçoes de pessoa
-    public Pessoa getPessoa(int id){
+    public Pessoa getPessoa(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_PESSOA, new String[]{KEY_ID,

@@ -2,6 +2,12 @@ package br.com.secompufscar.secomp_ufscar.data;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.BitmapShader;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.RectF;
+import android.graphics.Shader;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -11,6 +17,7 @@ import org.json.JSONObject;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
+import br.com.secompufscar.secomp_ufscar.R;
 import br.com.secompufscar.secomp_ufscar.utilities.NetworkUtils;
 
 public class Pessoa {
@@ -64,7 +71,16 @@ public class Pessoa {
 
     public Bitmap getFotoBitmap(){
 
-        return BitmapFactory.decodeByteArray(this.foto, 0, this.foto.length);
+        Bitmap image = BitmapFactory.decodeByteArray(this.foto, 0, this.foto.length);
+        //TODO: Verificar se o formato da imagem está correto;
+        Bitmap imageRounded = Bitmap.createBitmap(image.getWidth(), image.getHeight(), image.getConfig());
+        Canvas canvas = new Canvas(imageRounded);
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setShader(new BitmapShader(image, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
+        canvas.drawRoundRect((new RectF(0, 0, image.getWidth(), image.getHeight())), 25, 25, paint);// Round Image Corner 100 100 100 100
+
+        return imageRounded;
     }
 
     public String getFacebook() {

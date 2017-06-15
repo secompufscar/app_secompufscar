@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity
         Cronograma.OnFragmentInteractionListener,
         ListaAtividades.OnFragmentInteractionListener,
         Pessoas.OnFragmentInteractionListener,
+        MinhasAtividades.OnFragmentInteractionListener,
         Sobre.OnFragmentInteractionListener{
 
     @Override
@@ -111,6 +112,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_pessoas) {
             fragment = new Pessoas();
         } else if (id == R.id.nav_minhasAtividades) {
+            fragment = new MinhasAtividades();
 
         } else if (id == R.id.nav_map) {
 

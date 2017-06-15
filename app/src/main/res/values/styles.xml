@@ -16,6 +16,7 @@
 
     <!-- Estilos para a toolbar -->
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>
