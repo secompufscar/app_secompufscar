@@ -1,5 +1,6 @@
 package br.com.secompufscar.secomp_ufscar;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,8 +13,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 
 import java.io.IOException;
 import java.net.URL;
@@ -119,6 +118,9 @@ public class MainActivity extends AppCompatActivity
             fragment = new Patrocinadores();
         } else if (id == R.id.nav_sobre) {
 
+        } else if (id == R.id.nav_areaParticipante){
+            Intent intent = new Intent(MainActivity.this, AreaDoParticipante.class);
+            MainActivity.this.startActivity(intent);
         }
 
         if (fragment != null) {
