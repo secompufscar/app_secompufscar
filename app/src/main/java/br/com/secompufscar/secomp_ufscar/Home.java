@@ -13,6 +13,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 import br.com.secompufscar.secomp_ufscar.utilities.ListTwitterAdapter;
 import twitter4j.ResponseList;
@@ -26,13 +28,13 @@ import twitter4j.conf.ConfigurationBuilder;
 
 <------ AQUELE COMENTÁRIO MANEIRO ------->
 
-->Seria mais interessante e melhor, caso esses Fragments , fossem activities
-
 */
 public class Home extends Fragment {
     /*
         Minhas declarações
     */
+
+
     //Nossa amada lista de tweets (Visual)
     private ListView lv;
     //Nosso amado array de tweets
@@ -41,6 +43,9 @@ public class Home extends Fragment {
     private SwipeRefreshLayout swipeLayout;
     //Happening now field
     private TextView hn;
+
+    //Testes
+    AsyncTask<String, String, String> a;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -122,15 +127,25 @@ public class Home extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
+        a =new MegaChecker();
         hn = (TextView)getView().findViewById(R.id.info_text);
         //Executa pra pegar os tweets
-        new MegaChecker().execute("");
-        //Referencia o layout definido no xml
-        swipeLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swiperefresh);
-        //Famoso migué
-        swipeLayout.setRefreshing(true);
-        //Seta as corzinhas do loading (Fun)
-        swipeLayout.setColorSchemeResources(R.color.orange, R.color.green, R.color.blue);
+
+
+        ScheduledExecutorService scheduler =
+                Executors.newSingleThreadScheduledExecutor();
+
+
+        if(!(a.getStatus()== AsyncTask.Status.RUNNING)) {
+            a.execute("");
+            //Referencia o layout definido no xml
+            swipeLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swiperefresh);
+            //Famoso migué
+            swipeLayout.setRefreshing(true);
+            //Seta as corzinhas do loading (Fun)
+            swipeLayout.setColorSchemeResources(R.color.orange, R.color.green, R.color.blue);
+        }
         //Listener para executar o código quando der um swipezinho
         swipeLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
@@ -138,7 +153,10 @@ public class Home extends Fragment {
                     public void onRefresh() {
 
                         //Executa a atualização dos tweets
-                        new MegaChecker().execute("");
+                        //Apenas se a thread não está sendo executada
+                        if(!(a.getStatus()== AsyncTask.Status.RUNNING)) {
+                            a.execute("");
+                        }
                     }
                 }
 
@@ -265,12 +283,20 @@ public class Home extends Fragment {
             }
             if(ok) {
 
-                //Referencia a lista do layout
-                lv = (ListView)getView().findViewById(R.id.listViewTwitter);
-                // Com o nosso adapter customizado, adiciona as informações nele
-                ListTwitterAdapter adapter = new ListTwitterAdapter(getActivity(), tweetsArray);
-                //Adiciona o listAdapter no visual
-                lv.setAdapter(adapter);
+
+
+                try {
+                    //Referencia a lista do layout
+                    lv = (ListView)getView().findViewById(R.id.listViewTwitter);
+                    // Com o nosso adapter customizado, tenta adicionar as informações nele
+                    ListTwitterAdapter adapter = new ListTwitterAdapter(getActivity(), tweetsArray);
+                    //Adiciona o listAdapter no visual
+                    lv.setAdapter(adapter);
+                }catch (Exception e)
+                {
+
+                }
+
             }
             else
             {
