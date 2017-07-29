@@ -6,6 +6,8 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowTranslucentStatus">true</item>
+        <!--
+        <item name="android:typeface">monospace</item> -->
     </style>
 
     <!-- Tema do Splash Screen -->

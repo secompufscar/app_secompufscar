@@ -12,8 +12,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 
 import java.io.IOException;
 import java.net.URL;
@@ -34,6 +32,8 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //Define uma font padrão para tudo no app
+       // FontsOverride.setDefaultFont(this, "MONOSPACE", "fonts/ClearSans-Regular.ttf");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
