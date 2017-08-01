@@ -20,7 +20,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import br.com.secompufscar.secomp_ufscar.utilities.ListTwitterAdapter;
 import twitter4j.ResponseList;
 import twitter4j.Twitter;
-import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.User;
 import twitter4j.conf.ConfigurationBuilder;
@@ -207,23 +206,20 @@ public class Home extends Fragment {
         }
         @Override
         protected String doInBackground(String... params) {
-
-
-            //Configuração na API do twitter
-            ConfigurationBuilder cf = new ConfigurationBuilder();
-            cf.setDebugEnabled(true)
-                    .setOAuthConsumerKey(getString(R.string.OAuthConsumer))
-                    .setOAuthConsumerSecret(getString(R.string.OAuthSecret))
-                    .setOAuthAccessToken(getString(R.string.OAuthToken))
-                    .setOAuthAccessTokenSecret(getString(R.string.OAuthTokenSecret));
-            TwitterFactory tf = new TwitterFactory(cf.build());
-            Twitter twitter = tf.getInstance();
-
-            // É possível colocar vários twitters aqui
-            String[] twitters={getString(R.string.twitter_user)};
-
-
             try {
+                //Configuração na API do twitter
+                ConfigurationBuilder cf = new ConfigurationBuilder();
+                cf.setDebugEnabled(true)
+                        .setOAuthConsumerKey(getString(R.string.OAuthConsumer))
+                        .setOAuthConsumerSecret(getString(R.string.OAuthSecret))
+                        .setOAuthAccessToken(getString(R.string.OAuthToken))
+                        .setOAuthAccessTokenSecret(getString(R.string.OAuthTokenSecret));
+                TwitterFactory tf = new TwitterFactory(cf.build());
+                Twitter twitter = tf.getInstance();
+
+                // É possível colocar vários twitters aqui
+                String[] twitters={getString(R.string.twitter_user)};
+
                 //Primeira e única posição na lista de Twitters
                 String[] srch = new String[]{twitters[0]};
 
@@ -271,7 +267,7 @@ public class Home extends Fragment {
                     tweetsArray[i]=tweets.get(i);
                 }
                 //Se der ruim... Já sabe
-            } catch (TwitterException e) {
+            } catch (Exception e) {
                 ok = false;
                 return "";
 
