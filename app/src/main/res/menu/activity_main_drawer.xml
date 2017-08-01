@@ -28,7 +28,7 @@
             android:title="Mapa" />
     </group>
 
-    <item android:title="Separar aqui">
+    <item android:title="">
         <menu>
             <group android:checkableBehavior="single">
                 <item

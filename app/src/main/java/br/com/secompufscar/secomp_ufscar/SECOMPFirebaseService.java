@@ -1,6 +1,5 @@
 package br.com.secompufscar.secomp_ufscar;
 
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -21,11 +20,7 @@ public class SECOMPFirebaseService extends FirebaseMessagingService {
         String msg = remoteMessage.getNotification().getBody();
         Log.d(TAG, "From: " + remoteMessage.getFrom());
         Log.d(TAG, "Notification Message Body: " + msg);
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.mipmap.ic_launcher)
-                        .setContentTitle("SECOMP 2017")
-                        .setContentText(msg);
+
 
 
     }

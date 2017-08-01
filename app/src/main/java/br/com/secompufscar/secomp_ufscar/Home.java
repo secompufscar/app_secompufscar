@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
@@ -155,7 +156,12 @@ public class Home extends Fragment {
                         //Executa a atualização dos tweets
                         //Apenas se a thread não está sendo executada
                         if(!(a.getStatus()== AsyncTask.Status.RUNNING)) {
-                            a.execute("");
+                            try {
+                                new MegaChecker().execute("");
+                            }catch (Exception e){
+                                Toast.makeText(getContext(), R.string.verifique,Toast.LENGTH_SHORT).show();
+                                swipeLayout.setRefreshing(false);
+                            }
                         }
                     }
                 }
@@ -227,9 +233,6 @@ public class Home extends Fragment {
                 //Para todos os usuários encontrados
                 for (User user : users) {
 
-                    //Pega o nome encontrado, só pra ter certeza que pegamos o twitter certo
-                    System.out.println("TWITTER:" + user.getName());
-
                     // Se a timeline não for nula então
                     if (user.getStatus() != null) {
 
@@ -248,21 +251,24 @@ public class Home extends Fragment {
 
 
                 //Passa o conteúdo do arraylist para um string array
-                tweetsArray = new String[tweets.size()];
-                for(int i=0;i<tweetsArray.length;i++)
+
+                for(int i=0;i<tweets.size();i++)
                 {
-                    tweetsArray[i]=tweets.get(i).toString();
-                    //Pega a última #Now usada
-                    if(tweetsArray[i].trim().contains(getString(R.string.now)) && now=="")
+                    //Agora ficou show
+                    if(tweets.get(i).trim().contains(getString(R.string.now)))
                     {
-                        tweetsArray[i]=tweetsArray[i].replace(getString(R.string.now),"");
-                        now = tweetsArray[i].trim();
+                        tweets.set(i,tweets.get(i).replace(getString(R.string.now),""));
+                        if(now=="")
+                        {
+                            now = tweets.get(i);
+                            tweets.remove(i);
+                        }
                     }
-                    //Remove a #NOW dos tweets remanescentes
-                    if(tweetsArray[i].trim().contains(getString(R.string.now)))
-                    {
-                        tweetsArray[i]=tweetsArray[i].replace(getString(R.string.now),"");
-                    }
+                }
+                tweetsArray = new String[tweets.size()];
+                for(int i=0;i<tweets.size();i++)
+                {
+                    tweetsArray[i]=tweets.get(i);
                 }
                 //Se der ruim... Já sabe
             } catch (TwitterException e) {
@@ -281,20 +287,20 @@ public class Home extends Fragment {
             {
                 hn.setText(now);
             }
-            if(ok) {
-
-
-
-                try {
+            if(ok)
+            {
+                try
+                {
                     //Referencia a lista do layout
                     lv = (ListView)getView().findViewById(R.id.listViewTwitter);
+
                     // Com o nosso adapter customizado, tenta adicionar as informações nele
                     ListTwitterAdapter adapter = new ListTwitterAdapter(getActivity(), tweetsArray);
                     //Adiciona o listAdapter no visual
+
                     lv.setAdapter(adapter);
                 }catch (Exception e)
                 {
-
                 }
 
             }
@@ -307,6 +313,7 @@ public class Home extends Fragment {
                 //Se estiver cancela ele, pois nossa tarefa já foi executada
                 swipeLayout.setRefreshing(false);
             }
+
         }
     }
 }

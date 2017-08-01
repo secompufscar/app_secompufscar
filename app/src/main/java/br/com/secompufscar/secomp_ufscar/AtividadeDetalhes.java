@@ -1,27 +1,20 @@
 package br.com.secompufscar.secomp_ufscar;
 
-import android.app.ActionBar;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.IOException;
-import java.net.URL;
-
-import br.com.secompufscar.secomp_ufscar.data.Atividade;
 import br.com.secompufscar.secomp_ufscar.data.DatabaseHandler;
 import br.com.secompufscar.secomp_ufscar.data.Pessoa;
 import br.com.secompufscar.secomp_ufscar.utilities.NetworkUtils;
@@ -29,7 +22,6 @@ import br.com.secompufscar.secomp_ufscar.utilities.NetworkUtils;
 public class AtividadeDetalhes extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener {
     public static final String EXTRA_POSITION = "position";
-    TextView texto;
     ImageView imageTeste;
 
     @Override

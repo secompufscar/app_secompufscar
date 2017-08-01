@@ -6,7 +6,7 @@
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@drawable/logo_icone"
+            android:src="@drawable/replace"
             android:mipMap="true"/>
     </item>
 </layer-list>
