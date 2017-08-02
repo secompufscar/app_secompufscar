@@ -1,5 +1,6 @@
 package br.com.secompufscar.secomp_ufscar;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -118,6 +119,9 @@ public class MainActivity extends AppCompatActivity
             fragment = new Patrocinadores();
         } else if (id == R.id.nav_sobre) {
 
+        } else if (id == R.id.nav_areaParticipante){
+            Intent intent = new Intent(MainActivity.this, AreaDoParticipante.class);
+            MainActivity.this.startActivity(intent);
         }
 
         if (fragment != null) {

@@ -12,13 +12,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!--Declaração das atividades-->
+        <!-- Declaração das atividades -->
+
 
         <!-- Splash Screen -->
         <activity
             android:name=".SplashScreen"
             android:theme="@style/SplashTheme">
+          
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+          
         </activity>
 
         <!-- Main Activity -->
@@ -36,14 +43,27 @@
         <!-- Tela de Detalhes de atividades -->
         <activity
             android:name=".AtividadeDetalhes"
-            android:parentActivityName=".MainActivity"
             android:label="Teste Detalhe"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <service android:name=".SECOMPFirebaseService">
+
+        <!-- WebView para Area do Participante -->
+        <activity
+            android:name=".AreaDoParticipante"
+            android:label="Área do Participante"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
+        </activity>
+      
+      <!--   Declaração de serviços     -->
+      <service android:name=".SECOMPFirebaseService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
@@ -53,6 +73,7 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
+
     </application>
 
 </manifest>
