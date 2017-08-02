@@ -26,7 +26,7 @@ import br.com.secompufscar.secomp_ufscar.utilities.NetworkUtils;
 
 public class AtividadeDetalhes extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener {
-    Atividade atividadeAtual;
+    public static final String EXTRA_POSITION = "position";
     TextView texto;
     ImageView imageTeste;
 

@@ -25,6 +25,7 @@
         pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
         deserunt mollit anim id est laborum.
     </string>
+   
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -33,6 +34,7 @@
     <string name="now">#NOW</string>
     <string name="hapnow">Happening Now</string>
     <string name="noconnection">Sem conexão com a internet</string>
+    <string name="verifique">Verifique sua conexão com a internet.</string>
 
     <!-- Sobre -->
     <string name="sobreSecomp">Sobre a SECOMP</string>

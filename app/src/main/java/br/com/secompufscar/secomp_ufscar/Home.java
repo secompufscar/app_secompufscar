@@ -11,13 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 import br.com.secompufscar.secomp_ufscar.utilities.ListTwitterAdapter;
 import twitter4j.ResponseList;
 import twitter4j.Twitter;
-import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.User;
 import twitter4j.conf.ConfigurationBuilder;
@@ -26,13 +28,13 @@ import twitter4j.conf.ConfigurationBuilder;
 
 <------ AQUELE COMENTÁRIO MANEIRO ------->
 
-->Seria mais interessante e melhor, caso esses Fragments , fossem activities
-
 */
 public class Home extends Fragment {
     /*
         Minhas declarações
     */
+
+
     //Nossa amada lista de tweets (Visual)
     private ListView lv;
     //Nosso amado array de tweets
@@ -41,6 +43,9 @@ public class Home extends Fragment {
     private SwipeRefreshLayout swipeLayout;
     //Happening now field
     private TextView hn;
+
+    //Testes
+    AsyncTask<String, String, String> a;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -122,15 +127,25 @@ public class Home extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
+        a =new MegaChecker();
         hn = (TextView)getView().findViewById(R.id.info_text);
         //Executa pra pegar os tweets
-        new MegaChecker().execute("");
-        //Referencia o layout definido no xml
-        swipeLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swiperefresh);
-        //Famoso migué
-        swipeLayout.setRefreshing(true);
-        //Seta as corzinhas do loading (Fun)
-        swipeLayout.setColorSchemeResources(R.color.orange, R.color.green, R.color.blue);
+
+
+        ScheduledExecutorService scheduler =
+                Executors.newSingleThreadScheduledExecutor();
+
+
+        if(!(a.getStatus()== AsyncTask.Status.RUNNING)) {
+            a.execute("");
+            //Referencia o layout definido no xml
+            swipeLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swiperefresh);
+            //Famoso migué
+            swipeLayout.setRefreshing(true);
+            //Seta as corzinhas do loading (Fun)
+            swipeLayout.setColorSchemeResources(R.color.orange, R.color.green, R.color.blue);
+        }
         //Listener para executar o código quando der um swipezinho
         swipeLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
@@ -138,7 +153,15 @@ public class Home extends Fragment {
                     public void onRefresh() {
 
                         //Executa a atualização dos tweets
-                        new MegaChecker().execute("");
+                        //Apenas se a thread não está sendo executada
+                        if(!(a.getStatus()== AsyncTask.Status.RUNNING)) {
+                            try {
+                                new MegaChecker().execute("");
+                            }catch (Exception e){
+                                Toast.makeText(getContext(), R.string.verifique,Toast.LENGTH_SHORT).show();
+                                swipeLayout.setRefreshing(false);
+                            }
+                        }
                     }
                 }
 
@@ -183,23 +206,20 @@ public class Home extends Fragment {
         }
         @Override
         protected String doInBackground(String... params) {
-
-
-            //Configuração na API do twitter
-            ConfigurationBuilder cf = new ConfigurationBuilder();
-            cf.setDebugEnabled(true)
-                    .setOAuthConsumerKey(getString(R.string.OAuthConsumer))
-                    .setOAuthConsumerSecret(getString(R.string.OAuthSecret))
-                    .setOAuthAccessToken(getString(R.string.OAuthToken))
-                    .setOAuthAccessTokenSecret(getString(R.string.OAuthTokenSecret));
-            TwitterFactory tf = new TwitterFactory(cf.build());
-            Twitter twitter = tf.getInstance();
-
-            // É possível colocar vários twitters aqui
-            String[] twitters={getString(R.string.twitter_user)};
-
-
             try {
+                //Configuração na API do twitter
+                ConfigurationBuilder cf = new ConfigurationBuilder();
+                cf.setDebugEnabled(true)
+                        .setOAuthConsumerKey(getString(R.string.OAuthConsumer))
+                        .setOAuthConsumerSecret(getString(R.string.OAuthSecret))
+                        .setOAuthAccessToken(getString(R.string.OAuthToken))
+                        .setOAuthAccessTokenSecret(getString(R.string.OAuthTokenSecret));
+                TwitterFactory tf = new TwitterFactory(cf.build());
+                Twitter twitter = tf.getInstance();
+
+                // É possível colocar vários twitters aqui
+                String[] twitters={getString(R.string.twitter_user)};
+
                 //Primeira e única posição na lista de Twitters
                 String[] srch = new String[]{twitters[0]};
 
@@ -208,9 +228,6 @@ public class Home extends Fragment {
 
                 //Para todos os usuários encontrados
                 for (User user : users) {
-
-                    //Pega o nome encontrado, só pra ter certeza que pegamos o twitter certo
-                    System.out.println("TWITTER:" + user.getName());
 
                     // Se a timeline não for nula então
                     if (user.getStatus() != null) {
@@ -230,24 +247,27 @@ public class Home extends Fragment {
 
 
                 //Passa o conteúdo do arraylist para um string array
-                tweetsArray = new String[tweets.size()];
-                for(int i=0;i<tweetsArray.length;i++)
+
+                for(int i=0;i<tweets.size();i++)
                 {
-                    tweetsArray[i]=tweets.get(i).toString();
-                    //Pega a última #Now usada
-                    if(tweetsArray[i].trim().contains(getString(R.string.now)) && now=="")
+                    //Agora ficou show
+                    if(tweets.get(i).trim().contains(getString(R.string.now)))
                     {
-                        tweetsArray[i]=tweetsArray[i].replace(getString(R.string.now),"");
-                        now = tweetsArray[i].trim();
-                    }
-                    //Remove a #NOW dos tweets remanescentes
-                    if(tweetsArray[i].trim().contains(getString(R.string.now)))
-                    {
-                        tweetsArray[i]=tweetsArray[i].replace(getString(R.string.now),"");
+                        tweets.set(i,tweets.get(i).replace(getString(R.string.now),""));
+                        if(now=="")
+                        {
+                            now = tweets.get(i);
+                            tweets.remove(i);
+                        }
                     }
                 }
+                tweetsArray = new String[tweets.size()];
+                for(int i=0;i<tweets.size();i++)
+                {
+                    tweetsArray[i]=tweets.get(i);
+                }
                 //Se der ruim... Já sabe
-            } catch (TwitterException e) {
+            } catch (Exception e) {
                 ok = false;
                 return "";
 
@@ -263,14 +283,22 @@ public class Home extends Fragment {
             {
                 hn.setText(now);
             }
-            if(ok) {
+            if(ok)
+            {
+                try
+                {
+                    //Referencia a lista do layout
+                    lv = (ListView)getView().findViewById(R.id.listViewTwitter);
 
-                //Referencia a lista do layout
-                lv = (ListView)getView().findViewById(R.id.listViewTwitter);
-                // Com o nosso adapter customizado, adiciona as informações nele
-                ListTwitterAdapter adapter = new ListTwitterAdapter(getActivity(), tweetsArray);
-                //Adiciona o listAdapter no visual
-                lv.setAdapter(adapter);
+                    // Com o nosso adapter customizado, tenta adicionar as informações nele
+                    ListTwitterAdapter adapter = new ListTwitterAdapter(getActivity(), tweetsArray);
+                    //Adiciona o listAdapter no visual
+
+                    lv.setAdapter(adapter);
+                }catch (Exception e)
+                {
+                }
+
             }
             else
             {
@@ -281,6 +309,7 @@ public class Home extends Fragment {
                 //Se estiver cancela ele, pois nossa tarefa já foi executada
                 swipeLayout.setRefreshing(false);
             }
+
         }
     }
 }
