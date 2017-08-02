@@ -22,7 +22,9 @@
         <item>8 Rue Scribe, 75009 Paris, France</item>
     </string-array>
     <array name="places_picture">
-        <item>@drawable/image_test_detalhes</item>
+        <!-- TODO Fazer o replace das imagens
+        <item>@drawable/image_test_detalhes</item>-->
+        <item>@drawable/ic_menu_home</item>
 
     </array>
 </resources>

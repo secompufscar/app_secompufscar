@@ -17,7 +17,6 @@ import android.view.MenuItem;
 import java.io.IOException;
 import java.net.URL;
 
-import br.com.secompufscar.secomp_ufscar.data.Atividade;
 import br.com.secompufscar.secomp_ufscar.data.DatabaseHandler;
 import br.com.secompufscar.secomp_ufscar.utilities.NetworkUtils;
 
@@ -33,6 +32,8 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //Define uma font padrão para tudo no app
+        FontsOverride.setDefaultFont(this, "MONOSPACE", "fonts/ClearSans-Regular.ttf");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -143,7 +144,8 @@ public class MainActivity extends AppCompatActivity
             try {
                 response = NetworkUtils.getResponseFromHttpUrl(url);
                 if (response != null) {
-                    DatabaseHandler.getDB().addAllAtividades(Atividade.AtividadeParseJSON(response));
+                    //TODO Corrigir isso, por algum motivo não está salvando no SQLite
+                    //DatabaseHandler.getDB().addAllAtividades(Atividade.AtividadeParseJSON(response));
                 }
             } catch (IOException e) {
                 e.printStackTrace();

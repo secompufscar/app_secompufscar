@@ -33,8 +33,7 @@
             android:title="Área do Participante" />
     </group>
 
-
-    <item android:title="Separar aqui">
+    <item android:title="">
         <menu>
             <group android:checkableBehavior="single">
                 <item

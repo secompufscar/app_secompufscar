@@ -18,5 +18,4 @@
         android:layout_height="match_parent"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         app:srcCompat="@drawable/logocompleto" />
-
 </LinearLayout>
