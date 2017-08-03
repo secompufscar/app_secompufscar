@@ -8,3 +8,13 @@
 /captures
 .externalNativeBuild
 .idea
+/*/build/
+com_crashlytics_export_strings.xml
+.signing/
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

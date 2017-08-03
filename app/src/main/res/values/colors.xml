@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
-
+    <!--TODO: Definir de forma consistente essas cores-->
+    <color name="colorPrimary">#62b550</color>
+    <color name="colorPrimaryDark">#4ce400</color>
+    <color name="colorAccent">#3f6db3</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#757575</color>
+    <color name="white">#FFFFFF</color>
+    <color name="hapnow">#FFC841</color>
+    <color name="icons">#212121</color>
+    <color name="divider">#BDBDBD</color>
     <color name="colorBackSplash">#FFFFFF</color>
+    <color name="colorButton">#fff</color>
+    <color name="orange">#ffcc00</color>
+    <color name="green">#0c0</color>
+    <color name="blue">#00c</color>
 </resources>

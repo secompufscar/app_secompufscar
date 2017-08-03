@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "12607275511",
+    "firebase_url": "https://secomp2017-30926.firebaseio.com",
+    "project_id": "secomp2017-30926",
+    "storage_bucket": "secomp2017-30926.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:12607275511:android:093362ac80635f5d",
+        "android_client_info": {
+          "package_name": "br.com.secompufscar.secomp_ufscar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "12607275511-ipqjk1ooko6vq9nropnllfglaolk1rbp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJashBRWk3gAS5SlGEMbHDnE22JMQQuKU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

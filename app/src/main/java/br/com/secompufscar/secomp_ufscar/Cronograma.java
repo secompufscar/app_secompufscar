@@ -2,18 +2,24 @@ package br.com.secompufscar.secomp_ufscar;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import br.com.secompufscar.secomp_ufscar.data.Atividade;
+import br.com.secompufscar.secomp_ufscar.utilities.NetworkUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -80,6 +86,7 @@ public class Cronograma extends Fragment {
 
         tabLayout = (TabLayout) view.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+
         return view;
 
     }
@@ -124,16 +131,16 @@ public class Cronograma extends Fragment {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(super.getFragmentManager());
-        adapter.addFragment(new Patrocinadores(), "Seg");
-        adapter.addFragment(new Home(), "Ter");
-        adapter.addFragment(new Patrocinadores(), "Qua");
-        adapter.addFragment(new Patrocinadores(), "Qui");
-        adapter.addFragment(new Patrocinadores(), "Sex");
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
+        adapter.addFragment(new ListaAtividades(), "Seg");
+        adapter.addFragment(new ListaAtividades(), "Ter");
+        adapter.addFragment(new ListaAtividades(), "Qua");
+        adapter.addFragment(new ListaAtividades(), "Qui");
+        adapter.addFragment(new ListaAtividades(), "Sex");
         viewPager.setAdapter(adapter);
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
+    class ViewPagerAdapter extends FragmentStatePagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 

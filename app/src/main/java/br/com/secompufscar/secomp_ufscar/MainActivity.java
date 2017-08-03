@@ -1,36 +1,39 @@
 package br.com.secompufscar.secomp_ufscar;
 
-import java.net.URL;
-
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 
 import java.io.IOException;
+import java.net.URL;
 
+import br.com.secompufscar.secomp_ufscar.data.DatabaseHandler;
 import br.com.secompufscar.secomp_ufscar.utilities.NetworkUtils;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         Home.OnFragmentInteractionListener,
         Patrocinadores.OnFragmentInteractionListener,
-        Cronograma.OnFragmentInteractionListener{
+        Cronograma.OnFragmentInteractionListener,
+        ListaAtividades.OnFragmentInteractionListener,
+        Pessoas.OnFragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //Define uma font padrão para tudo no app
+        FontsOverride.setDefaultFont(this, "MONOSPACE", "fonts/ClearSans-Regular.ttf");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -48,6 +51,10 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment_inicial = new Home();
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment_inicial).commit();
+
+        DatabaseHandler.setInstance(this);
+
+        new GetDataTask().execute();
     }
 
     @Override
@@ -57,7 +64,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -65,7 +72,8 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
+    //Removido aquele menuzinho alí em cima
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
@@ -85,7 +93,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -97,13 +105,12 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             fragment = new Home();
-        }
-        else if(id == R.id.nav_cronograma) {
+        } else if (id == R.id.nav_cronograma) {
             fragment = new Cronograma();
         } else if (id == R.id.nav_feed) {
 
         } else if (id == R.id.nav_pessoas) {
-
+            fragment = new Pessoas();
         } else if (id == R.id.nav_minhasAtividades) {
 
         } else if (id == R.id.nav_map) {
@@ -112,6 +119,9 @@ public class MainActivity extends AppCompatActivity
             fragment = new Patrocinadores();
         } else if (id == R.id.nav_sobre) {
 
+        } else if (id == R.id.nav_areaParticipante){
+            Intent intent = new Intent(MainActivity.this, AreaDoParticipante.class);
+            MainActivity.this.startActivity(intent);
         }
 
         if (fragment != null) {
@@ -125,26 +135,27 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public class HttpResponseTask extends AsyncTask<URL, Void, String> {
-
+    private class GetDataTask extends AsyncTask<Void, Void, Void> {
         @Override
-        protected String doInBackground(URL... params) {
-            URL url = params[0];
+        protected Void doInBackground(Void... params) {
+            URL url = NetworkUtils.buildUrl("app");
             String response;
-            response = null;
 
             try {
                 response = NetworkUtils.getResponseFromHttpUrl(url);
-                Log.d("response", response);
+                if (response != null) {
+                    //TODO Corrigir isso, por algum motivo não está salvando no SQLite
+                    //DatabaseHandler.getDB().addAllAtividades(Atividade.AtividadeParseJSON(response));
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            return response;
+            return null;
         }
 
         @Override
-        protected void onPostExecute(String s) {
+        protected void onPostExecute(Void s) {
 //            textForTest.setText(s);
         }
     }
