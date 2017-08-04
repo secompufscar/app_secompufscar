@@ -114,7 +114,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_minhasAtividades) {
 
         } else if (id == R.id.nav_map) {
-
+            Intent i = new Intent(this, MapsActivity.class);
+            startActivity(i);
         } else if (id == R.id.nav_patrocinadores) {
             fragment = new Patrocinadores();
         } else if (id == R.id.nav_sobre) {
