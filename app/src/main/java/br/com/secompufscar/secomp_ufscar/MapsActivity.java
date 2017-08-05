@@ -2,6 +2,8 @@ package br.com.secompufscar.secomp_ufscar;
 
 import android.content.Context;
 import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -14,7 +16,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback{
 
     private static final String TAG = "MapsActivity";
     private GoogleMap mMap;
@@ -29,6 +31,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
+
 
 
     /**
@@ -54,7 +57,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             //botoes de zoom e sua localizacao
             mMap.getUiSettings().setZoomControlsEnabled(true);
             mMap.setMyLocationEnabled(true);
-        }catch (SecurityException ex){
+        } catch (SecurityException ex) {
             Log.e(TAG, "Error while acquiring location", ex);
         }
 
