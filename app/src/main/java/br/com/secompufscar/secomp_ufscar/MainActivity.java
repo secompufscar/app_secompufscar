@@ -1,6 +1,10 @@
 package br.com.secompufscar.secomp_ufscar;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,15 +33,73 @@ public class MainActivity extends AppCompatActivity
         Cronograma.OnFragmentInteractionListener,
         ListaAtividades.OnFragmentInteractionListener,
         Pessoas.OnFragmentInteractionListener{
-
+    private SharedPreferences mPrefs;
+    private boolean notifications;
+    private boolean internet;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //FIREBASE MENINO
-        FirebaseMessaging.getInstance().subscribeToTopic("secomp2l17");
+        //Checa se é a primeira vez rodando o app
+        mPrefs = getApplicationContext().getSharedPreferences("Settings", 0);
+
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+
+            public void onClick(DialogInterface dialog, int which) {
+                SharedPreferences.Editor mEditor = mPrefs.edit();
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+
+                        mEditor.putBoolean("notifications",true);
+
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        mEditor.putBoolean("notifications",false);
+                        break;
+                }
+                mEditor.commit();
+            }
+        };
+        DialogInterface.OnClickListener dialogClickListener2 = new DialogInterface.OnClickListener() {
+            @Override
+
+            public void onClick(DialogInterface dialog, int which) {
+                SharedPreferences.Editor mEditor = mPrefs.edit();
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+
+                        mEditor.putBoolean("internet",true);
+
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        mEditor.putBoolean("internet",false);
+                        break;
+                }
+                mEditor.commit();
+            }
+        };
+        if(mPrefs.getBoolean("first",true))
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(R.string.nott).setPositiveButton("Sim", dialogClickListener)
+                    .setNegativeButton("Não", dialogClickListener).show();
+            builder = new AlertDialog.Builder(this);
+            builder.setMessage(R.string.internets).setPositiveButton(R.string.yesint, dialogClickListener2)
+                    .setNegativeButton(R.string.noint, dialogClickListener2).show();
+            SharedPreferences.Editor mEditor = mPrefs.edit();
+            mEditor.putBoolean("first",false);
+            mEditor.commit();
+        }
+        internet = mPrefs.getBoolean("internet",true);
+        notifications = mPrefs.getBoolean("notifications",true);
+        //FIREBASE MENINO caso a pessoa queira
+        if(notifications)
+            FirebaseMessaging.getInstance().subscribeToTopic("secomp2l17");
         //Define uma font padrão para tudo no app
-        FontsOverride.setDefaultFont(this, "MONOSPACE", "fonts/ClearSans-Regular.ttf");
+        FontsOverride.setDefaultFont(this, "DEFAULT", "fonts/ClearSans-Regular.ttf");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -58,7 +120,19 @@ public class MainActivity extends AppCompatActivity
 
         DatabaseHandler.setInstance(this);
 
-        new GetDataTask().execute();
+        ConnectivityManager manager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        //For 3G check
+        boolean is3g = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)
+                .isConnectedOrConnecting();
+        //For WiFi Check
+        boolean isWifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
+                .isConnectedOrConnecting();
+        if(isWifi) {
+            new GetDataTask().execute();
+        }
+        if(internet && is3g) {
+            new GetDataTask().execute();
+        }
     }
 
     @Override
@@ -126,6 +200,10 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_areaParticipante){
             Intent intent = new Intent(MainActivity.this, AreaDoParticipante.class);
             MainActivity.this.startActivity(intent);
+        }
+        else if (id == R.id.nav_settings){
+            Intent intent = new Intent(MainActivity.this, Settings.class);
+            startActivity(intent);
         }
 
         if (fragment != null) {

@@ -7,8 +7,6 @@
     <string name="action_settings">Settings</string>
 
     <string name="title_activity_atividade_detalhe">AtividadeDetalhes</string>
-    <string name="OAuthConsumer">hAvDqs2xpY5MrILVlPaR2zvdb</string>
-
     <string name="detail_desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
         eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
         nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
@@ -27,6 +25,14 @@
     <string name="hapnow">Happening Now</string>
     <string name="noconnection">Sem conexão com a internet</string>
     <string name="verifique">Verifique sua conexão com a internet.</string>
+    <string name="receber_notifica_es_sobre_os_eventos_durante_a_secomp">Receber notificações sobre os eventos durante a SECOMP</string>
+    <string name="baixar_atualiza_es_da_secomp_via_3g">Baixar atualizações da SECOMP via 3G</string>
+    <string name="nott">Você deseja receber notificações dos eventos durante a SECOMP 2017?</string>
+    <string name="no">Não, prefiro me manter desatualizado</string>
+    <string name="yes">Sim, sou informado!</string>
+    <string name="internets">Deseja usar seus dados móveis para baixar o cronograma da SECOMP?</string>
+    <string name="yesint">Sim, eu sei que são poucos dados</string>
+    <string name="noint">Não, eu prefiro usar só WIFI</string>
 
 
 </resources>
