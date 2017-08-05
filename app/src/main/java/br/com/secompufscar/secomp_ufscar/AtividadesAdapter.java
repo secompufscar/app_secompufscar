@@ -42,9 +42,9 @@ public class AtividadesAdapter extends RecyclerView.Adapter<AtividadesAdapter.My
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Atividade atividade = atividadeList.get(position);
         // TODO: Arrumar o layout dos itens e definir o que irá ter
-        holder.nome.setText(atividade.getNome());
+        holder.nome.setText(atividade.getTitulo());
         holder.local.setText(atividade.getLocal());
-        holder.tipo.setText("");
+        holder.tipo.setText(atividade.getTipo());
     }
 
     @Override

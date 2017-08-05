@@ -29,6 +29,7 @@ public class AtividadeDetalhes extends AppCompatActivity implements
     public static final String EXTRA_POSITION = "position";
     TextView texto;
     ImageView imageTeste;
+    Atividade atividadeAtual;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +37,11 @@ public class AtividadeDetalhes extends AppCompatActivity implements
 
         int id = getIntent().getIntExtra("id_atividade", 0);
         Log.d("Teste-Extra", Integer.toString(id));
-        atividadeAtual = DatabaseHandler.getDB().getAtividade(id);
+
+        atividadeAtual = DatabaseHandler.getDB().getDetalheAtividade(id);
 
         setContentView(R.layout.activity_atividade_detalhes);
+
 
         //Get current screen orientation
         Display display = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
@@ -53,7 +56,7 @@ public class AtividadeDetalhes extends AppCompatActivity implements
                         (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
                 collapsingToolbar.setExpandedTitleColor(0);
                 // Set title of Detail page
-                collapsingToolbar.setTitle(atividadeAtual.getNome());
+                collapsingToolbar.setTitle(atividadeAtual.getTitulo());
 
                 break;
             case Surface.ROTATION_90:
@@ -67,7 +70,7 @@ public class AtividadeDetalhes extends AppCompatActivity implements
 
 
         TextView titulo = (TextView) findViewById(R.id.atividade_detalhe_titulo);
-        titulo.setText(atividadeAtual.getNome());
+        titulo.setText(atividadeAtual.getTitulo());
 
         TextView local = (TextView) findViewById(R.id.atividade_detalhe_local);
         local.setText(atividadeAtual.getLocal());
@@ -78,11 +81,13 @@ public class AtividadeDetalhes extends AppCompatActivity implements
         ImageView backgroundCollapsing = (ImageView) findViewById(R.id.image);
         backgroundCollapsing.setImageDrawable(getDrawable(R.drawable.fundo_triangulos_verde));
 
-        ImageView foto1 = (ImageView) findViewById(R.id.imagem_teste_1);
-        foto1.setImageBitmap(DatabaseHandler.getDB().getPessoa(1).getFotoBitmap());
+//        ImageView foto1 = (ImageView) findViewById(R.id.imagem_teste_1);
+//        foto1.setImageBitmap(DatabaseHandler.getDB().getResumoPessoa(1).getFotoBitmap());
+//
+//        ImageView foto2 = (ImageView) findViewById(R.id.imagem_teste_2);
+//        foto2.setImageBitmap(DatabaseHandler.getDB().getResumoPessoa(1).getFotoBitmap());
 
-        ImageView foto2 = (ImageView) findViewById(R.id.imagem_teste_2);
-        foto2.setImageBitmap(DatabaseHandler.getDB().getPessoa(1).getFotoBitmap());
+        Log.d("Teste detalhe", atividadeAtual.toString());
 
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.atividade_detalhe_fab);
 
@@ -107,7 +112,7 @@ public class AtividadeDetalhes extends AppCompatActivity implements
                     Toast.makeText(AtividadeDetalhes.this, R.string.msg_favoritado, Toast.LENGTH_SHORT).show();
                 }
 
-                MinhasAtividades.updateAtividades();
+//                MinhasAtividades.updateAtividades();
             }
         });
 
@@ -154,7 +159,7 @@ public class AtividadeDetalhes extends AppCompatActivity implements
 
                 pessoa1.setFoto(NetworkUtils.getImageFromHttpUrl(params[0]));
                 DatabaseHandler.getDB().addPessoa(pessoa1);
-                pessoa2 = DatabaseHandler.getDB().getPessoa(1);
+                pessoa2 = DatabaseHandler.getDB().getResumoPessoa(1);
 
             } catch (Exception e) {
                 Log.e("Error", e.getMessage());

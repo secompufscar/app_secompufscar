@@ -63,12 +63,13 @@
                 android:value=".MainActivity"/>
         </activity>
 
-      <!--   Declaração de serviços     -->
+      <!-- Declaração de serviços -->
       <service android:name=".SECOMPFirebaseService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
+
         <service android:name=".FirebaseIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>

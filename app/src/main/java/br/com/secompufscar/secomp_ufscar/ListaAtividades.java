@@ -30,19 +30,18 @@ import br.com.secompufscar.secomp_ufscar.utilities.RecyclerTouchListener;
  * Use the {@link ListaAtividades#newInstance} factory method to
  * create an instance of this fragment.
  */
+
 public class ListaAtividades extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_PARAM1 = "offset";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private int offset;
 
     private OnFragmentInteractionListener mListener;
 
-    public static List<Atividade> atividadeList = new ArrayList<Atividade>();
+    public static List<Atividade> atividadeList = new ArrayList<>();
     private RecyclerView recycler_atividades;
     private AtividadesAdapter aAdapter;
 
@@ -50,8 +49,11 @@ public class ListaAtividades extends Fragment {
         // Required empty public constructor
     }
 
-    public static void updateAtividades(){
-        atividadeList = DatabaseHandler.getDB().getAllAtividades();
+    public void updateAtividades(){
+        atividadeList.clear();
+        atividadeList.addAll(DatabaseHandler.getDB().getAtividadesByDay(offset));
+        aAdapter.notifyDataSetChanged();
+        Log.d("TESTE OFFSET", Integer.toString(offset));
     }
 
     /**
@@ -59,15 +61,13 @@ public class ListaAtividades extends Fragment {
      * this fragment using the provided parameters.
      *
      * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment ListaAtividades.
      */
     // TODO: Rename and change types and number of parameters
-    public static ListaAtividades newInstance(String param1, String param2) {
+    public static ListaAtividades newInstance(String param1) {
         ListaAtividades fragment = new ListaAtividades();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -76,10 +76,10 @@ public class ListaAtividades extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            offset = getArguments().getInt(ARG_PARAM1);
         }
 
+        aAdapter = new AtividadesAdapter(atividadeList);
         updateAtividades();
     }
 
@@ -89,10 +89,10 @@ public class ListaAtividades extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_lista_atividades, container, false);
         recycler_atividades = (RecyclerView) view.findViewById(R.id.recycler_atividades);
-        //TODO: É necessário arrumar image_test_detalhes parte de carregamento dos fragmentos
-        aAdapter = new AtividadesAdapter(atividadeList);
+        recycler_atividades.setAdapter(aAdapter);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recycler_atividades.setLayoutManager(mLayoutManager);
+
         //TODO: Arrumar o problema que está dando aqui
         recycler_atividades.setItemAnimator(new DefaultItemAnimator());
 
@@ -103,7 +103,6 @@ public class ListaAtividades extends Fragment {
 
                 Context context = view.getContext();
                 Intent detalhesAtividade = new Intent(context, AtividadeDetalhes.class);
-                Log.d("Teste-Extra", Integer.toString(atividade.getId()));
                 detalhesAtividade.putExtra("id_atividade", atividade.getId());
                 context.startActivity(detalhesAtividade);
             }
@@ -114,8 +113,6 @@ public class ListaAtividades extends Fragment {
             }
         }));
 
-        recycler_atividades.setAdapter(aAdapter);
-
         return view;
     }
 
@@ -124,6 +121,12 @@ public class ListaAtividades extends Fragment {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateAtividades();
     }
 
     @Override

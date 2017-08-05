@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -42,7 +43,7 @@ public class MinhasAtividades extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public static List<Atividade> atividadeList = new ArrayList<Atividade>();
+    public static List<Atividade> atividadeList = new ArrayList<>();
     private RecyclerView recycler_atividades;
     private AtividadesAdapter aAdapter;
 
@@ -50,8 +51,10 @@ public class MinhasAtividades extends Fragment {
         // Required empty public constructor
     }
 
-    public static void updateAtividades(){
-        atividadeList = DatabaseHandler.getDB().getAllFavoritos();
+    public void updateAtividades() {
+        atividadeList.clear();
+        atividadeList.addAll(DatabaseHandler.getDB().getAllFavoritos());
+        aAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -81,21 +84,21 @@ public class MinhasAtividades extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+        aAdapter = new AtividadesAdapter(atividadeList);
         updateAtividades();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_lista_atividades, container, false);
         recycler_atividades = (RecyclerView) view.findViewById(R.id.recycler_atividades);
-        //TODO: É necessário arrumar a parte de carregamento dos fragmentos
-        aAdapter = new AtividadesAdapter(atividadeList);
+
+
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recycler_atividades.setLayoutManager(mLayoutManager);
-        //TODO: Arrumar o problema que está dando aqui
-        recycler_atividades.setItemAnimator(new DefaultItemAnimator());
+
+        recycler_atividades.setAdapter(aAdapter);
 
         recycler_atividades.addOnItemTouchListener(new RecyclerTouchListener(getActivity().getApplicationContext(), recycler_atividades, new ClickListener() {
             @Override
@@ -104,7 +107,6 @@ public class MinhasAtividades extends Fragment {
 
                 Context context = view.getContext();
                 Intent detalhesAtividade = new Intent(context, AtividadeDetalhes.class);
-                Log.d("Teste-Extra", Integer.toString(atividade.getId()));
                 detalhesAtividade.putExtra("id_atividade", atividade.getId());
                 context.startActivity(detalhesAtividade);
             }
@@ -115,8 +117,6 @@ public class MinhasAtividades extends Fragment {
             }
         }));
 
-        recycler_atividades.setAdapter(aAdapter);
-
         return view;
     }
 
@@ -125,6 +125,12 @@ public class MinhasAtividades extends Fragment {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateAtividades();
     }
 
     @Override
