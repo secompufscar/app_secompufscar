@@ -12,19 +12,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
-
-import java.io.IOException;
-import java.net.URL;
 
 import br.com.secompufscar.secomp_ufscar.data.Atividade;
 import br.com.secompufscar.secomp_ufscar.data.DatabaseHandler;
 import br.com.secompufscar.secomp_ufscar.data.Patrocinador;
-import br.com.secompufscar.secomp_ufscar.utilities.NetworkUtils;
 
-import static br.com.secompufscar.secomp_ufscar.data.Atividade.getAtividadesFromHTTP;
-import static br.com.secompufscar.secomp_ufscar.data.Patrocinador.getPatrocinadoresFromHTTP;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -147,9 +140,8 @@ public class MainActivity extends AppCompatActivity
     private class GetDataTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
-            getPatrocinadoresFromHTTP();
-            getAtividadesFromHTTP();
-            Log.d("TESTE","Http terminou");
+            Patrocinador.getPatrocinadoresFromHTTP();
+            Atividade.getAtividadesFromHTTP();
             return null;
         }
 

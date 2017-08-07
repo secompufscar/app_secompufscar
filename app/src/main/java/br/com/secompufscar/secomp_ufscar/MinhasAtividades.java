@@ -84,7 +84,7 @@ public class MinhasAtividades extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        aAdapter = new AtividadesAdapter(atividadeList);
+        aAdapter = new AtividadesAdapter(getActivity(), atividadeList);
         updateAtividades();
     }
 

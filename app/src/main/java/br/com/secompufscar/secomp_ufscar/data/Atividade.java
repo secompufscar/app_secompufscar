@@ -1,5 +1,7 @@
 package br.com.secompufscar.secomp_ufscar.data;
 
+import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -12,8 +14,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 
+import br.com.secompufscar.secomp_ufscar.R;
 import br.com.secompufscar.secomp_ufscar.utilities.NetworkUtils;
 
 public class Atividade {
@@ -41,8 +46,18 @@ public class Atividade {
     class Horario {
         public Date dataHora_inicio, dataHora_fim;
 
+        @Override
+        public String toString() {
+            return dateInCurrentTimeZone(this.dataHora_inicio, "EE").toUpperCase() + " " + getHoras();
+        }
+
+        public String getHoras() {
+            String horarioFim = (this.dataHora_fim != null) ? " - " + dateInCurrentTimeZone(this.dataHora_fim, "HH:mm") : "";
+            return dateInCurrentTimeZone(this.dataHora_inicio, "HH:mm") + horarioFim;
+        }
+
         public Date dataHoraParser(String dateString) {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
             formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
             Date value = null;
             try {
@@ -54,9 +69,14 @@ public class Atividade {
             return value;
         }
 
-        public String dataHoraInCurrentTimeZone(Date dateObject) {
-            SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy hh:mmaa");
-            // TODO: Verificar se essa é a forma padrão de pegar a timezone do android
+        /**
+         * String format: formato utilizado para formatar a saída (veja documentação do SimpleDateFormat)
+         * Exemplos: "dd/MM/yyyy HH:mm" (Dia/Mes/Ano Horas:minutos), "EE" (dia da semana em formato reduzido)
+         **/
+
+        public String dateInCurrentTimeZone(Date dateObject, String format) {
+
+            SimpleDateFormat dateFormatter = new SimpleDateFormat(format, Locale.getDefault());
             dateFormatter.setTimeZone(TimeZone.getDefault());
             String datahora = dateFormatter.format(dateObject);
 
@@ -64,11 +84,11 @@ public class Atividade {
         }
 
         public String getDataHoraInicio() {
-            return dataHoraInCurrentTimeZone(this.dataHora_inicio);
+            return dateInCurrentTimeZone(this.dataHora_inicio, "dd/MM/yyyy HH:mm");
         }
 
         public String getDataHoraFim() {
-            return dataHoraInCurrentTimeZone(this.dataHora_fim);
+            return dateInCurrentTimeZone(this.dataHora_fim, "dd/MM/yyyy HH:mm");
         }
 
         public void setDataHora_inicio(String dataHora_inicio) {
@@ -86,10 +106,6 @@ public class Atividade {
     private String dataHora_inicio;
     private ArrayList<Pessoa> ministrantes;
     private boolean favorito;
-
-    public Atividade() {
-        this.favorito = false;
-    }
 
     @Override
     public String toString() {
@@ -137,15 +153,15 @@ public class Atividade {
 
     }
 
-    public void setMinistrantes(JSONArray ministrantes) {
+    public void setMinistrantes(JSONArray ministrantes, String root_image) {
         try {
             this.ministrantes = new ArrayList<>();
 
             for (int i = 0; i < ministrantes.length(); i++) {
-                Pessoa pessoa = Pessoa.resumoPessoaParseJSON(ministrantes.getString(i));
-
+                Pessoa pessoa = Pessoa.resumoPessoaParseJSON(ministrantes.getString(i), root_image);
                 this.ministrantes.add(pessoa);
             }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -183,24 +199,37 @@ public class Atividade {
         return this.horarios;
     }
 
-    public String getDataHoraInicio(){
-        return this.dataHora_inicio;
+    public String getDataHoraInicio() {
+
+        Horario horario_inicio = new Horario();
+        horario_inicio.setDataHora_inicio(this.dataHora_inicio);
+
+        return horario_inicio.dateInCurrentTimeZone(horario_inicio.dataHora_inicio, "HH:mm");
+
     }
 
-    public ArrayList<Horario> getHorarios() {
+    public String getHorarios() {
+        String horarios_string = "";
         if (!this.horarios.isEmpty()) {
-            ArrayList<Horario> horarios = new ArrayList<>();
+
             try {
                 JSONArray horariosArray = new JSONArray(this.horarios);
+
                 for (int j = 0; j < horariosArray.length(); j++) {
                     Horario horario = new Horario();
                     JSONObject horarioObject = horariosArray.getJSONObject(j);
                     horario.setDataHora_inicio(horarioObject.getString(TAG_DATAHORA_INICIO));
                     horario.setDataHora_Fim(horarioObject.getString(TAG_DATAHORA_FIM));
 
-                    horarios.add(horario);
+                    if (j == 0) {
+                        horarios_string = horario.toString();
+                    } else if (j < horariosArray.length() - 1) {
+                        horarios_string += ", " + horario.getHoras();
+                    } else {
+                        horarios_string += " e " + horario.getHoras();
+                    }
                 }
-                return horarios;
+                return horarios_string;
             } catch (JSONException e) {
                 e.printStackTrace();
                 return null;
@@ -210,7 +239,27 @@ public class Atividade {
         }
     }
 
-    public boolean isFavorito() {
+    public int getColor(Context context) {
+        int color;
+        switch (this.tipo.toLowerCase()) {
+            case "palestra":
+                color = ContextCompat.getColor(context, R.color.palestraColor);
+                break;
+            case "minicurso":
+                color = ContextCompat.getColor(context, R.color.minicursoColor);
+                break;
+            default:
+                color = ContextCompat.getColor(context, R.color.palestraColor);
+        }
+
+        return color;
+    }
+
+    public List<Pessoa> getMinistrantes(){
+        return this.ministrantes;
+    }
+
+    public Boolean isFavorito() {
         return this.favorito;
     }
 
@@ -241,7 +290,7 @@ public class Atividade {
                         atividade.setTitulo(atividadeObject.getString(TAG_TITULO));
                         atividade.setTipo(tipo);
                         atividade.setHorarios(atividadeObject.getString(TAG_HORARIOS));
-                        atividade.setMinistrantes(atividadeObject.getJSONArray(TAG_MINISTRANTES));
+                        atividade.setMinistrantes(atividadeObject.getJSONArray(TAG_MINISTRANTES), root_image);
 
                         atividadeList.add(atividade);
                     }
@@ -269,6 +318,12 @@ public class Atividade {
 
                 atividade.setDescricao(atividadeObject.getString(TAG_DESCRICAO));
                 atividade.setLocal(atividadeObject.getString(TAG_LOCAL));
+                atividade.setId(atividadeObject.getInt(TAG_ID));
+                atividade.setTitulo(atividadeObject.getString(TAG_TITULO));
+                atividade.setTipo(atividadeObject.getString(TAG_TIPO));
+                atividade.setHorarios(atividadeObject.getString(TAG_HORARIOS));
+                //TODO: Incluir dominio imagem na api de detalhes
+//                atividade.setMinistrantes(atividadeObject.getJSONArray(TAG_MINISTRANTES), "");
 
                 return atividade;
 
@@ -304,7 +359,7 @@ public class Atividade {
             response = NetworkUtils.getResponseFromHttpUrl(url);
             if (response != null) {
                 Atividade atividade = detalheAtividadeParseJSON(response);
-//                DatabaseHandler.getDB().addAllAtividades(Atividade.AtividadeParseJSON(response));
+                DatabaseHandler.getDB().updateAtividade(atividade);
                 return atividade;
             }
         } catch (IOException e) {

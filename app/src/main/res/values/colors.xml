@@ -4,6 +4,7 @@
     <color name="colorPrimary">#FFF</color>
     <color name="colorPrimaryDark">#4ce400</color>
     <color name="colorAccent">#3f6db3</color>
+    <!--1b1c1d-->
 
     <color name="primaryText">#212121</color>
     <color name="secondaryText">#757575</color>
@@ -11,11 +12,26 @@
     <color name="white">#FFF</color>
 
     <color name="icons">#212121</color>
-    <color name="divider">#BDBDBD</color>
+    <color name="divider">#bdbdbd</color>
     <color name="colorBackSplash">#FFF</color>
     <color name="colorButton">#FFF</color>
 
     <color name="loadingColor_1">#ffcc00</color>
     <color name="loadingColor_2">#0c0</color>
     <color name="loadingColor_3">#00c</color>
+
+    <!--Cores das cotas de patrocínio-->
+    <color name="diamanteColor">#2185d0</color>
+    <color name="ouroColor">#fbbd08</color>
+    <color name="prataColor">#767676</color>
+    <color name="desafioColor">#e03997</color>
+    <color name="apoioColor">#1b1c1d</color>
+
+    <!--Cores dos tipos de atividade-->
+    <color name="palestraColor">#1a3f72</color>
+    <!--<color name="workshopColor">#000000</color>-->
+    <color name="minicursoColor">#5bb247</color>
+    <!--<color name="mesaredondaColor">#2185d0</color>-->
+
+
 </resources>

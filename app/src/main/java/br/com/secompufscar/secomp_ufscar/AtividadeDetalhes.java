@@ -1,6 +1,7 @@
 package br.com.secompufscar.secomp_ufscar;
 
 import android.graphics.Bitmap;
+import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -9,6 +10,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.Display;
 import android.view.MenuItem;
@@ -22,13 +24,13 @@ import android.widget.Toast;
 import br.com.secompufscar.secomp_ufscar.data.Atividade;
 import br.com.secompufscar.secomp_ufscar.data.DatabaseHandler;
 import br.com.secompufscar.secomp_ufscar.data.Pessoa;
-import br.com.secompufscar.secomp_ufscar.utilities.NetworkUtils;
 
 public class AtividadeDetalhes extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener {
     public static final String EXTRA_POSITION = "position";
-    TextView texto;
-    ImageView imageTeste;
+
+    TextView descricao, local, horarios, titulo;
+
     Atividade atividadeAtual;
 
     @Override
@@ -36,7 +38,6 @@ public class AtividadeDetalhes extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
 
         int id = getIntent().getIntExtra("id_atividade", 0);
-        Log.d("Teste-Extra", Integer.toString(id));
 
         atividadeAtual = DatabaseHandler.getDB().getDetalheAtividade(id);
 
@@ -69,25 +70,24 @@ public class AtividadeDetalhes extends AppCompatActivity implements
 //        collapsingToolbar.setExpandedTitleColor(getResources().getColor(R.color.white));
 
 
-        TextView titulo = (TextView) findViewById(R.id.atividade_detalhe_titulo);
+        titulo = (TextView) findViewById(R.id.atividade_detalhe_titulo);
         titulo.setText(atividadeAtual.getTitulo());
 
-        TextView local = (TextView) findViewById(R.id.atividade_detalhe_local);
-        local.setText(atividadeAtual.getLocal());
+        String local_atividade = atividadeAtual.getLocal() != null ? atividadeAtual.getLocal() : getResources().getString(R.string.atividade_indisponivel_local);
 
-        TextView descricao = (TextView) findViewById(R.id.atividade_detalhe_descricao);
+        local = (TextView) findViewById(R.id.atividade_detalhe_local);
+        local.setText(local_atividade);
+
+        horarios = (TextView) findViewById(R.id.atividade_detalhe_horarios);
+        horarios.setText(atividadeAtual.getHorarios());
+
+        descricao = (TextView) findViewById(R.id.atividade_detalhe_descricao);
         descricao.setText(atividadeAtual.getDescricao());
 
-        ImageView backgroundCollapsing = (ImageView) findViewById(R.id.image);
+        ImageView backgroundCollapsing = (ImageView) findViewById(R.id.imagem_tipo_atividade);
+
+        backgroundCollapsing.setColorFilter(atividadeAtual.getColor(getBaseContext()), PorterDuff.Mode.OVERLAY);
         backgroundCollapsing.setImageDrawable(getDrawable(R.drawable.fundo_triangulos_verde));
-
-//        ImageView foto1 = (ImageView) findViewById(R.id.imagem_teste_1);
-//        foto1.setImageBitmap(DatabaseHandler.getDB().getResumoPessoa(1).getFotoBitmap());
-//
-//        ImageView foto2 = (ImageView) findViewById(R.id.imagem_teste_2);
-//        foto2.setImageBitmap(DatabaseHandler.getDB().getResumoPessoa(1).getFotoBitmap());
-
-        Log.d("Teste detalhe", atividadeAtual.toString());
 
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.atividade_detalhe_fab);
 
@@ -100,23 +100,21 @@ public class AtividadeDetalhes extends AppCompatActivity implements
             public void onClick(View view) {
                 // Click action
                 if (atividadeAtual.isFavorito()) {
+
                     atividadeAtual.setFavorito(false);
-                    DatabaseHandler.getDB().updateAtividade(atividadeAtual);
+                    new salvaFavorito().execute();
                     fab.setImageResource(R.drawable.ic_atividade_favorito_borda);
-                    Toast.makeText(AtividadeDetalhes.this, R.string.msg_nao_favoritado, Toast.LENGTH_SHORT).show();
 
                 } else {
-                    atividadeAtual.setFavorito(true);
-                    DatabaseHandler.getDB().updateAtividade(atividadeAtual);
-                    fab.setImageResource(R.drawable.ic_menu_favorite);
-                    Toast.makeText(AtividadeDetalhes.this, R.string.msg_favoritado, Toast.LENGTH_SHORT).show();
-                }
 
-//                MinhasAtividades.updateAtividades();
+                    atividadeAtual.setFavorito(true);
+                    new salvaFavorito().execute();
+                    fab.setImageResource(R.drawable.ic_menu_favorite);
+                }
             }
         });
 
-        //new setFotoTask().execute("https://secompufscar.com.br/media/images/secompufscar2017/equipe/felipe_sampaio_de_souza.jpg");
+        new atualizaDetalhes().execute(id);
     }
 
     @Override
@@ -132,45 +130,47 @@ public class AtividadeDetalhes extends AppCompatActivity implements
 //        outState.putInt(STATE_COUNTER, mCounter);
     }
 
-//    @Override
-//    public void onConfigurationChanged(Configuration newConfig) {
-//        super.onConfigurationChanged(newConfig);
-//
-//        // Checks the orientation of the screen for landscape and portrait
-//        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//            setContentView(R.layout.activity_atividade_detalhes);
-//            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
-//        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
-//            setContentView(R.layout.activity_atividade_detalhes);
-//            Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
-//        }
-//
-//    }
-
-    // TODO: Retirar esse trecho de código, ele está aqui apenas para teste
-    private class setFotoTask extends AsyncTask<String, Void, Bitmap> {
+    private class atualizaDetalhes extends AsyncTask<Integer, Void, Atividade> {
         @Override
-        protected Bitmap doInBackground(String... params) {
-            Pessoa pessoa1 = new Pessoa();
-            Pessoa pessoa2 = new Pessoa();
-            pessoa1.setId(1);
-            pessoa1.setNome("Felipe");
-            try {
+        protected Atividade doInBackground(Integer... params) {
 
-                pessoa1.setFoto(NetworkUtils.getImageFromHttpUrl(params[0]));
-                DatabaseHandler.getDB().addPessoa(pessoa1);
-                pessoa2 = DatabaseHandler.getDB().getResumoPessoa(1);
-
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return pessoa2.getFotoBitmap();
+            return Atividade.getDetalheAtividadeFromHTTP(params[0]);
         }
 
         @Override
-        protected void onPostExecute(Bitmap result) {
-            //imageTeste.setImageBitmap(result);
+        protected void onPostExecute(Atividade atividadeAtualizada) {
+            if(atividadeAtualizada != null){
+                boolean favorito = atividadeAtual.isFavorito();
+
+                atividadeAtual = atividadeAtualizada;
+                atividadeAtual.setFavorito(favorito);
+
+                descricao.setText(Html.fromHtml(atividadeAtual.getDescricao()));
+                local.setText(atividadeAtual.getLocal());
+                horarios.setText(atividadeAtual.getHorarios());
+            }
+        }
+    }
+
+    private class salvaFavorito extends AsyncTask<Void, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(Void... params) {
+
+            return DatabaseHandler.getDB().updateFavorito(atividadeAtual);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean resultado) {
+            if(resultado){
+                if(atividadeAtual.isFavorito()){
+                    Toast.makeText(AtividadeDetalhes.this, R.string.msg_favoritado, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(AtividadeDetalhes.this, R.string.msg_nao_favoritado, Toast.LENGTH_SHORT).show();
+                }
+            }
+            else {
+                Toast.makeText(AtividadeDetalhes.this, R.string.msg_erro_favoritado, Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }

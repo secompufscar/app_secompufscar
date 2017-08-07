@@ -51,7 +51,9 @@ public class ListaAtividades extends Fragment {
 
     public void updateAtividades(){
         atividadeList.clear();
-        atividadeList.addAll(DatabaseHandler.getDB().getAtividadesByDay(offset));
+//        atividadeList.addAll(DatabaseHandler.getDB().getAtividadesByDay(offset));
+        atividadeList.addAll(DatabaseHandler.getDB().getAllAtividades());
+
         aAdapter.notifyDataSetChanged();
         Log.d("TESTE OFFSET", Integer.toString(offset));
     }
@@ -79,7 +81,7 @@ public class ListaAtividades extends Fragment {
             offset = getArguments().getInt(ARG_PARAM1);
         }
 
-        aAdapter = new AtividadesAdapter(atividadeList);
+        aAdapter = new AtividadesAdapter(getActivity(), atividadeList);
         updateAtividades();
     }
 

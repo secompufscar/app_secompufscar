@@ -1,5 +1,6 @@
 package br.com.secompufscar.secomp_ufscar.data;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
@@ -8,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -99,16 +101,24 @@ public class Pessoa {
         return this.foto;
     }
 
-    public Bitmap getFotoBitmap() {
+    public Bitmap getFotoBitmap(Context context) {
 
-        Bitmap image = BitmapFactory.decodeByteArray(this.foto, 0, this.foto.length);
+        Bitmap image;
+
+        if(this.foto != null){
+            image = BitmapFactory.decodeByteArray(this.foto, 0, this.foto.length);
+        }
+        else {
+            image = BitmapFactory.decodeResource(context.getResources(), R.drawable.pessoa_foto_default);
+        }
+
         //TODO: Verificar se o formato da imagem está correto;
         Bitmap imageRounded = Bitmap.createBitmap(image.getWidth(), image.getHeight(), image.getConfig());
         Canvas canvas = new Canvas(imageRounded);
         Paint paint = new Paint();
         paint.setAntiAlias(true);
         paint.setShader(new BitmapShader(image, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
-        canvas.drawRoundRect((new RectF(0, 0, image.getWidth(), image.getHeight())), 25, 25, paint);// Round Image Corner 100 100 100 100
+        canvas.drawRoundRect((new RectF(0, 0, image.getWidth(), image.getHeight())), image.getWidth()/2, image.getWidth()/2, paint);// Round Image Corner 100 100 100 100
 
         return imageRounded;
     }
@@ -207,7 +217,7 @@ public class Pessoa {
         }
     }
 
-    public static Pessoa resumoPessoaParseJSON(String json) {
+    public static Pessoa resumoPessoaParseJSON(String json, String root_foto) {
         try {
             JSONObject pessoaObject = new JSONObject(json);
 
@@ -219,12 +229,12 @@ public class Pessoa {
             pessoa.setProfissao(pessoaObject.getString(TAG_PROFISSAO));
             pessoa.setEmpresa(pessoaObject.getString(TAG_EMPRESA));
             try {
-                pessoa.setFoto(NetworkUtils.getImageFromHttpUrl(NetworkUtils.BASE_URL + pessoaObject.getString(TAG_FOTO)));
+                pessoa.setFoto(NetworkUtils.getImageFromHttpUrl(root_foto + pessoaObject.getString(TAG_FOTO)));
+                Log.d("TESTE resumoParser", Integer.toString(pessoa.getFoto().length));
 
             } catch (Exception IOException) {
                 pessoa.setFoto(null);
             }
-
             return pessoa;
         } catch (JSONException e) {
             e.printStackTrace();

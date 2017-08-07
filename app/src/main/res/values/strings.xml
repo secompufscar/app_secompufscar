@@ -14,8 +14,15 @@
     <!-- Detalhes de Atividade -->
     <string name="msg_favoritado">Atividade salva em Minhas Atividades</string>
     <string name="msg_nao_favoritado">Atividade excluída de Minhas Atividades</string>
+    <string name="msg_erro_favoritado">Não foi possível gravar a alteração</string>
+
+
     <string name="atividade_titulo_descricao">Descrição</string>
     <string name="atividade_titulo_ministrantes">Ministrantes</string>
+
+    <string name="atividade_indisponivel_local">Local indisponível</string>
+    <string name="atividade_indisponivel_descricao">Descrição indisponível no momento</string>
+
 
     <!-- Outros -->
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do

@@ -33,6 +33,12 @@ public class Patrocinador {
     public final static String TAG_ORDEM = "ordem";
     public final static String TAG_COTA = "cota";
 
+    public final static String COTA_DIAMANTE = "diamante";
+    public final static String COTA_OURO = "ouro";
+    public final static String COTA_PRATA = "prata";
+    public final static String COTA_DESAFIO = "desafio_de_programadores";
+    public final static String COTA_APOIO= "apoio";
+
     public final static String API_URL = "api/patrocinadores/";
 
     /**
@@ -143,7 +149,7 @@ public class Patrocinador {
                         patrocinador.setCota(cota);
 
                         try {
-                            patrocinador.setLogo(NetworkUtils.getImageFromHttpUrl("https://" + root_image + patrocinadorObject.getString(TAG_LOGO)));
+                            patrocinador.setLogo(NetworkUtils.getImageFromHttpUrl(root_image + patrocinadorObject.getString(TAG_LOGO)));
                         } catch (Exception IOException) {
                             patrocinador.setLogo(null);
                         }

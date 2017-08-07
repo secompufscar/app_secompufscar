@@ -85,6 +85,7 @@ public class NetworkUtils {
         } catch (Exception e) {
             Log.d("ImageManager", "Error: " + e.toString());
         }
+
         return null;
     }
 }

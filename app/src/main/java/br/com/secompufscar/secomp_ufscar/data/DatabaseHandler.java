@@ -3,12 +3,15 @@ package br.com.secompufscar.secomp_ufscar.data;
 import android.content.Context;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
@@ -120,37 +123,60 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(Atividade.TAG_HORARIOS, atividade.getHorariosString());
         values.put(Atividade.TAG_DATAHORA_INICIO, atividade.getDataHoraInicio());
 
+        return values;
+    }
+    // TODO: É necessário adicionar os ministrantes ainda
+
+    // Adicionar uma nova atividade
+    public void addAtividade(Atividade atividade) throws SQLiteException {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.insertOrThrow(TABLE_ATIVIDADE, null, getAtividadeRow(atividade));
+        db.close(); // Closing database connection
+
+        addMinistrantes(atividade);
+    }
+
+    // Adiciona várias atividades de uma única vez, se alguma atividade já existir ela é atualizada
+    public void addManyAtividades(List<Atividade> atividades) {
+        if (atividades != null) {
+
+            for (int i = 0; i < atividades.size(); i++) {
+                try {
+                    addAtividade(atividades.get(i));
+                } catch (SQLiteConstraintException e) {
+                    updateAtividade(atividades.get(i));
+                }
+            }
+        }
+    }
+
+    // Atualiza uma atividade
+    public boolean updateAtividade(Atividade atividade) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int linhasAfetadas = db.update(TABLE_ATIVIDADE, getAtividadeRow(atividade), Atividade.TAG_ID + " = ?",
+                new String[]{String.valueOf(atividade.getId())});
+        db.close();
+
+        return (linhasAfetadas > 0);
+    }
+
+    public boolean updateFavorito(Atividade atividade) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
         if (atividade.isFavorito()) {
             values.put(Atividade.TAG_FAVORITO, 1);
         } else {
             values.put(Atividade.TAG_FAVORITO, 0);
         }
 
-        return values;
-    }
-    // TODO: É necessário adicionar os ministrantes ainda
+        // atualiza o valor de favorito da atividade
+        int linhasAfetadas = db.update(TABLE_ATIVIDADE, values, Atividade.TAG_ID + " = ?",
+                new String[]{String.valueOf(atividade.getId())});
+        db.close();
 
-    // Adicionar uma nova atividade
-    public void addAtividade(Atividade atividade) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.insert(TABLE_ATIVIDADE, null, getAtividadeRow(atividade));
-        db.close(); // Closing database connection
-    }
-
-    // Adiciona várias atividades de uma única vez
-    public void addManyAtividades(List<Atividade> atividades) {
-        if (atividades != null) {
-            SQLiteDatabase db = this.getWritableDatabase();
-            for (int i = 0; i < atividades.size(); i++) {
-                try {
-                    db.insert(TABLE_ATIVIDADE, null, getAtividadeRow(atividades.get(i)));
-
-                } catch (Exception e) {
-                    updateAtividade(atividades.get(i));
-                }
-            }
-            db.close(); // Closing database connection
-        }
+        return linhasAfetadas>0;
     }
 
     // Recupera uma atividade pelo seu ID
@@ -225,7 +251,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                         Atividade.TAG_TITULO,
                         Atividade.TAG_LOCAL,
                         Atividade.TAG_HORARIOS,
-                        Atividade.TAG_TIPO}, null, null, null, null, null, null);
+                        Atividade.TAG_TIPO}, null, null, null, null, "date(" + Atividade.TAG_DATAHORA_INICIO + "), " + Atividade.TAG_TITULO + " ASC");
 
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
@@ -259,22 +285,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + Atividade.TAG_TIPO + ", "
                 + Atividade.TAG_DATAHORA_INICIO
                 + " FROM " + TABLE_ATIVIDADE
-                + " WHERE " + Atividade.TAG_DATAHORA_INICIO + " > ? AND " + Atividade.TAG_DATAHORA_INICIO + " < ?";
+                + " WHERE " + Atividade.TAG_DATAHORA_INICIO + " > ? AND " + Atividade.TAG_DATAHORA_INICIO + " < ?"
+                + " ORDER BY " + "date(" + Atividade.TAG_DATAHORA_INICIO + "), " + Atividade.TAG_TITULO + " ASC";
 
         List<Atividade> atividades = new ArrayList<>();
 
         SQLiteDatabase db = this.getWritableDatabase();
 
         Cursor cursor = db.rawQuery(query, new String[]{horarioInicial, horarioFinal});
-
-//        Cursor cursor = db.query(TABLE_ATIVIDADE,
-//                new String[]{Atividade.TAG_ID,
-//                        Atividade.TAG_TITULO,
-//                        Atividade.TAG_LOCAL,
-//                        Atividade.TAG_HORARIOS,
-//                        Atividade.TAG_TIPO,
-//                        Atividade.TAG_DATAHORA_INICIO}, Atividade.TAG_DATAHORA_INICIO + ">?",
-//                new String[]{"2017-09-17T00:00:00Z"}, null, null, null, null);
 
         if (cursor.moveToFirst()) {
             do {
@@ -308,7 +326,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                         Atividade.TAG_HORARIOS,
                         Atividade.TAG_TIPO,
                         Atividade.TAG_FAVORITO}, Atividade.TAG_FAVORITO + "=?",
-                new String[]{"1"}, null, null, null, null);
+                new String[]{"1"}, null, null, "date(" + Atividade.TAG_DATAHORA_INICIO + "), " + Atividade.TAG_TITULO + " ASC");
 
         if (cursor.moveToFirst()) {
             do {
@@ -329,33 +347,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         cursor.close();
         // retorna a lista de atividades
         return atividades;
-    }
-
-    // Atualiza uma atividade
-    public void updateAtividade(Atividade atividade) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        // atualiza a atividade no banco
-        db.update(TABLE_ATIVIDADE, getAtividadeRow(atividade), Atividade.TAG_ID + " = ?",
-                new String[]{String.valueOf(atividade.getId())});
-        db.close();
-    }
-
-    public void updateFavorito(Atividade atividade) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-
-        if (atividade.isFavorito()) {
-            values.put(Atividade.TAG_FAVORITO, 1);
-        } else {
-            values.put(Atividade.TAG_FAVORITO, 0);
-        }
-
-        // atualiza o valor de favorito da atividade
-        db.update(TABLE_ATIVIDADE, values, Atividade.TAG_ID + " = ?",
-                new String[]{String.valueOf(atividade.getId())});
-        db.close();
     }
 
     // Deleta uma Atividade
@@ -395,22 +386,35 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return values;
     }
 
-    public void addPessoa(Pessoa pessoa) {
+    public void addPessoa(Pessoa pessoa) throws SQLiteConstraintException {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.insert(TABLE_PESSOA, null, getPessoaRow(pessoa));
+        Log.d("TESTE addPessoa",pessoa.toString());
+        db.insertOrThrow(TABLE_PESSOA, null, getPessoaRow(pessoa));
         db.close(); // Closing database connection
     }
 
     // Adiciona vários patrocinadores de uma única vez
     public void addManyPessoas(List<Pessoa> pessoas) {
         if (pessoas != null) {
-            SQLiteDatabase db = this.getWritableDatabase();
-
             for (int i = 0; i < pessoas.size(); i++) {
-                db.insert(TABLE_PESSOA, null, getPessoaRow(pessoas.get(i)));
+                try {
+                    addPessoa(pessoas.get(i));
+                } catch (SQLiteConstraintException e){
+                    updatePessoa(pessoas.get(i));
+                }
             }
-            db.close(); // Closing database connection
         }
+    }
+
+    // Atualiza uma pessoa
+    public int updatePessoa(Pessoa pessoa) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        // atualiza a pessoa no banco
+        int linhasAfetadas = db.update(TABLE_PESSOA, getPessoaRow(pessoa), Pessoa.TAG_ID + " = ?",
+                new String[]{String.valueOf(pessoa.getId())});
+        db.close();
+
+        return linhasAfetadas;
     }
 
     public Pessoa getDetalhePessoa(int id) {
@@ -487,7 +491,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                         Pessoa.TAG_NOME,
                         Pessoa.TAG_SOBRENOME,
                         Pessoa.TAG_EMPRESA,
-                        Pessoa.TAG_FOTO}, null, null, null, null, null, null);
+                        Pessoa.TAG_FOTO}, null, null, null, null, Pessoa.TAG_NOME + " ASC");
 
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
@@ -500,6 +504,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 pessoa.setFoto(cursor.getBlob(4));
 
                 pessoas.add(pessoa);
+                Log.d("TESTE pessoa", pessoa.toString());
+//                Log.d("TESTE foto", Integer.toString(pessoa.getFoto().length));
             } while (cursor.moveToNext());
         }
 
@@ -509,15 +515,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return pessoas;
     }
 
-    // Atualiza uma pessoa
-    public void updatePessoa(Pessoa pessoa) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        // atualiza a pessoa no banco
-        db.update(TABLE_PESSOA, getPessoaRow(pessoa), Pessoa.TAG_ID + " = ?",
-                new String[]{String.valueOf(pessoa.getId())});
-        db.close();
-    }
 
     // Deleta uma pessoa
     public void deletePessoa(Pessoa pessoa) {
@@ -548,61 +545,108 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // Adiciona vários patrocinadores de uma única vez
     public void addManyPatrocinadores(List<Patrocinador> patrocinadores) {
         if (patrocinadores != null) {
+
             SQLiteDatabase db = this.getWritableDatabase();
 
             for (int i = 0; i < patrocinadores.size(); i++) {
 
                 try {
-                    db.insert(TABLE_PATROCINADOR, null, getPatrocinadorRow(patrocinadores.get(i)));
-
+                    db.insertOrThrow(TABLE_PATROCINADOR, null, getPatrocinadorRow(patrocinadores.get(i)));
                 } catch (Exception e) {
-                    Log.d("TESTE", e.toString());
-                    updatePatrocinador(patrocinadores.get(i));
+                    int linhasAfetadas = db.update(TABLE_PATROCINADOR, getPatrocinadorRow(patrocinadores.get(i)), Patrocinador.TAG_ID + " = ?",
+                            new String[]{String.valueOf(patrocinadores.get(i).getId())});
                 }
             }
+
             db.close(); // Closing database connection
         }
     }
 
-    public List<Patrocinador> getAllPatrocinadores() {
-        List<Patrocinador> patrocinadores = new ArrayList<>();
+    public HashMap<String, List<Patrocinador>> getPatrocinadoresByCota() {
+        HashMap<String, List<Patrocinador>> map = new HashMap<>();
+
+        // TODO: Arrumar isso, dessa forma fica estática (uma solução é criar uma tabela cotas)
+        String[] cotas = {Patrocinador.COTA_DIAMANTE, Patrocinador.COTA_OURO, Patrocinador.COTA_PRATA, Patrocinador.COTA_DESAFIO, Patrocinador.COTA_APOIO};
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-        Cursor cursor = db.query(TABLE_PATROCINADOR,
-                new String[]{Patrocinador.TAG_ID,
-                        Patrocinador.TAG_ORDEM,
-                        Patrocinador.TAG_NOME,
-                        Patrocinador.TAG_WEBSITE,
-                        Patrocinador.TAG_COTA,
-                        Patrocinador.TAG_LOGO}, null, null, null, null, null, null);
+        for (String cota : cotas) {
+            List<Patrocinador> patrocinadores = new ArrayList<>();
 
-        if (cursor.moveToFirst()) {
-            do {
-                Patrocinador patrocinador = new Patrocinador();
-                patrocinador.setId(cursor.getInt(0));
-                patrocinador.setOrdem(cursor.getInt(1));
-                patrocinador.setNome(cursor.getString(2));
-                patrocinador.setWebsite(cursor.getString(3));
-                patrocinador.setCota(cursor.getString(4));
-                patrocinador.setLogo(cursor.getBlob(5));
+            Cursor cursor = db.query(TABLE_PATROCINADOR,
+                    new String[]{Patrocinador.TAG_ID,
+                            Patrocinador.TAG_ORDEM,
+                            Patrocinador.TAG_NOME,
+                            Patrocinador.TAG_WEBSITE,
+                            Patrocinador.TAG_COTA,
+                            Patrocinador.TAG_LOGO},
+                    Patrocinador.TAG_COTA + "=?",
+                    new String[]{cota}, null, null, Patrocinador.TAG_ORDEM + " ASC");
 
-                patrocinadores.add(patrocinador);
-            } while (cursor.moveToNext());
+            if (cursor.moveToFirst()) {
+                do {
+                    Patrocinador patrocinador = new Patrocinador();
+                    patrocinador.setId(cursor.getInt(0));
+                    patrocinador.setOrdem(cursor.getInt(1));
+                    patrocinador.setNome(cursor.getString(2));
+                    patrocinador.setWebsite(cursor.getString(3));
+                    patrocinador.setCota(cursor.getString(4));
+                    patrocinador.setLogo(cursor.getBlob(5));
+
+                    patrocinadores.add(patrocinador);
+                } while (cursor.moveToNext());
+            }
+
+            map.put(cota, patrocinadores);
+
+            cursor.close();
         }
 
         db.close();
-        cursor.close();
 
-        return patrocinadores;
+        return map;
     }
 
     // Atualiza um patrocinador
-    public void updatePatrocinador(Patrocinador patrocinador) {
+
+    public int updatePatrocinador(Patrocinador patrocinador) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        db.update(TABLE_PATROCINADOR, getPatrocinadorRow(patrocinador), Patrocinador.TAG_ID + " = ?",
+        int linhasAfetadas = db.update(TABLE_PATROCINADOR, getPatrocinadorRow(patrocinador), Patrocinador.TAG_ID + " = ?",
                 new String[]{String.valueOf(patrocinador.getId())});
         db.close();
+
+        return linhasAfetadas;
+    }
+
+    /**
+     * Operações para a tabela Ministrante
+     **/
+
+    public void addMinistrantes(Atividade atividade) {
+        Log.d("TESTE addMinistrante", atividade.getMinistrantes().toString());
+        if (atividade.getMinistrantes() != null) {
+
+            List<Pessoa> pessoas = atividade.getMinistrantes();
+
+            addManyPessoas(pessoas);
+
+            ContentValues values = new ContentValues();
+            values.put("ID_ATIVIDADE", atividade.getId());
+
+            SQLiteDatabase db = this.getWritableDatabase();
+
+            for (int i = 0; i < pessoas.size(); i++) {
+                values.put("ID_PESSOA", pessoas.get(i).getId());
+
+                try {
+                    db.insertOrThrow(TABLE_MINISTRANTE, null, values);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            db.close(); // Closing database connection
+        }
     }
 }
