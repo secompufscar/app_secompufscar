@@ -32,10 +32,13 @@ public class MainActivity extends AppCompatActivity
         Patrocinadores.OnFragmentInteractionListener,
         Cronograma.OnFragmentInteractionListener,
         ListaAtividades.OnFragmentInteractionListener,
-        Pessoas.OnFragmentInteractionListener{
+        Pessoas.OnFragmentInteractionListener,
+        Sobre.OnFragmentInteractionListener{
+          
     private SharedPreferences mPrefs;
     private boolean notifications;
     private boolean internet;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -196,7 +199,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_patrocinadores) {
             fragment = new Patrocinadores();
         } else if (id == R.id.nav_sobre) {
-
+            fragment = new Sobre();
         } else if (id == R.id.nav_areaParticipante){
             Intent intent = new Intent(MainActivity.this, AreaDoParticipante.class);
             MainActivity.this.startActivity(intent);
