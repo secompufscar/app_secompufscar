@@ -1,12 +1,23 @@
 package br.com.secompufscar.secomp_ufscar;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import br.com.secompufscar.secomp_ufscar.data.DatabaseHandler;
+import br.com.secompufscar.secomp_ufscar.data.Pessoa;
+import br.com.secompufscar.secomp_ufscar.utilities.ClickListener;
+import br.com.secompufscar.secomp_ufscar.utilities.RecyclerTouchListener;
 
 
 /**
@@ -29,8 +40,25 @@ public class Pessoas extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    public static List<Pessoa> pessoaList = new ArrayList<>();
+
+    private RecyclerView recycler_pessoas;
+    private PessoasAdapter adapter;
+
     public Pessoas() {
         // Required empty public constructor
+    }
+
+    public void updatePessoas(){
+
+        try {
+            pessoaList.clear();
+            pessoaList.addAll(DatabaseHandler.getDB().getAllPessoas());
+            adapter.notifyDataSetChanged();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -58,14 +86,43 @@ public class Pessoas extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        adapter = new PessoasAdapter(getActivity(), pessoaList);
+        updatePessoas();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_pessoas, container, false);
-    }
+        View view = inflater.inflate(R.layout.fragment_pessoas, container, false);
+        recycler_pessoas = (RecyclerView) view.findViewById(R.id.recycler_pessoas);
+
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+        recycler_pessoas.setLayoutManager(mLayoutManager);
+
+        recycler_pessoas.setAdapter(adapter);
+
+        recycler_pessoas.addOnItemTouchListener(new RecyclerTouchListener(getActivity().getApplicationContext(), recycler_pessoas, new ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+
+//                Atividade atividade = atividadeList.get(position);
+//
+//                Context context = view.getContext();
+//                Intent detalhesAtividade = new Intent(context, AtividadeDetalhes.class);
+//                detalhesAtividade.putExtra("id_atividade", atividade.getId());
+//                context.startActivity(detalhesAtividade);
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
+
+        return view;    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

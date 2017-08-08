@@ -23,8 +23,10 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import java.io.IOException;
 import java.net.URL;
 
+import br.com.secompufscar.secomp_ufscar.data.Atividade;
 import br.com.secompufscar.secomp_ufscar.data.DatabaseHandler;
-import br.com.secompufscar.secomp_ufscar.utilities.NetworkUtils;
+import br.com.secompufscar.secomp_ufscar.data.Patrocinador;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity
         Cronograma.OnFragmentInteractionListener,
         ListaAtividades.OnFragmentInteractionListener,
         Pessoas.OnFragmentInteractionListener,
+        MinhasAtividades.OnFragmentInteractionListener,
         Sobre.OnFragmentInteractionListener{
           
     private SharedPreferences mPrefs;
@@ -193,6 +196,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_pessoas) {
             fragment = new Pessoas();
         } else if (id == R.id.nav_minhasAtividades) {
+            fragment = new MinhasAtividades();
 
         } else if (id == R.id.nav_map) {
 
@@ -223,19 +227,8 @@ public class MainActivity extends AppCompatActivity
     private class GetDataTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
-            URL url = NetworkUtils.buildUrl("app");
-            String response;
-
-            try {
-                response = NetworkUtils.getResponseFromHttpUrl(url);
-                if (response != null) {
-                    //TODO Corrigir isso, por algum motivo não está salvando no SQLite
-                    //DatabaseHandler.getDB().addAllAtividades(Atividade.AtividadeParseJSON(response));
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
+            Patrocinador.getPatrocinadoresFromHTTP();
+            Atividade.getAtividadesFromHTTP();
             return null;
         }
 

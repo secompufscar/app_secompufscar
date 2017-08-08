@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -43,6 +44,8 @@ public class Cronograma extends Fragment {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
+
+    private List<ListaAtividades> tabfragments;
 
     public Cronograma() {
         // Required empty public constructor
@@ -132,15 +135,42 @@ public class Cronograma extends Fragment {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
-        adapter.addFragment(new ListaAtividades(), "Seg");
-        adapter.addFragment(new ListaAtividades(), "Ter");
-        adapter.addFragment(new ListaAtividades(), "Qua");
-        adapter.addFragment(new ListaAtividades(), "Qui");
-        adapter.addFragment(new ListaAtividades(), "Sex");
+
+        ListaAtividades listaSeg = new ListaAtividades();
+        Bundle paramsSeg = new Bundle();
+        paramsSeg.putInt("offset", 0);
+        listaSeg.setArguments(paramsSeg);
+        adapter.addFragment(listaSeg, "Seg");
+
+        ListaAtividades listaTer = new ListaAtividades();
+        Bundle paramsTer= new Bundle();
+        paramsTer.putInt("offset", 1);
+        listaTer.setArguments(paramsTer);
+        adapter.addFragment(listaTer, "Ter");
+
+        ListaAtividades listaQua = new ListaAtividades();
+        Bundle paramsQua= new Bundle();
+        paramsQua.putInt("offset", 2);
+        listaQua.setArguments(paramsQua);
+        adapter.addFragment(listaQua, "Qua");
+
+        ListaAtividades listaQui = new ListaAtividades();
+        Bundle paramsQui= new Bundle();
+        paramsQui.putInt("offset", 3);
+        listaQui.setArguments(paramsQui);
+        adapter.addFragment(listaQui, "Qui");
+
+        ListaAtividades listaSex = new ListaAtividades();
+        Bundle paramsSex = new Bundle();
+        paramsSex.putInt("offset", 4);
+        listaSex.setArguments(paramsSex);
+        adapter.addFragment(listaSex, "Sex");
+
         viewPager.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
-    class ViewPagerAdapter extends FragmentStatePagerAdapter {
+    class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 

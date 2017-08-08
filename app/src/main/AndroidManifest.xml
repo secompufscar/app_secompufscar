@@ -19,13 +19,13 @@
         <activity
             android:name=".SplashScreen"
             android:theme="@style/SplashTheme">
-          
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-          
+
         </activity>
 
         <!-- Main Activity -->
@@ -43,9 +43,10 @@
         <!-- Tela de Detalhes de atividades -->
         <activity
             android:name=".AtividadeDetalhes"
-            android:label="Teste Detalhe"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme">
+            android:label="Detalhe Atividade"
+            android:theme="@style/AppTheme"
+            android:configChanges="orientation|keyboardHidden" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
@@ -61,13 +62,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity"/>
         </activity>
-        <activity android:name=".Settings"></activity>
-      <!--   Declaração de serviços     -->
+        <activity android:name=".Settings">
+
+        </activity>
+
+      <!-- Declaração de serviços -->
       <service android:name=".SECOMPFirebaseService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
+
         <service android:name=".FirebaseIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>

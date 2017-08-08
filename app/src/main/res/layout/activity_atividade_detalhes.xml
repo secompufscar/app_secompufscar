@@ -21,23 +21,96 @@
             android:fitsSystemWindows="true"
             android:theme="@style/AppTheme.AppBarOverlay"
             app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginEnd="@dimen/article_keylines"
+            app:expandedTitleMarginEnd="@dimen/md_keylines"
             app:expandedTitleMarginStart="@dimen/md_keylines"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <ImageView
-                android:id="@+id/image"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax"
-                tools:background="@drawable/image_test_detalhes" />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="HHHHHH"
-                android:textColor="@color/colorAccent"/>
+                app:layout_collapseMode="parallax">
+
+                <ImageView
+                    android:id="@+id/imagem_tipo_atividade"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    tools:background="@drawable/fundo_triangulos_branco" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="20dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/atividade_detalhe_titulo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="10dp"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:text="Nome da atividade"/>
+
+                    <LinearLayout
+                        android:id="@+id/atividade_detalhe_frame_local"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="10dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_local"
+                            android:tint="@color/white" />
+
+                        <TextView
+                            android:id="@+id/atividade_detalhe_local"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:text="Local"
+                            android:textAlignment="center"
+                            android:textColor="@color/white" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/atividade_detalhe_frame_horario"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center">
+
+                        <ImageView
+                            android:id="@+id/atividade_detalhe_horario_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_horario"
+                            android:tint="@color/white" />
+
+                        <TextView
+                            android:id="@+id/atividade_detalhe_horarios"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:text="Seg 16:30 - 17:30 | 19:00 - 19:30"
+                            android:textColor="@color/white" />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -58,38 +131,66 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/article_keylines"
+            android:paddingLeft="@dimen/md_keylines"
             android:paddingRight="@dimen/md_keylines"
             android:paddingTop="@dimen/md_keylines">
+
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/md_keylines"
-                android:text="Description"
+                android:text="@string/atividade_titulo_descricao"
                 android:textColor="?attr/colorAccent"
                 android:textSize="@dimen/article_titles" />
 
             <TextView
-                android:id="@+id/place_detail"
+                android:id="@+id/atividade_detalhe_descricao"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="@string/detail_desc" />
+                android:text="@string/lorem_ipsum" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/md_keylines"
                 android:layout_marginTop="@dimen/md_keylines"
-                android:text="Location"
+                android:text="@string/atividade_titulo_ministrantes"
                 android:textColor="?attr/colorAccent"
-                android:textSize="@dimen/article_titles"/>
+                android:textSize="@dimen/article_titles" />
 
-            <TextView
-                android:id="@+id/place_location"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="@string/detail_location" />
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true">
+
+                <ImageView
+                    android:id="@+id/imagem_teste_1"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="10dp" />
+
+                <ImageView
+                    android:id="@+id/imagem_teste_2"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="10dp" />
+
+            </LinearLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/atividade_detalhe_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:src="@drawable/ic_atividade_favorito_borda"
+        android:tint="@color/white"
+        app:fabSize="normal"
+        app:layout_anchor="@id/appbar"
+        app:layout_anchorGravity="bottom|right|end" />
 </android.support.design.widget.CoordinatorLayout>

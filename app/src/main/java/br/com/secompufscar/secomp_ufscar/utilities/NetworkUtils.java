@@ -5,26 +5,22 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
-import java.nio.ByteBuffer;
 import java.util.Scanner;
 
 
 public class NetworkUtils {
 
-    public final static String BASE_URL = "https://secompufscar.com.br/2016";
+    public final static String BASE_URL = "https://beta2.secompufscar.com.br/";
 
     public static URL buildUrl(String path) {
-        Uri builtUri = Uri.parse(BASE_URL).buildUpon()
-                .appendPath(path)
-                .build();
+
+        Uri builtUri = Uri.parse(BASE_URL + path).buildUpon().build();
 
         URL url = null;
 
@@ -61,15 +57,18 @@ public class NetworkUtils {
             } else {
                 return null;
             }
+        } catch (Exception e) {
+            Log.d("NetworkManager", "Error: " + e.toString());
+            return null;
         } finally {
             urlConnection.disconnect();
         }
     }
 
-    public static byte[] getImageFromHttpUrl(String url) throws IOException{
-
+    public static byte[] getImageFromHttpUrl(String url) throws IOException {
         try {
             URL imageUrl = new URL(url);
+            Log.d("URL", url);
 
             HttpURLConnection urlConnection = (HttpURLConnection) imageUrl.openConnection();
 
@@ -77,7 +76,8 @@ public class NetworkUtils {
             BufferedInputStream input = new BufferedInputStream(in);
             ByteArrayOutputStream output = new ByteArrayOutputStream();
 
-            int current = 0;
+            int current;
+
             while ((current = input.read()) != -1) {
                 output.write((byte) current);
             }
@@ -85,6 +85,7 @@ public class NetworkUtils {
         } catch (Exception e) {
             Log.d("ImageManager", "Error: " + e.toString());
         }
+
         return null;
     }
 }
