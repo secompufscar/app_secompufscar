@@ -4,7 +4,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Configurações</string>
 
     <string name="title_activity_atividade_detalhe">AtividadeDetalhes</string>
 
@@ -35,8 +35,6 @@
     <string name="internets">Deseja usar seus dados móveis para baixar o cronograma da SECOMP?</string>
     <string name="yesint">Sim, eu sei que são poucos dados</string>
     <string name="noint">Não, eu prefiro usar só WIFI</string>
-
-
     <string name="sobreSecomp">Sobre a SECOMP</string>
     <string name="sobreDC">Sobre o DC</string>
     <string name="sobreUFSCar">Sobre a UFSCar</string>
@@ -55,7 +53,7 @@
     <string name="infoUFSCar6">Há, no total, 24.825 alunos matriculados na Universidade: 12.338 de graduação presencial; 1.584 de educação a distância; 369 são alunos de mestrado profissional; 1.915 de mestrado acadêmico; 1.690 de doutorado; e 6.929 de especialização.</string>
     <string name="infoUFSCar7">Em 2014, a UFSCar obteve a 18ª colocação entre as 300 universidades da América Latina incluídas no ranking elaborado pela Quacquarelli Symonds (QS). A instituição obteve 82 pontos na avaliação geral e é, portanto, considerada a 10ª melhor instituição brasileira.</string>
     <string name="infoUFSCar8">Texto obtido da página institucional da UFSCar, disponível em www.ufscar.br.</string>
+    <string name="config">Configurações</string>
 
-    <string name="verifique">Verifique sua conexão com a internet.</string>
 
 </resources>
