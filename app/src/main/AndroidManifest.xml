@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!--Declaração das atividades-->
+        <!-- Declaração das atividades -->
 
 
         <!-- Splash Screen -->
@@ -44,7 +44,7 @@
         <activity
             android:name=".AtividadeDetalhes"
             android:parentActivityName=".MainActivity"
-            android:label="Teste Detalhe"
+            android:label="Detalhe Atividade"
             android:theme="@style/AppTheme"
             android:configChanges="orientation|keyboardHidden" >
             <meta-data
@@ -61,6 +61,9 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity"/>
+        </activity>
+        <activity android:name=".Settings">
+
         </activity>
 
       <!-- Declaração de serviços -->

@@ -43,6 +43,17 @@
     <string name="noconnection">Sem conexão com a internet</string>
     <string name="verifique">Verifique sua conexão com a internet.</string>
 
+    <string name="verifique">Verifique sua conexão com a internet.</string>
+    <string name="receber_notifica_es_sobre_os_eventos_durante_a_secomp">Receber notificações sobre os eventos durante a SECOMP</string>
+    <string name="baixar_atualiza_es_da_secomp_via_3g">Baixar atualizações da SECOMP via 3G</string>
+    <string name="nott">Você deseja receber notificações dos eventos durante a SECOMP 2017?</string>
+    <string name="no">Não, prefiro me manter desatualizado</string>
+    <string name="yes">Sim, sou informado!</string>
+    <string name="internets">Deseja usar seus dados móveis para baixar o cronograma da SECOMP?</string>
+    <string name="yesint">Sim, eu sei que são poucos dados</string>
+    <string name="noint">Não, eu prefiro usar só WIFI</string>
+
+
     <!-- Sobre -->
     <string name="sobreSecomp">Sobre a SECOMP</string>
     <string name="sobreDC">Sobre o DC</string>
@@ -62,7 +73,5 @@
     <string name="infoUFSCar6">Há, no total, 24.825 alunos matriculados na Universidade: 12.338 de graduação presencial; 1.584 de educação a distância; 369 são alunos de mestrado profissional; 1.915 de mestrado acadêmico; 1.690 de doutorado; e 6.929 de especialização.</string>
     <string name="infoUFSCar7">Em 2014, a UFSCar obteve a 18ª colocação entre as 300 universidades da América Latina incluídas no ranking elaborado pela Quacquarelli Symonds (QS). A instituição obteve 82 pontos na avaliação geral e é, portanto, considerada a 10ª melhor instituição brasileira.</string>
     <string name="infoUFSCar8">Texto obtido da página institucional da UFSCar, disponível em www.ufscar.br.</string>
-
-    <string name="verifique">Verifique sua conexão com a internet.</string>
 
 </resources>
