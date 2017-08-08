@@ -61,7 +61,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity"/>
         </activity>
-      
+        <activity android:name=".Settings"></activity>
       <!--   Declaração de serviços     -->
       <service android:name=".SECOMPFirebaseService">
             <intent-filter>
