@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import org.joda.time.DateTime;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,9 +20,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     private static DatabaseHandler db;
 
-    // TODO: Devemos consertar essa gambiarra
-    private static final String inicioSecompAnoMes = "2017-09";
-    private static final int inicioSecompDia = 18;
+    private static final DateTime inicioSecomp = new DateTime("2017-09-18");
 
     // Database Version
     private static final int DATABASE_VERSION = 1;
@@ -125,7 +125,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         return values;
     }
-    // TODO: É necessário adicionar os ministrantes ainda
+    // TODO: É necessário verificar os ministrantes ainda
 
     // Adicionar uma nova atividade
     public void addAtividade(Atividade atividade) throws SQLiteException {
@@ -274,25 +274,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     public List<Atividade> getAtividadesByDay(int offset) {
-        // TODO: Consertar essa gambiarra rs
-        String horarioInicial = inicioSecompAnoMes + "-" + Integer.toString(inicioSecompDia + offset) + "T00:00:00Z";
-        String horarioFinal = inicioSecompAnoMes + "-" + Integer.toString(inicioSecompDia + offset + 1) + "T00:00:00Z";
 
-        String query = "SELECT " + Atividade.TAG_ID + ", "
-                + Atividade.TAG_TITULO + ", "
-                + Atividade.TAG_LOCAL + ", "
-                + Atividade.TAG_HORARIOS + ", "
-                + Atividade.TAG_TIPO + ", "
-                + Atividade.TAG_DATAHORA_INICIO
-                + " FROM " + TABLE_ATIVIDADE
-                + " WHERE " + Atividade.TAG_DATAHORA_INICIO + " > ? AND " + Atividade.TAG_DATAHORA_INICIO + " < ?"
-                + " ORDER BY " + "date(" + Atividade.TAG_DATAHORA_INICIO + "), " + Atividade.TAG_TITULO + " ASC";
+        DateTime dia_offset = inicioSecomp.plusDays(offset);
 
         List<Atividade> atividades = new ArrayList<>();
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-        Cursor cursor = db.rawQuery(query, new String[]{horarioInicial, horarioFinal});
+        Cursor cursor = db.query(TABLE_ATIVIDADE,
+                new String[]{Atividade.TAG_ID,
+                        Atividade.TAG_TITULO,
+                        Atividade.TAG_LOCAL,
+                        Atividade.TAG_HORARIOS,
+                        Atividade.TAG_TIPO,
+                        Atividade.TAG_DATAHORA_INICIO}, "date(" + Atividade.TAG_DATAHORA_INICIO + ") = date(?)",
+                new String[]{dia_offset.toString()}, null, null, "datetime(" + Atividade.TAG_DATAHORA_INICIO + "), " + Atividade.TAG_TITULO + " ASC");
 
         if (cursor.moveToFirst()) {
             do {
@@ -308,8 +304,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
-        db.close();
         cursor.close();
+        db.close();
 
         return atividades;
     }
@@ -326,7 +322,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                         Atividade.TAG_HORARIOS,
                         Atividade.TAG_TIPO,
                         Atividade.TAG_FAVORITO}, Atividade.TAG_FAVORITO + "=?",
-                new String[]{"1"}, null, null, "date(" + Atividade.TAG_DATAHORA_INICIO + "), " + Atividade.TAG_TITULO + " ASC");
+                new String[]{"1"}, null, null, "datetime(" + Atividade.TAG_DATAHORA_INICIO + "), " + Atividade.TAG_TITULO + " ASC");
 
         if (cursor.moveToFirst()) {
             do {
@@ -388,7 +384,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public void addPessoa(Pessoa pessoa) throws SQLiteConstraintException {
         SQLiteDatabase db = this.getWritableDatabase();
-        Log.d("TESTE addPessoa",pessoa.toString());
         db.insertOrThrow(TABLE_PESSOA, null, getPessoaRow(pessoa));
         db.close(); // Closing database connection
     }
@@ -504,8 +499,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 pessoa.setFoto(cursor.getBlob(4));
 
                 pessoas.add(pessoa);
-                Log.d("TESTE pessoa", pessoa.toString());
-//                Log.d("TESTE foto", Integer.toString(pessoa.getFoto().length));
             } while (cursor.moveToNext());
         }
 

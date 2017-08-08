@@ -1,6 +1,5 @@
 package br.com.secompufscar.secomp_ufscar;
 
-import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -11,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
-import android.util.Log;
 import android.view.Display;
 import android.view.MenuItem;
 import android.view.Surface;
@@ -23,7 +21,6 @@ import android.widget.Toast;
 
 import br.com.secompufscar.secomp_ufscar.data.Atividade;
 import br.com.secompufscar.secomp_ufscar.data.DatabaseHandler;
-import br.com.secompufscar.secomp_ufscar.data.Pessoa;
 
 public class AtividadeDetalhes extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener {
@@ -82,7 +79,9 @@ public class AtividadeDetalhes extends AppCompatActivity implements
         horarios.setText(atividadeAtual.getHorarios());
 
         descricao = (TextView) findViewById(R.id.atividade_detalhe_descricao);
-        descricao.setText(atividadeAtual.getDescricao());
+        String descricao_atividade = atividadeAtual.getDescricao() != null ? atividadeAtual.getDescricao() : getResources().getString(R.string.atividade_indisponivel_descricao);
+
+        descricao.setText(Html.fromHtml(descricao_atividade));
 
         ImageView backgroundCollapsing = (ImageView) findViewById(R.id.imagem_tipo_atividade);
 

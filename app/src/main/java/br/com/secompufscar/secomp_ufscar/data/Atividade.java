@@ -144,6 +144,7 @@ public class Atividade {
             try {
                 JSONArray horariosArray = new JSONArray(this.horarios);
                 JSONObject horarioObject = horariosArray.getJSONObject(0);
+
                 this.dataHora_inicio = horarioObject.getString(TAG_DATAHORA_INICIO);
 
             } catch (JSONException e) {
@@ -200,12 +201,14 @@ public class Atividade {
     }
 
     public String getDataHoraInicio() {
+        return this.dataHora_inicio;
+    }
 
+    public String getHorarioInicial(){
         Horario horario_inicio = new Horario();
         horario_inicio.setDataHora_inicio(this.dataHora_inicio);
 
         return horario_inicio.dateInCurrentTimeZone(horario_inicio.dataHora_inicio, "HH:mm");
-
     }
 
     public String getHorarios() {

@@ -48,17 +48,21 @@ public class AtividadesAdapter extends RecyclerView.Adapter<AtividadesAdapter.My
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Atividade atividade = atividadeList.get(position);
-        holder.nome.setText(atividade.getTitulo());
+        try {
+            Atividade atividade = atividadeList.get(position);
+            holder.nome.setText(atividade.getTitulo());
 
-        String local_atividade = atividade.getLocal() != null ? atividade.getLocal() : context.getResources().getString(R.string.atividade_indisponivel_local);
+            String local_atividade = atividade.getLocal() != null ? atividade.getLocal() : context.getResources().getString(R.string.atividade_indisponivel_local);
 
-        holder.local.setText(local_atividade);
+            holder.local.setText(local_atividade);
 
-        holder.tipo.setText(atividade.getTipo());
-        holder.horario.setText(atividade.getDataHoraInicio());
+            holder.tipo.setText(atividade.getTipo());
+            holder.horario.setText(atividade.getHorarioInicial());
 
-        holder.layout_tipo.setBackgroundColor(atividade.getColor(context));
+            holder.layout_tipo.setBackgroundColor(atividade.getColor(context));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 

@@ -3,11 +3,13 @@ package br.com.secompufscar.secomp_ufscar;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,19 +45,10 @@ public class ListaAtividades extends Fragment {
 
     public static List<Atividade> atividadeList = new ArrayList<>();
     private RecyclerView recycler_atividades;
-    private AtividadesAdapter aAdapter;
+    private AtividadesAdapter adapter;
 
     public ListaAtividades() {
         // Required empty public constructor
-    }
-
-    public void updateAtividades(){
-        atividadeList.clear();
-//        atividadeList.addAll(DatabaseHandler.getDB().getAtividadesByDay(offset));
-        atividadeList.addAll(DatabaseHandler.getDB().getAllAtividades());
-
-        aAdapter.notifyDataSetChanged();
-        Log.d("TESTE OFFSET", Integer.toString(offset));
     }
 
     /**
@@ -81,8 +74,8 @@ public class ListaAtividades extends Fragment {
             offset = getArguments().getInt(ARG_PARAM1);
         }
 
-        aAdapter = new AtividadesAdapter(getActivity(), atividadeList);
-        updateAtividades();
+        adapter = new AtividadesAdapter(getActivity(), atividadeList);
+        new UpdateAtividades().execute();
     }
 
     @Override
@@ -91,12 +84,9 @@ public class ListaAtividades extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_lista_atividades, container, false);
         recycler_atividades = (RecyclerView) view.findViewById(R.id.recycler_atividades);
-        recycler_atividades.setAdapter(aAdapter);
+        recycler_atividades.setAdapter(adapter);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recycler_atividades.setLayoutManager(mLayoutManager);
-
-        //TODO: Arrumar o problema que está dando aqui
-        recycler_atividades.setItemAnimator(new DefaultItemAnimator());
 
         recycler_atividades.addOnItemTouchListener(new RecyclerTouchListener(getActivity().getApplicationContext(), recycler_atividades, new ClickListener() {
             @Override
@@ -128,7 +118,7 @@ public class ListaAtividades extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        updateAtividades();
+        new UpdateAtividades().execute();
     }
 
     @Override
@@ -161,6 +151,27 @@ public class ListaAtividades extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    private class UpdateAtividades extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            try {
+                atividadeList.clear();
+                atividadeList.addAll(DatabaseHandler.getDB().getAtividadesByDay(offset));
+
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void param) {
+            adapter.notifyDataSetChanged();
+        }
     }
 
 }
