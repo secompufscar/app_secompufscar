@@ -25,7 +25,26 @@
     <string name="now">#NOW</string>
     <string name="hapnow">Happening Now</string>
     <string name="noconnection">Sem conexão com a internet</string>
-    <string name="verifique">Verifique sua conexão com a internet.</string>
 
+    <string name="sobreSecomp">Sobre a SECOMP</string>
+    <string name="sobreDC">Sobre o DC</string>
+    <string name="sobreUFSCar">Sobre a UFSCar</string>
+    <string name="infoSecomp">A Semana Acadêmica da Computação da Universidade Federal de São Carlos surgiu da necessidade de se trazer assuntos que fossem de interesse tanto da comunidade acadêmica quanto de entusiastas. Nela, pessoas de diferentes áreas são convidadas a apresentar, discutir e debater experiências e novidades que trarão informação, conhecimento e inovação aos participantes.</string>
+    <string name="infoSecomp2">Desde a sua primeira edição, a SECOMP trabalha para que os assuntos sejam os mais atuais possíveis e que sejam transmitidos da maneira mais dinâmica tentando aproximar o participante de áreas que vão da academia até o mercado de trabalho através de minicursos, workshops, palestras técnicas, empresariais, mesas redondas, feira de recrutamento e muitos outros conteúdos que foram pensados ao longo do tempo em busca de um evento cada vez melhor.</string>
+    <string name="infoSecomp3">Em prol disso, os estudos são constantes para que o modelo de evento sempre melhore e se torne referência, trazendo cada vez mais experiências únicas a quem nos acompanha e encurtando as relações para que todos os segmentos de público sejam beneficiados.</string>
+    <string name="infoSecomp4">Convidamos vocês a acompanhar nosso crescimento e inclusive a nos sugerir melhorias, por entendermos que você, participante, é a peça fundamental para a nossa evolução!</string>
+    <string name="infoDC">O Departamento de Computação existe desde 1972, sendo responsável por habilitar e colocar com excelência anualmente no mercado de trabalho cerca de uma centena de profissionais, que atuam em empresas e em Instituições de Ensino Superior.</string>
+    <string name="infoDC2">Atento à constante evolução na área de computação, o DC-UFSCar tem atuado na vanguarda do desenvolvimento tecnológico, firmando-se no cenário nacional e internacional como um centro de pesquisa bastante atuante.</string>
+    <string name="infoDC3">Texto obtido da página institucional do Departamento de Computação da UFSCar, disponível em www.dc.ufscar.br.</string>
+    <string name="infoUFSCar">DEUSDOCEU</string>
+    <string name="infoUFSCar2">A Universidade possui quatro campi, sendo que o principal fica em São Carlos, município localizado a 235 km da capital do Estado, e tem 645 hectares de extensão, sendo 196 mil m² de área construída.</string>
+    <string name="infoUFSCar3">O campus São Carlos possui 300 laboratórios, uma biblioteca, um ambulatório, dois teatros, nove anfiteatros, 12 auditórios, um ginásio, um parque esportivo, sete quadras, duas piscinas, um restaurante universitário, quatro lanchonetes, 124 salas de aula e 672 vagas internas e externas de moradia estudantil.</string>
+    <string name="infoUFSCar4">Os 48 departamentos acadêmicos da Universidade estão divididos em oito centros: Ciências Agrárias, Ciências Biológicas e da Saúde, Ciências em Gestão e Tecnologia, Ciências e Tecnologias para a Sustentabilidade, Ciências Exatas e de Tecnologia, Ciências Humanas e Biológicas, Educação e Ciências Humanas e Ciências da Natureza.</string>
+    <string name="infoUFSCar5">A UFSCar oferece 62 cursos e um total de 2.757 vagas na graduação presencial. Além disso, conta com 47 programas de pós-graduação, oito cursos de mestrado profissional, 41 de mestrado acadêmico, 27 de doutorado e 95 cursos de especialização. No escopo da extensão, a UFSCar oferece 1355 atividades de extensão e 311 programas. Oferece, também, 94 Atividades Curriculares de Integração (Aciepes).</string>
+    <string name="infoUFSCar6">Há, no total, 24.825 alunos matriculados na Universidade: 12.338 de graduação presencial; 1.584 de educação a distância; 369 são alunos de mestrado profissional; 1.915 de mestrado acadêmico; 1.690 de doutorado; e 6.929 de especialização.</string>
+    <string name="infoUFSCar7">Em 2014, a UFSCar obteve a 18ª colocação entre as 300 universidades da América Latina incluídas no ranking elaborado pela Quacquarelli Symonds (QS). A instituição obteve 82 pontos na avaliação geral e é, portanto, considerada a 10ª melhor instituição brasileira.</string>
+    <string name="infoUFSCar8">Texto obtido da página institucional da UFSCar, disponível em www.ufscar.br.</string>
+
+    <string name="verifique">Verifique sua conexão com a internet.</string>
 
 </resources>
