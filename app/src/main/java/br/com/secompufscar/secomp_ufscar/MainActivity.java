@@ -20,23 +20,15 @@ import android.view.MenuItem;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import java.io.IOException;
-import java.net.URL;
-
 import br.com.secompufscar.secomp_ufscar.data.Atividade;
 import br.com.secompufscar.secomp_ufscar.data.DatabaseHandler;
 import br.com.secompufscar.secomp_ufscar.data.Patrocinador;
+import br.com.secompufscar.secomp_ufscar.listaAtividades.ListaAtividades;
 
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        Home.OnFragmentInteractionListener,
-        Patrocinadores.OnFragmentInteractionListener,
-        Cronograma.OnFragmentInteractionListener,
-        ListaAtividades.OnFragmentInteractionListener,
-        Pessoas.OnFragmentInteractionListener,
-        MinhasAtividades.OnFragmentInteractionListener,
-        Sobre.OnFragmentInteractionListener{
+        Home.OnFragmentInteractionListener{
           
     private SharedPreferences mPrefs;
     private boolean notifications;
@@ -214,12 +206,12 @@ public class MainActivity extends AppCompatActivity
         }
 
         if (fragment != null) {
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
+
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
         }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
 
         return true;
     }
@@ -234,7 +226,7 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected void onPostExecute(Void s) {
-//            textForTest.setText(s);
+
         }
     }
 }

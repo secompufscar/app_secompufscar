@@ -24,7 +24,8 @@ import br.com.secompufscar.secomp_ufscar.data.DatabaseHandler;
 
 public class AtividadeDetalhes extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener {
-    public static final String EXTRA_POSITION = "position";
+
+    public static final String EXTRA = "id_atividade";
 
     TextView descricao, local, horarios, titulo;
 
@@ -34,7 +35,7 @@ public class AtividadeDetalhes extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        int id = getIntent().getIntExtra("id_atividade", 0);
+        int id = getIntent().getIntExtra(EXTRA, 0);
 
         atividadeAtual = DatabaseHandler.getDB().getDetalheAtividade(id);
 
@@ -85,8 +86,8 @@ public class AtividadeDetalhes extends AppCompatActivity implements
 
         ImageView backgroundCollapsing = (ImageView) findViewById(R.id.imagem_tipo_atividade);
 
-        backgroundCollapsing.setColorFilter(atividadeAtual.getColor(getBaseContext()), PorterDuff.Mode.OVERLAY);
-        backgroundCollapsing.setImageDrawable(getDrawable(R.drawable.fundo_triangulos_verde));
+        backgroundCollapsing.setColorFilter(atividadeAtual.getColor(getBaseContext()), PorterDuff.Mode.MULTIPLY);
+        backgroundCollapsing.setImageDrawable(getDrawable(R.drawable.fundo_triangulos_branco));
 
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.atividade_detalhe_fab);
 
@@ -113,7 +114,7 @@ public class AtividadeDetalhes extends AppCompatActivity implements
             }
         });
 
-        new atualizaDetalhes().execute(id);
+        new UpdateDetalhes().execute(id);
     }
 
     @Override
@@ -129,7 +130,7 @@ public class AtividadeDetalhes extends AppCompatActivity implements
 //        outState.putInt(STATE_COUNTER, mCounter);
     }
 
-    private class atualizaDetalhes extends AsyncTask<Integer, Void, Atividade> {
+    private class UpdateDetalhes extends AsyncTask<Integer, Void, Atividade> {
         @Override
         protected Atividade doInBackground(Integer... params) {
 
@@ -138,6 +139,9 @@ public class AtividadeDetalhes extends AppCompatActivity implements
 
         @Override
         protected void onPostExecute(Atividade atividadeAtualizada) {
+
+            DatabaseHandler.getDB().getMinistrantes(atividadeAtual);
+
             if(atividadeAtualizada != null){
                 boolean favorito = atividadeAtual.isFavorito();
 

@@ -176,7 +176,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 new String[]{String.valueOf(atividade.getId())});
         db.close();
 
-        return linhasAfetadas>0;
+        return (linhasAfetadas > 0);
     }
 
     // Recupera uma atividade pelo seu ID
@@ -394,7 +394,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             for (int i = 0; i < pessoas.size(); i++) {
                 try {
                     addPessoa(pessoas.get(i));
-                } catch (SQLiteConstraintException e){
+                } catch (SQLiteConstraintException e) {
                     updatePessoa(pessoas.get(i));
                 }
             }
@@ -618,6 +618,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public void addMinistrantes(Atividade atividade) {
         Log.d("TESTE addMinistrante", atividade.getMinistrantes().toString());
+
         if (atividade.getMinistrantes() != null) {
 
             List<Pessoa> pessoas = atividade.getMinistrantes();
@@ -641,5 +642,36 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
             db.close(); // Closing database connection
         }
+    }
+
+    public List<Pessoa> getMinistrantes(Atividade atividade) {
+
+
+        List<Pessoa> pessoas = new ArrayList<>();
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.query(TABLE_MINISTRANTE,
+                new String[]{"ID_ATIVIDADE",
+                        "ID_PESSOA"},
+               "ID_ATIVIDADE=?",
+                new String[]{Integer.toString(atividade.getId())}, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Log.d("TESTE ministrantes", cursor.getString(1));
+//                Patrocinador patrocinador = new Patrocinador();
+//                patrocinador.setId(cursor.getInt(0));
+//                patrocinador.setOrdem(cursor.getInt(1));
+
+            } while (cursor.moveToNext());
+        }
+
+
+
+        cursor.close();
+        db.close();
+
+        return pessoas;
     }
 }

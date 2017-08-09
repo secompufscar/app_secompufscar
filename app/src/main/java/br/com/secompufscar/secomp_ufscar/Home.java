@@ -197,11 +197,6 @@ public class Home extends Fragment {
         ArrayList<String> tweets = new ArrayList<>();
 
         @Override
-        protected void onPreExecute() {
-
-        }
-
-        @Override
         protected String doInBackground(String... params) {
             try {
                 //Configuração na API do twitter
@@ -295,7 +290,6 @@ public class Home extends Fragment {
                 //Se estiver cancela ele, pois nossa tarefa já foi executada
                 swipeLayout.setRefreshing(false);
             }
-
         }
     }
 }
