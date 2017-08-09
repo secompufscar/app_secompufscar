@@ -50,8 +50,6 @@
     <string name="internets">Deseja usar seus dados móveis para baixar o cronograma da SECOMP?</string>
     <string name="yesint">Sim, eu sei que são poucos dados</string>
     <string name="noint">Não, eu prefiro usar só WIFI</string>
-
-
     <!-- Sobre -->
     <string name="sobreSecomp">Sobre a SECOMP</string>
     <string name="sobreDC">Sobre o DC</string>

@@ -62,8 +62,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity"/>
         </activity>
-        <activity android:name=".Settings">
-
+        <activity android:name=".Settings"></activity>
+        <activity android:name=".Social">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
 
       <!-- Declaração de serviços -->

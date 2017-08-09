@@ -20,9 +20,6 @@ import android.view.MenuItem;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import java.io.IOException;
-import java.net.URL;
-
 import br.com.secompufscar.secomp_ufscar.data.Atividade;
 import br.com.secompufscar.secomp_ufscar.data.DatabaseHandler;
 import br.com.secompufscar.secomp_ufscar.data.Patrocinador;
@@ -192,7 +189,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_cronograma) {
             fragment = new Cronograma();
         } else if (id == R.id.nav_feed) {
-
+            Intent intent = new Intent(MainActivity.this, Social.class);
+            startActivity(intent);
         } else if (id == R.id.nav_pessoas) {
             fragment = new Pessoas();
         } else if (id == R.id.nav_minhasAtividades) {
@@ -206,7 +204,7 @@ public class MainActivity extends AppCompatActivity
             fragment = new Sobre();
         } else if (id == R.id.nav_areaParticipante){
             Intent intent = new Intent(MainActivity.this, AreaDoParticipante.class);
-            MainActivity.this.startActivity(intent);
+            startActivity(intent);
         }
         else if (id == R.id.nav_settings){
             Intent intent = new Intent(MainActivity.this, Settings.class);
