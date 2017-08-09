@@ -1,4 +1,4 @@
-package br.com.secompufscar.secomp_ufscar;
+package br.com.secompufscar.secomp_ufscar.listaAtividades;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,40 +14,56 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.secompufscar.secomp_ufscar.AtividadeDetalhes;
+import br.com.secompufscar.secomp_ufscar.AtividadesAdapter;
+import br.com.secompufscar.secomp_ufscar.R;
 import br.com.secompufscar.secomp_ufscar.data.Atividade;
 import br.com.secompufscar.secomp_ufscar.data.DatabaseHandler;
 import br.com.secompufscar.secomp_ufscar.utilities.ClickListener;
 import br.com.secompufscar.secomp_ufscar.utilities.RecyclerTouchListener;
 
 
-public class MinhasAtividades extends Fragment {
-    
+public class ListaTerca extends Fragment {
+    private static final String ARG_PARAM1 = "offset";
+
+    private int offset;
+
+
     public static List<Atividade> atividadeList = new ArrayList<>();
     private RecyclerView recycler_atividades;
     private AtividadesAdapter adapter;
 
-    public MinhasAtividades() {
+    public ListaTerca() {
         // Required empty public constructor
+    }
+
+    public static ListaTerca newInstance(String param1) {
+        ListaTerca fragment = new ListaTerca();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        adapter = new AtividadesAdapter(getActivity(), atividadeList);
+        if (getArguments() != null) {
+            offset = getArguments().getInt(ARG_PARAM1);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_lista_atividades, container, false);
         recycler_atividades = (RecyclerView) view.findViewById(R.id.recycler_atividades);
 
-
+        adapter = new AtividadesAdapter(getActivity(), atividadeList);
+        recycler_atividades.setAdapter(adapter);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recycler_atividades.setLayoutManager(mLayoutManager);
-
-        recycler_atividades.setAdapter(adapter);
 
         recycler_atividades.addOnItemTouchListener(new RecyclerTouchListener(getActivity().getApplicationContext(), recycler_atividades, new ClickListener() {
             @Override
@@ -77,14 +93,12 @@ public class MinhasAtividades extends Fragment {
         new UpdateAtividades().execute();
     }
 
-
-
     private class UpdateAtividades extends AsyncTask<Void, Void, List<Atividade>> {
         @Override
         protected List<Atividade> doInBackground(Void... params) {
             try {
-                return DatabaseHandler.getDB().getAllFavoritos();
-            } catch (Exception e) {
+                return DatabaseHandler.getDB().getAtividadesByDay(offset);
+            } catch (Exception e){
                 e.printStackTrace();
             }
             return null;
@@ -97,4 +111,5 @@ public class MinhasAtividades extends Fragment {
             adapter.notifyDataSetChanged();
         }
     }
+
 }
