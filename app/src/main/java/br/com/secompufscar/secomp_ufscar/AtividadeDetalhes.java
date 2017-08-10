@@ -1,5 +1,7 @@
 package br.com.secompufscar.secomp_ufscar;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -8,6 +10,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.Display;
@@ -19,17 +23,29 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import br.com.secompufscar.secomp_ufscar.data.Atividade;
 import br.com.secompufscar.secomp_ufscar.data.DatabaseHandler;
+import br.com.secompufscar.secomp_ufscar.data.Pessoa;
+import br.com.secompufscar.secomp_ufscar.utilities.ClickListener;
+import br.com.secompufscar.secomp_ufscar.utilities.RecyclerTouchListener;
 
 public class AtividadeDetalhes extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener {
 
     public static final String EXTRA = "id_atividade";
 
+    public static List<Pessoa> ministranteList = new ArrayList<>();
+
     TextView descricao, local, horarios, titulo;
 
+    RecyclerView recycler_ministrantes;
+    MinistrantesAdapter adapter;
+
     Atividade atividadeAtual;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +79,32 @@ public class AtividadeDetalhes extends AppCompatActivity implements
                 break;
         }
 
-
         //TODO:Verificar se não há outra forma para trocar a cor
 //        collapsingToolbar.setExpandedTitleColor(getResources().getColor(R.color.white));
 
+        recycler_ministrantes = (RecyclerView) findViewById(R.id.recycler_ministrantes);
+
+        adapter = new MinistrantesAdapter(getBaseContext(), ministranteList);
+        recycler_ministrantes.setAdapter(adapter);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recycler_ministrantes.setLayoutManager(layoutManager);
+
+        recycler_ministrantes.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recycler_ministrantes, new ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Pessoa ministrantes = ministranteList.get(position);
+
+                Context context = view.getContext();
+                Intent detalhesPessoa = new Intent(context, PessoaDetalhes.class);
+                detalhesPessoa.putExtra(PessoaDetalhes.EXTRA, ministrantes.getId());
+                context.startActivity(detalhesPessoa);
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
 
         titulo = (TextView) findViewById(R.id.atividade_detalhe_titulo);
         titulo.setText(atividadeAtual.getTitulo());
@@ -142,15 +180,21 @@ public class AtividadeDetalhes extends AppCompatActivity implements
 
             DatabaseHandler.getDB().getMinistrantes(atividadeAtual);
 
-            if(atividadeAtualizada != null){
+            if (atividadeAtualizada != null) {
                 boolean favorito = atividadeAtual.isFavorito();
 
                 atividadeAtual = atividadeAtualizada;
                 atividadeAtual.setFavorito(favorito);
 
-                descricao.setText(Html.fromHtml(atividadeAtual.getDescricao()));
+                String descricao_atividade = atividadeAtual.getDescricao() != null ? atividadeAtual.getDescricao() : getResources().getString(R.string.atividade_indisponivel_descricao);
+
+                descricao.setText(Html.fromHtml(descricao_atividade));
                 local.setText(atividadeAtual.getLocal());
                 horarios.setText(atividadeAtual.getHorarios());
+
+                ministranteList.clear();
+                ministranteList.addAll(atividadeAtual.getMinistrantes());
+                adapter.notifyDataSetChanged();
             }
         }
     }
@@ -164,14 +208,13 @@ public class AtividadeDetalhes extends AppCompatActivity implements
 
         @Override
         protected void onPostExecute(Boolean resultado) {
-            if(resultado){
-                if(atividadeAtual.isFavorito()){
+            if (resultado) {
+                if (atividadeAtual.isFavorito()) {
                     Toast.makeText(AtividadeDetalhes.this, R.string.msg_favoritado, Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(AtividadeDetalhes.this, R.string.msg_nao_favoritado, Toast.LENGTH_SHORT).show();
                 }
-            }
-            else {
+            } else {
                 Toast.makeText(AtividadeDetalhes.this, R.string.msg_erro_favoritado, Toast.LENGTH_SHORT).show();
             }
         }

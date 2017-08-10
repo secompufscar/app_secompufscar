@@ -49,7 +49,31 @@ public class Pessoa {
 
 
     public class Contato {
-        String tipo, link;
+        private String tipo, link;
+
+        @Override
+        public String toString(){
+            if (this.tipo != null)
+                return this.tipo + ": " + this.link;
+            else
+                return "Contato não inicializado";
+        }
+
+        public String getTipo(){
+            return this.tipo;
+        }
+
+        public String getLink(){
+            return this.link;
+        }
+
+        public void setTipo(String tipo){
+            this.tipo = tipo;
+        }
+
+        public void setLink(String link){
+            this.link = link;
+        }
     }
 
     /**
@@ -112,7 +136,6 @@ public class Pessoa {
             image = BitmapFactory.decodeResource(context.getResources(), R.drawable.pessoa_foto_default);
         }
 
-        //TODO: Verificar se o formato da imagem está correto;
         Bitmap imageRounded = Bitmap.createBitmap(image.getWidth(), image.getHeight(), image.getConfig());
         Canvas canvas = new Canvas(imageRounded);
         Paint paint = new Paint();
@@ -128,28 +151,24 @@ public class Pessoa {
     }
 
     public ArrayList<Contato> getContatos() {
-        if (!this.contatosJSON.isEmpty()) {
-            ArrayList<Contato> contatos = new ArrayList<>();
-
+        ArrayList<Contato> contatos = new ArrayList<>();
+        if (this.contatosJSON != null) {
             try {
                 JSONArray contatosArray = new JSONArray(this.contatosJSON);
 
                 for (int j = 0; j < contatosArray.length(); j++) {
                     Contato contato = new Contato();
                     JSONObject contatoObject = contatosArray.getJSONObject(j);
-                    contato.tipo = contatoObject.getString(TAG_CONTATO_TIPO);
-                    contato.link = contatoObject.getString(TAG_CONTATO_LINK);
+                    contato.setTipo(contatoObject.getString(TAG_CONTATO_TIPO));
+                    contato.setLink(contatoObject.getString(TAG_CONTATO_LINK));
                     contatos.add(contato);
                 }
-
-                return contatos;
             } catch (JSONException e) {
                 e.printStackTrace();
-                return null;
             }
-        } else {
-            return null;
         }
+
+        return contatos;
     }
 
     /**
@@ -244,7 +263,9 @@ public class Pessoa {
 
     public static Pessoa detalhePessoaParseJSON(String json) {
         try {
-            JSONObject pessoaObject = new JSONObject(json);
+            JSONObject jsonObject = new JSONObject(json);
+//          TODO: Tem que arrumar essa duplicação de informação na api
+            JSONObject pessoaObject = jsonObject.getJSONObject("ministrante");
 
             Pessoa pessoa = new Pessoa();
 
@@ -258,7 +279,6 @@ public class Pessoa {
 
             try {
                 pessoa.setFoto(NetworkUtils.getImageFromHttpUrl(NetworkUtils.BASE_URL + pessoaObject.getString(TAG_FOTO)));
-
             } catch (Exception IOException) {
                 pessoa.setFoto(null);
             }
@@ -321,7 +341,7 @@ public class Pessoa {
             response = NetworkUtils.getResponseFromHttpUrl(url);
             if (response != null) {
                 Pessoa pessoa = detalhePessoaParseJSON(response);
-//                DatabaseHandler.getDB().addAllAtividades(Atividade.AtividadeParseJSON(response));
+                DatabaseHandler.getDB().updatePessoa(pessoa);
                 return pessoa;
             }
         } catch (IOException e) {

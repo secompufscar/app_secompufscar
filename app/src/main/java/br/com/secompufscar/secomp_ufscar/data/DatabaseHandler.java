@@ -157,6 +157,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 new String[]{String.valueOf(atividade.getId())});
         db.close();
 
+        updateMinistrantes(atividade);
+
         return (linhasAfetadas > 0);
     }
 
@@ -193,20 +195,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                         Atividade.TAG_FAVORITO},
                 Atividade.TAG_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
-        if (cursor != null)
-            cursor.moveToFirst();
 
         Atividade atividade = new Atividade();
-        atividade.setId(id);
-        atividade.setTitulo(cursor.getString(1));
-        atividade.setLocal(cursor.getString(2));
-        atividade.setDescricao(cursor.getString(3));
-        atividade.setHorarios(cursor.getString(4));
-        atividade.setTipo(cursor.getString(5));
 
+        if (cursor.moveToFirst()) {
 
-        if (cursor.getInt(6) == 1) {
-            atividade.setFavorito(true);
+            atividade.setId(id);
+            atividade.setTitulo(cursor.getString(1));
+            atividade.setLocal(cursor.getString(2));
+            atividade.setDescricao(cursor.getString(3));
+            atividade.setHorarios(cursor.getString(4));
+            atividade.setTipo(cursor.getString(5));
+
+            if (cursor.getInt(6) == 1) {
+                atividade.setFavorito(true);
+            }
         }
 
         cursor.close();
@@ -225,14 +228,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                         Atividade.TAG_TIPO},
                 Atividade.TAG_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
-        if (cursor != null)
-            cursor.moveToFirst();
 
         Atividade atividade = new Atividade();
-        atividade.setId(id);
-        atividade.setTitulo(cursor.getString(1));
-        atividade.setHorarios(cursor.getString(2));
-        atividade.setTipo(cursor.getString(3));
+
+        if (cursor.moveToFirst()) {
+            atividade.setId(id);
+            atividade.setTitulo(cursor.getString(1));
+            atividade.setHorarios(cursor.getString(2));
+            atividade.setTipo(cursor.getString(3));
+        }
 
         cursor.close();
         db.close();
@@ -266,9 +270,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 atividades.add(atividade);
             } while (cursor.moveToNext());
         }
-
-        db.close();
         cursor.close();
+        db.close();
         // retorna a lista de atividades
         return atividades;
     }
@@ -338,9 +341,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 atividades.add(atividade);
             } while (cursor.moveToNext());
         }
-
-        db.close();
         cursor.close();
+        db.close();
         // retorna a lista de atividades
         return atividades;
     }
@@ -428,22 +430,23 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 new String[]{String.valueOf(id)}, null, null, null, null);
 
 
-        if (cursor != null)
-            cursor.moveToFirst();
-
         Pessoa pessoa = new Pessoa();
-        pessoa.setId(id);
-        pessoa.setNome(cursor.getString(1));
-        pessoa.setSobrenome(cursor.getString(2));
-        pessoa.setDescricao(cursor.getString(3));
-        pessoa.setEmpresa(cursor.getString(4));
-        pessoa.setProfissao(cursor.getString(5));
-        pessoa.setFoto(cursor.getBlob(6));
-        pessoa.setContatos(cursor.getString(7));
+
+        if (cursor.moveToFirst()) {
+
+            pessoa.setId(id);
+            pessoa.setNome(cursor.getString(1));
+            pessoa.setSobrenome(cursor.getString(2));
+            pessoa.setDescricao(cursor.getString(3));
+            pessoa.setEmpresa(cursor.getString(4));
+            pessoa.setProfissao(cursor.getString(5));
+            pessoa.setFoto(cursor.getBlob(6));
+            pessoa.setContatos(cursor.getString(7));
+
+            cursor.close();
+        }
 
         db.close();
-        cursor.close();
-
         return pessoa;
     }
 
@@ -459,19 +462,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 Pessoa.TAG_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
 
-
-        if (cursor != null)
-            cursor.moveToFirst();
-
         Pessoa pessoa = new Pessoa();
-        pessoa.setId(id);
-        pessoa.setNome(cursor.getString(1));
-        pessoa.setSobrenome(cursor.getString(2));
-        pessoa.setEmpresa(cursor.getString(3));
-        pessoa.setFoto(cursor.getBlob(4));
+
+        if (cursor.moveToFirst()) {
+            pessoa.setId(id);
+            pessoa.setNome(cursor.getString(1));
+            pessoa.setSobrenome(cursor.getString(2));
+            pessoa.setEmpresa(cursor.getString(3));
+            pessoa.setFoto(cursor.getBlob(4));
+        }
+
+        cursor.close();
 
         db.close();
-        cursor.close();
+
 
         return pessoa;
     }
@@ -507,7 +511,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         return pessoas;
     }
-
 
     // Deleta uma pessoa
     public void deletePessoa(Pessoa pessoa) {
@@ -601,7 +604,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     // Atualiza um patrocinador
-
     public int updatePatrocinador(Patrocinador patrocinador) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -617,7 +619,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
      **/
 
     public void addMinistrantes(Atividade atividade) {
-        Log.d("TESTE addMinistrante", atividade.getMinistrantes().toString());
 
         if (atividade.getMinistrantes() != null) {
 
@@ -644,6 +645,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
     }
 
+    public int deleteAllMinistrantesByAtividade(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int linhasAfetadas = db.delete(TABLE_MINISTRANTE, "ID_ATIVIDADE = ?",
+                new String[]{String.valueOf(id)});
+        db.close();
+
+        return linhasAfetadas;
+    }
+
+    public void updateMinistrantes(Atividade atividade) {
+        deleteAllMinistrantesByAtividade(atividade.getId());
+        addMinistrantes(atividade);
+    }
+
     public List<Pessoa> getMinistrantes(Atividade atividade) {
 
 
@@ -654,20 +669,35 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = db.query(TABLE_MINISTRANTE,
                 new String[]{"ID_ATIVIDADE",
                         "ID_PESSOA"},
-               "ID_ATIVIDADE=?",
+                "ID_ATIVIDADE=?",
                 new String[]{Integer.toString(atividade.getId())}, null, null, null);
 
         if (cursor.moveToFirst()) {
             do {
-                Log.d("TESTE ministrantes", cursor.getString(1));
-//                Patrocinador patrocinador = new Patrocinador();
-//                patrocinador.setId(cursor.getInt(0));
-//                patrocinador.setOrdem(cursor.getInt(1));
+                Cursor cursor_pessoa = db.query(TABLE_PESSOA,
+                        new String[]{Pessoa.TAG_ID,
+                                Pessoa.TAG_NOME,
+                                Pessoa.TAG_SOBRENOME,
+                                Pessoa.TAG_FOTO},
+                        Pessoa.TAG_ID + "=?",
+                        new String[]{cursor.getString(1)}, null, null, null, null);
+
+
+                if (cursor_pessoa.moveToFirst()) {
+
+                    Pessoa pessoa = new Pessoa();
+                    pessoa.setId(cursor_pessoa.getInt(0));
+                    pessoa.setNome(cursor_pessoa.getString(1));
+                    pessoa.setSobrenome(cursor_pessoa.getString(2));
+                    pessoa.setFoto(cursor_pessoa.getBlob(3));
+
+                    pessoas.add(pessoa);
+
+                    cursor_pessoa.close();
+                }
 
             } while (cursor.moveToNext());
         }
-
-
 
         cursor.close();
         db.close();

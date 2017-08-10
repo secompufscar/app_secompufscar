@@ -326,7 +326,7 @@ public class Atividade {
                 atividade.setTipo(atividadeObject.getString(TAG_TIPO));
                 atividade.setHorarios(atividadeObject.getString(TAG_HORARIOS));
                 //TODO: Incluir dominio imagem na api de detalhes
-//                atividade.setMinistrantes(atividadeObject.getJSONArray(TAG_MINISTRANTES), "");
+                atividade.setMinistrantes(atividadeObject.getJSONArray(TAG_MINISTRANTES), NetworkUtils.BASE_URL);
 
                 return atividade;
 
@@ -369,6 +369,7 @@ public class Atividade {
             e.printStackTrace();
             return null;
         }
+
         return null;
     }
 }

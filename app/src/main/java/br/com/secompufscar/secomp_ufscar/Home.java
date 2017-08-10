@@ -142,7 +142,7 @@ public class Home extends Fragment {
             //Famoso migué
             swipeLayout.setRefreshing(true);
             //Seta as corzinhas do loading (Fun)
-            swipeLayout.setColorSchemeResources(R.color.loadingColor_1, R.color.loadingColor_2, R.color.loadingColor_3);
+            swipeLayout.setColorSchemeResources(R.color.loadingColor_1, R.color.loadingColor_2, R.color.loadingColor_3, R.color.loadingColor_4);
         }
         //Listener para executar o código quando der um swipezinho
         swipeLayout.setOnRefreshListener(

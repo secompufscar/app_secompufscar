@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--TODO: Definir de forma consistente essas cores-->
+
     <color name="colorPrimary">#FFF</color>
     <color name="colorPrimaryDark">#4ce400</color>
     <color name="colorAccent">#3f6db3</color>
-    <!--1b1c1d-->
 
+    <!-- Definições de texto -->
     <color name="primaryText">#212121</color>
     <color name="secondaryText">#757575</color>
+    <color name="detalhesHeaderText">#FFF</color>
+    <color name="detalhesTituloText">#3f6db3</color>
+
+    <color name="floatButtonTint">#FFF</color>
+
 
     <color name="white">#FFF</color>
 
@@ -16,9 +21,10 @@
     <color name="colorBackSplash">#FFF</color>
     <color name="colorButton">#FFF</color>
 
-    <color name="loadingColor_1">#ffcc00</color>
-    <color name="loadingColor_2">#0c0</color>
-    <color name="loadingColor_3">#00c</color>
+    <color name="loadingColor_1">#1a3f72</color>
+    <color name="loadingColor_2">#378540</color>
+    <color name="loadingColor_3">#3267b0</color>
+    <color name="loadingColor_4">#5bb247</color>
 
     <!--Cores das cotas de patrocínio-->
     <color name="diamanteColor">#2185d0</color>
@@ -32,6 +38,10 @@
     <!--<color name="workshopColor">#000000</color>-->
     <color name="minicursoColor">#5bb247</color>
     <!--<color name="mesaredondaColor">#2185d0</color>-->
+    <color name="defaultColor">#414141</color>
+
+    <color name="pessoaDetalhe">#1b1c1d</color>
+
 
 
 </resources>
