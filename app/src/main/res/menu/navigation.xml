@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/twitter"
+        android:icon="@android:drawable/ic_menu_compass"
+        android:title="Twitter" />
+
+    <item
+        android:id="@+id/facebook"
+        android:icon="@android:drawable/ic_menu_compass"
+        android:title="Facebook" />
+
+    <item
+        android:id="@+id/instagram"
+        android:icon="@android:drawable/ic_menu_compass"
+        android:title="Instagram" />
+
+</menu>

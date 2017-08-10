@@ -50,8 +50,6 @@
     <string name="internets">Deseja usar seus dados móveis para baixar o cronograma da SECOMP?</string>
     <string name="yesint">Sim, eu sei que são poucos dados</string>
     <string name="noint">Não, eu prefiro usar só WIFI</string>
-
-
     <!-- Sobre -->
     <string name="sobreSecomp">Sobre a SECOMP</string>
     <string name="sobreDC">Sobre o DC</string>
@@ -73,8 +71,4 @@
     <string name="infoUFSCar8">Texto obtido da página institucional da UFSCar, disponível em www.ufscar.br.</string>
 
     <!--Não dar commit nisso-->
-    <string name="OAuthConsumer">hAvDqs2xpY5MrILVlPaR2zvdb</string>
-    <string name="OAuthSecret">CZDkwMIbnhfpp3bkFfmCsSmfKXyebMFXmt19Qx9gkgLVQ9F53p</string>
-    <string name="OAuthToken">865280565217558528-KAJ29DWJZCwEtohlMvcuMGdBQLVsbGs</string>
-    <string name="OAuthTokenSecret">C8gFlTi5HhG79ffJyTO9eckdVqUL3ywBdUlJtIVLdHZi1</string>
 </resources>
