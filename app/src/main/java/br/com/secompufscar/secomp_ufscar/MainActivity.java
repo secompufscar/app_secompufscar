@@ -33,11 +33,23 @@ public class MainActivity extends AppCompatActivity
     private SharedPreferences mPrefs;
     private boolean notifications;
     private boolean internet;
+    private Home home;
+    private Cronograma cronograma;
+    private Pessoas pessoas;
+    private Patrocinadores patrocinadores;
+    private MinhasAtividades minhasAtividades;
+    private Sobre sobre;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        home = new Home();
+        cronograma = new Cronograma();
+        pessoas = new Pessoas();
+        patrocinadores = new Patrocinadores();
+        minhasAtividades = new MinhasAtividades();
+        sobre = new Sobre();
         //Checa se é a primeira vez rodando o app
         mPrefs = getApplicationContext().getSharedPreferences("Settings", 0);
 
@@ -148,29 +160,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    //Removido aquele menuzinho alí em cima
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }*/
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -180,25 +169,26 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = null;
 
         if (id == R.id.nav_home) {
-            fragment = new Home();
+            fragment = home;
         } else if (id == R.id.nav_cronograma) {
-            fragment = new Cronograma();
+            fragment = cronograma;
         } else if (id == R.id.nav_feed) {
-
+            Intent intent = new Intent(MainActivity.this, Social.class);
+            startActivity(intent);
         } else if (id == R.id.nav_pessoas) {
-            fragment = new Pessoas();
+            fragment = pessoas;
         } else if (id == R.id.nav_minhasAtividades) {
-            fragment = new MinhasAtividades();
+            fragment = minhasAtividades;
 
         } else if (id == R.id.nav_map) {
 
         } else if (id == R.id.nav_patrocinadores) {
-            fragment = new Patrocinadores();
+            fragment = patrocinadores;
         } else if (id == R.id.nav_sobre) {
-            fragment = new Sobre();
+            fragment = sobre;
         } else if (id == R.id.nav_areaParticipante){
             Intent intent = new Intent(MainActivity.this, AreaDoParticipante.class);
-            MainActivity.this.startActivity(intent);
+            startActivity(intent);
         }
         else if (id == R.id.nav_settings){
             Intent intent = new Intent(MainActivity.this, Settings.class);

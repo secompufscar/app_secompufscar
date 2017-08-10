@@ -16,7 +16,6 @@
     <string name="msg_nao_favoritado">Atividade excluída de Minhas Atividades</string>
     <string name="msg_erro_favoritado">Não foi possível gravar a alteração</string>
 
-
     <string name="atividade_titulo_descricao">Descrição</string>
     <string name="atividade_titulo_ministrantes">Ministrantes</string>
 
@@ -47,7 +46,6 @@
     <string name="yesint">Sim, eu sei que são poucos dados</string>
     <string name="noint">Não, eu prefiro usar só WIFI</string>
 
-
     <!-- Sobre -->
     <string name="sobreSecomp">Sobre a SECOMP</string>
     <string name="sobreDC">Sobre o DC</string>
@@ -67,5 +65,5 @@
     <string name="infoUFSCar6">Há, no total, 24.825 alunos matriculados na Universidade: 12.338 de graduação presencial; 1.584 de educação a distância; 369 são alunos de mestrado profissional; 1.915 de mestrado acadêmico; 1.690 de doutorado; e 6.929 de especialização.</string>
     <string name="infoUFSCar7">Em 2014, a UFSCar obteve a 18ª colocação entre as 300 universidades da América Latina incluídas no ranking elaborado pela Quacquarelli Symonds (QS). A instituição obteve 82 pontos na avaliação geral e é, portanto, considerada a 10ª melhor instituição brasileira.</string>
     <string name="infoUFSCar8">Texto obtido da página institucional da UFSCar, disponível em www.ufscar.br.</string>
-
+    <string name="config">Configurações</string>
 </resources>
