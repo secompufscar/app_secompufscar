@@ -1,7 +1,10 @@
 package br.com.secompufscar.secomp_ufscar;
 
+import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -13,21 +16,26 @@ import br.com.secompufscar.secomp_ufscar.data.Atividade;
 public class AtividadesAdapter extends RecyclerView.Adapter<AtividadesAdapter.MyViewHolder> {
 
     private List<Atividade> atividadeList;
+    private Context context;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView nome, local, tipo;
+        public TextView nome, local, tipo, horario;
+        private LinearLayout layout_tipo;
 
         public MyViewHolder(View view) {
             super(view);
             nome = (TextView) view.findViewById(R.id.atividade_nome);
             local = (TextView) view.findViewById(R.id.atividade_local);
             tipo = (TextView) view.findViewById(R.id.atividade_tipo);
+            horario = (TextView) view.findViewById(R.id.atividade_horario_inicial);
+            layout_tipo = (LinearLayout) view.findViewById(R.id.layout_tipo);
         }
     }
 
 
-    public AtividadesAdapter(List<Atividade> atividadeList) {
+    public AtividadesAdapter(Context context, List<Atividade> atividadeList) {
         this.atividadeList = atividadeList;
+        this.context = context;
     }
 
     @Override
@@ -40,11 +48,22 @@ public class AtividadesAdapter extends RecyclerView.Adapter<AtividadesAdapter.My
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Atividade atividade = atividadeList.get(position);
-        // TODO: Arrumar o layout dos itens e definir o que irá ter
-        holder.nome.setText(atividade.getNome());
-        holder.local.setText(atividade.getLocal());
-        holder.tipo.setText("");
+        try {
+            Atividade atividade = atividadeList.get(position);
+            holder.nome.setText(atividade.getTitulo());
+
+            String local_atividade = atividade.getLocal() != null ? atividade.getLocal() : context.getResources().getString(R.string.atividade_indisponivel_local);
+
+            holder.local.setText(local_atividade);
+
+            holder.tipo.setText(atividade.getTipo());
+            holder.horario.setText(atividade.getHorarioInicial());
+
+            holder.layout_tipo.setBackgroundColor(atividade.getColor(context));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     @Override

@@ -1,64 +1,120 @@
 package br.com.secompufscar.secomp_ufscar;
 
-import android.content.res.Resources;
-import android.content.res.TypedArray;
-import android.graphics.Bitmap;
+import android.graphics.PorterDuff;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.text.Html;
+import android.view.Display;
 import android.view.MenuItem;
+import android.view.Surface;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import br.com.secompufscar.secomp_ufscar.data.Atividade;
 import br.com.secompufscar.secomp_ufscar.data.DatabaseHandler;
-import br.com.secompufscar.secomp_ufscar.data.Pessoa;
-import br.com.secompufscar.secomp_ufscar.utilities.NetworkUtils;
 
 public class AtividadeDetalhes extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener {
-    public static final String EXTRA_POSITION = "position";
-    ImageView imageTeste;
+
+    public static final String EXTRA = "id_atividade";
+
+    TextView descricao, local, horarios, titulo;
+
+    Atividade atividadeAtual;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        int id = getIntent().getIntExtra(EXTRA, 0);
+
+        atividadeAtual = DatabaseHandler.getDB().getDetalheAtividade(id);
+
         setContentView(R.layout.activity_atividade_detalhes);
 
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        // Set Collapsing Toolbar layout to the screen
-        CollapsingToolbarLayout collapsingToolbar =
-                (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        // Set title of Detail page
-         collapsingToolbar.setTitle(getString(R.string.app_name));
 
-        int postion = getIntent().getIntExtra(EXTRA_POSITION, 0);
+        //Get current screen orientation
+        Display display = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
+        int orientation = display.getRotation();
+
+        switch (orientation) {
+            case Surface.ROTATION_0:
+                setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                // Set Collapsing Toolbar layout to the screen
+                CollapsingToolbarLayout collapsingToolbar =
+                        (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+                collapsingToolbar.setExpandedTitleColor(0);
+                // Set title of Detail page
+                collapsingToolbar.setTitle(atividadeAtual.getTitulo());
+
+                break;
+            case Surface.ROTATION_90:
+
+                break;
+        }
 
 
-        Resources resources = getResources();
-        String[] places = resources.getStringArray(R.array.places);
-        collapsingToolbar.setTitle(places[postion % places.length]);
+        //TODO:Verificar se não há outra forma para trocar a cor
+//        collapsingToolbar.setExpandedTitleColor(getResources().getColor(R.color.white));
 
-        String[] placeDetails = resources.getStringArray(R.array.place_details);
-        TextView placeDetail = (TextView) findViewById(R.id.place_detail);
-        placeDetail.setText(placeDetails[postion % placeDetails.length]);
 
-        String[] placeLocations = resources.getStringArray(R.array.place_locations);
-        TextView placeLocation =  (TextView) findViewById(R.id.place_location);
-        placeLocation.setText(placeLocations[postion % placeLocations.length]);
+        titulo = (TextView) findViewById(R.id.atividade_detalhe_titulo);
+        titulo.setText(atividadeAtual.getTitulo());
 
-        TypedArray placePictures = resources.obtainTypedArray(R.array.places_picture);
-        ImageView placePicutre = (ImageView) findViewById(R.id.image);
-        placePicutre.setImageDrawable(placePictures.getDrawable(postion % placePictures.length()));
+        String local_atividade = atividadeAtual.getLocal() != null ? atividadeAtual.getLocal() : getResources().getString(R.string.atividade_indisponivel_local);
 
-        placePictures.recycle();
-//        new setFotoTask().execute("https://secompufscar.com.br/media/images/secompufscar2017/equipe/felipe_sampaio_de_souza.jpg");
+        local = (TextView) findViewById(R.id.atividade_detalhe_local);
+        local.setText(local_atividade);
+
+        horarios = (TextView) findViewById(R.id.atividade_detalhe_horarios);
+        horarios.setText(atividadeAtual.getHorarios());
+
+        descricao = (TextView) findViewById(R.id.atividade_detalhe_descricao);
+        String descricao_atividade = atividadeAtual.getDescricao() != null ? atividadeAtual.getDescricao() : getResources().getString(R.string.atividade_indisponivel_descricao);
+
+        descricao.setText(Html.fromHtml(descricao_atividade));
+
+        ImageView backgroundCollapsing = (ImageView) findViewById(R.id.imagem_tipo_atividade);
+
+        backgroundCollapsing.setColorFilter(atividadeAtual.getColor(getBaseContext()), PorterDuff.Mode.MULTIPLY);
+        backgroundCollapsing.setImageDrawable(getDrawable(R.drawable.fundo_triangulos_branco));
+
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.atividade_detalhe_fab);
+
+        if (atividadeAtual.isFavorito()) {
+            fab.setImageResource(R.drawable.ic_menu_favorite);
+        }
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Click action
+                if (atividadeAtual.isFavorito()) {
+
+                    atividadeAtual.setFavorito(false);
+                    new salvaFavorito().execute();
+                    fab.setImageResource(R.drawable.ic_atividade_favorito_borda);
+
+                } else {
+
+                    atividadeAtual.setFavorito(true);
+                    new salvaFavorito().execute();
+                    fab.setImageResource(R.drawable.ic_menu_favorite);
+                }
+            }
+        });
+
+        new UpdateDetalhes().execute(id);
     }
 
     @Override
@@ -66,30 +122,58 @@ public class AtividadeDetalhes extends AppCompatActivity implements
         return false;
     }
 
-    // TODO: Retirar esse trecho de código, ele está aqui apenas para teste
-    private class setFotoTask extends AsyncTask<String, Void, Bitmap> {
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        // Make sure to call the super method so that the states of our views are saved
+        super.onSaveInstanceState(outState);
+        // Save our own state now
+//        outState.putInt(STATE_COUNTER, mCounter);
+    }
+
+    private class UpdateDetalhes extends AsyncTask<Integer, Void, Atividade> {
         @Override
-        protected Bitmap doInBackground(String... params) {
-            Pessoa pessoa1 = new Pessoa();
-            Pessoa pessoa2 = new Pessoa();
-            pessoa1.setId(1);
-            pessoa1.setNome("Felipe");
-            try {
+        protected Atividade doInBackground(Integer... params) {
 
-                pessoa1.setFoto(NetworkUtils.getImageFromHttpUrl(params[0]));
-                DatabaseHandler.getDB().addPessoa(pessoa1);
-                pessoa2 = DatabaseHandler.getDB().getPessoa(1);
-
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return pessoa2.getFotoBitmap();
+            return Atividade.getDetalheAtividadeFromHTTP(params[0]);
         }
 
         @Override
-        protected void onPostExecute(Bitmap result) {
-            imageTeste.setImageBitmap(result);
+        protected void onPostExecute(Atividade atividadeAtualizada) {
+
+            DatabaseHandler.getDB().getMinistrantes(atividadeAtual);
+
+            if(atividadeAtualizada != null){
+                boolean favorito = atividadeAtual.isFavorito();
+
+                atividadeAtual = atividadeAtualizada;
+                atividadeAtual.setFavorito(favorito);
+
+                descricao.setText(Html.fromHtml(atividadeAtual.getDescricao()));
+                local.setText(atividadeAtual.getLocal());
+                horarios.setText(atividadeAtual.getHorarios());
+            }
+        }
+    }
+
+    private class salvaFavorito extends AsyncTask<Void, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(Void... params) {
+
+            return DatabaseHandler.getDB().updateFavorito(atividadeAtual);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean resultado) {
+            if(resultado){
+                if(atividadeAtual.isFavorito()){
+                    Toast.makeText(AtividadeDetalhes.this, R.string.msg_favoritado, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(AtividadeDetalhes.this, R.string.msg_nao_favoritado, Toast.LENGTH_SHORT).show();
+                }
+            }
+            else {
+                Toast.makeText(AtividadeDetalhes.this, R.string.msg_erro_favoritado, Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }

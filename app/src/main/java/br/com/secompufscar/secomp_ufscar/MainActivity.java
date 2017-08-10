@@ -20,29 +20,36 @@ import android.view.MenuItem;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import java.io.IOException;
-import java.net.URL;
-
+import br.com.secompufscar.secomp_ufscar.data.Atividade;
 import br.com.secompufscar.secomp_ufscar.data.DatabaseHandler;
-import br.com.secompufscar.secomp_ufscar.utilities.NetworkUtils;
+import br.com.secompufscar.secomp_ufscar.data.Patrocinador;
+import br.com.secompufscar.secomp_ufscar.listaAtividades.ListaAtividades;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        Home.OnFragmentInteractionListener,
-        Patrocinadores.OnFragmentInteractionListener,
-        Cronograma.OnFragmentInteractionListener,
-        ListaAtividades.OnFragmentInteractionListener,
-        Pessoas.OnFragmentInteractionListener,
-        Sobre.OnFragmentInteractionListener{
+        Home.OnFragmentInteractionListener{
           
     private SharedPreferences mPrefs;
     private boolean notifications;
     private boolean internet;
+    private Home home;
+    private Cronograma cronograma;
+    private Pessoas pessoas;
+    private Patrocinadores patrocinadores;
+    private MinhasAtividades minhasAtividades;
+    private Sobre sobre;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        home = new Home();
+        cronograma = new Cronograma();
+        pessoas = new Pessoas();
+        patrocinadores = new Patrocinadores();
+        minhasAtividades = new MinhasAtividades();
+        sobre = new Sobre();
         //Checa se é a primeira vez rodando o app
         mPrefs = getApplicationContext().getSharedPreferences("Settings", 0);
 
@@ -162,24 +169,26 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = null;
 
         if (id == R.id.nav_home) {
-            fragment = new Home();
+            fragment = home;
         } else if (id == R.id.nav_cronograma) {
-            fragment = new Cronograma();
+            fragment = cronograma;
         } else if (id == R.id.nav_feed) {
-
+            Intent intent = new Intent(MainActivity.this, Social.class);
+            startActivity(intent);
         } else if (id == R.id.nav_pessoas) {
-            fragment = new Pessoas();
+            fragment = pessoas;
         } else if (id == R.id.nav_minhasAtividades) {
+            fragment = minhasAtividades;
 
         } else if (id == R.id.nav_map) {
 
         } else if (id == R.id.nav_patrocinadores) {
-            fragment = new Patrocinadores();
+            fragment = patrocinadores;
         } else if (id == R.id.nav_sobre) {
-            fragment = new Sobre();
+            fragment = sobre;
         } else if (id == R.id.nav_areaParticipante){
             Intent intent = new Intent(MainActivity.this, AreaDoParticipante.class);
-            MainActivity.this.startActivity(intent);
+            startActivity(intent);
         }
         else if (id == R.id.nav_settings){
             Intent intent = new Intent(MainActivity.this, Settings.class);
@@ -187,12 +196,12 @@ public class MainActivity extends AppCompatActivity
         }
 
         if (fragment != null) {
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
+
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
         }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
 
         return true;
     }
@@ -200,25 +209,14 @@ public class MainActivity extends AppCompatActivity
     private class GetDataTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
-            URL url = NetworkUtils.buildUrl("app");
-            String response;
-
-            try {
-                response = NetworkUtils.getResponseFromHttpUrl(url);
-                if (response != null) {
-                    //TODO Corrigir isso, por algum motivo não está salvando no SQLite
-                    //DatabaseHandler.getDB().addAllAtividades(Atividade.AtividadeParseJSON(response));
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
+            Patrocinador.getPatrocinadoresFromHTTP();
+            Atividade.getAtividadesFromHTTP();
             return null;
         }
 
         @Override
         protected void onPostExecute(Void s) {
-//            textForTest.setText(s);
+
         }
     }
 }

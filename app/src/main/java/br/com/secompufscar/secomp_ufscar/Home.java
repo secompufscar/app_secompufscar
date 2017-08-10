@@ -89,7 +89,6 @@ public class Home extends Fragment {
         // Faz a referência ao Swipe Refresh do XML
 
 
-
     }
 
     @Override
@@ -100,7 +99,6 @@ public class Home extends Fragment {
 
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
-
 
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -128,8 +126,8 @@ public class Home extends Fragment {
     public void onStart() {
         super.onStart();
 
-        a =new MegaChecker();
-        hn = (TextView)getView().findViewById(R.id.info_text);
+        a = new MegaChecker();
+        hn = (TextView) getView().findViewById(R.id.info_text);
         //Executa pra pegar os tweets
 
 
@@ -137,14 +135,14 @@ public class Home extends Fragment {
                 Executors.newSingleThreadScheduledExecutor();
 
 
-        if(!(a.getStatus()== AsyncTask.Status.RUNNING)) {
+        if (!(a.getStatus() == AsyncTask.Status.RUNNING)) {
             a.execute("");
             //Referencia o layout definido no xml
             swipeLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swiperefresh);
             //Famoso migué
             swipeLayout.setRefreshing(true);
             //Seta as corzinhas do loading (Fun)
-            swipeLayout.setColorSchemeResources(R.color.orange, R.color.green, R.color.blue);
+            swipeLayout.setColorSchemeResources(R.color.loadingColor_1, R.color.loadingColor_2, R.color.loadingColor_3);
         }
         //Listener para executar o código quando der um swipezinho
         swipeLayout.setOnRefreshListener(
@@ -154,11 +152,11 @@ public class Home extends Fragment {
 
                         //Executa a atualização dos tweets
                         //Apenas se a thread não está sendo executada
-                        if(!(a.getStatus()== AsyncTask.Status.RUNNING)) {
+                        if (!(a.getStatus() == AsyncTask.Status.RUNNING)) {
                             try {
                                 new MegaChecker().execute("");
-                            }catch (Exception e){
-                                Toast.makeText(getContext(), R.string.verifique,Toast.LENGTH_SHORT).show();
+                            } catch (Exception e) {
+                                Toast.makeText(getContext(), R.string.verifique, Toast.LENGTH_SHORT).show();
                                 swipeLayout.setRefreshing(false);
                             }
                         }
@@ -192,18 +190,12 @@ public class Home extends Fragment {
     // No android nós não podemos realizar network calls, na atual activity, por isso usamos um "AsyncTask"
     // Uma thread que faz uma network call em background
 
-    public class MegaChecker extends AsyncTask<String,String,String>
-    {
+    public class MegaChecker extends AsyncTask<String, String, String> {
         //Declaração da #NOW
         private String now = "";
         boolean ok = true;
         ArrayList<String> tweets = new ArrayList<>();
 
-        @Override
-        protected void onPreExecute()
-        {
-
-        }
         @Override
         protected String doInBackground(String... params) {
             try {
@@ -218,7 +210,7 @@ public class Home extends Fragment {
                 Twitter twitter = tf.getInstance();
 
                 // É possível colocar vários twitters aqui
-                String[] twitters={getString(R.string.twitter_user)};
+                String[] twitters = {getString(R.string.twitter_user)};
 
                 //Primeira e única posição na lista de Twitters
                 String[] srch = new String[]{twitters[0]};
@@ -238,8 +230,7 @@ public class Home extends Fragment {
 
                         //Joga os tweets em um ArrayList
                         //Pode ser melhorado
-                        for (twitter4j.Status status3 : statusess)
-                        {
+                        for (twitter4j.Status status3 : statusess) {
                             tweets.add(status3.getText());
                         }
                     }
@@ -248,23 +239,19 @@ public class Home extends Fragment {
 
                 //Passa o conteúdo do arraylist para um string array
 
-                for(int i=0;i<tweets.size();i++)
-                {
+                for (int i = 0; i < tweets.size(); i++) {
                     //Agora ficou show
-                    if(tweets.get(i).trim().contains(getString(R.string.now)))
-                    {
-                        tweets.set(i,tweets.get(i).replace(getString(R.string.now),""));
-                        if(now=="")
-                        {
+                    if (tweets.get(i).trim().contains(getString(R.string.now))) {
+                        tweets.set(i, tweets.get(i).replace(getString(R.string.now), ""));
+                        if (now == "") {
                             now = tweets.get(i);
                             tweets.remove(i);
                         }
                     }
                 }
                 tweetsArray = new String[tweets.size()];
-                for(int i=0;i<tweets.size();i++)
-                {
-                    tweetsArray[i]=tweets.get(i);
+                for (int i = 0; i < tweets.size(); i++) {
+                    tweetsArray[i] = tweets.get(i);
                 }
                 //Se der ruim... Já sabe
             } catch (Exception e) {
@@ -279,29 +266,23 @@ public class Home extends Fragment {
         protected void onPostExecute(String s) {
 
 
-            if(s!="")
-            {
+            if (s != "") {
                 hn.setText(now);
             }
-            if(ok)
-            {
-                try
-                {
+            if (ok) {
+                try {
                     //Referencia a lista do layout
-                    lv = (ListView)getView().findViewById(R.id.listViewTwitter);
+                    lv = (ListView) getView().findViewById(R.id.listViewTwitter);
 
                     // Com o nosso adapter customizado, tenta adicionar as informações nele
                     ListTwitterAdapter adapter = new ListTwitterAdapter(getActivity(), tweetsArray);
                     //Adiciona o listAdapter no visual
 
                     lv.setAdapter(adapter);
-                }catch (Exception e)
-                {
+                } catch (Exception e) {
                 }
 
-            }
-            else
-            {
+            } else {
                 hn.setText(R.string.noconnection);
             }
             //Checa se o loading está ativo
@@ -309,7 +290,6 @@ public class Home extends Fragment {
                 //Se estiver cancela ele, pois nossa tarefa já foi executada
                 swipeLayout.setRefreshing(false);
             }
-
         }
     }
 }
