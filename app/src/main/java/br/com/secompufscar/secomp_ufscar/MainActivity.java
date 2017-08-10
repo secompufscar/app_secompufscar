@@ -23,6 +23,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import br.com.secompufscar.secomp_ufscar.data.Atividade;
 import br.com.secompufscar.secomp_ufscar.data.DatabaseHandler;
 import br.com.secompufscar.secomp_ufscar.data.Patrocinador;
+import br.com.secompufscar.secomp_ufscar.listaAtividades.ListaAtividades;
 
 
 public class MainActivity extends AppCompatActivity
