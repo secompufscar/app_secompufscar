@@ -27,5 +27,10 @@
     <string name="noconnection">Sem conexão com a internet</string>
     <string name="verifique">Verifique sua conexão com a internet.</string>
 
+    <string name="OAuthConsumer">hAvDqs2xpY5MrILVlPaR2zvdb</string>
+    <string name="OAuthSecret">CZDkwMIbnhfpp3bkFfmCsSmfKXyebMFXmt19Qx9gkgLVQ9F53p</string>
+    <string name="OAuthToken">865280565217558528-KAJ29DWJZCwEtohlMvcuMGdBQLVsbGs</string>
+    <string name="OAuthTokenSecret">C8gFlTi5HhG79ffJyTO9eckdVqUL3ywBdUlJtIVLdHZi1</string>
+
 
 </resources>
