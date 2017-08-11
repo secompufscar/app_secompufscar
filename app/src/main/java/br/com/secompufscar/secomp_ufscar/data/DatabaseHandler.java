@@ -132,8 +132,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             values.put(Atividade.TAG_TIPO, atividade.getTipo());
         }
 
-        if (atividade.getHorariosString() != null) {
-            values.put(Atividade.TAG_HORARIOS, atividade.getHorariosString());
+        if (atividade.getHorariosRaw() != null) {
+            values.put(Atividade.TAG_HORARIOS, atividade.getHorariosRaw());
         }
 
         if (atividade.getDataHoraInicio() != null) {

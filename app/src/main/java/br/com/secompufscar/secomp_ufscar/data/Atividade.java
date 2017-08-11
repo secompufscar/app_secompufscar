@@ -196,7 +196,7 @@ public class Atividade {
         return this.descricao;
     }
 
-    public String getHorariosString() {
+    public String getHorariosRaw() {
         return this.horarios;
     }
 
@@ -259,7 +259,7 @@ public class Atividade {
                 color = ContextCompat.getColor(context, R.color.minicursoColor);
                 break;
             default:
-                color = ContextCompat.getColor(context, R.color.palestraColor);
+                color = ContextCompat.getColor(context, R.color.atividadeDefaultColor);
         }
 
         return color;
