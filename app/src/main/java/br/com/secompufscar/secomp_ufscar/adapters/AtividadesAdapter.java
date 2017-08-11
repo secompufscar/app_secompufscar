@@ -1,7 +1,6 @@
-package br.com.secompufscar.secomp_ufscar;
+package br.com.secompufscar.secomp_ufscar.adapters;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -11,6 +10,7 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import br.com.secompufscar.secomp_ufscar.R;
 import br.com.secompufscar.secomp_ufscar.data.Atividade;
 
 public class AtividadesAdapter extends RecyclerView.Adapter<AtividadesAdapter.MyViewHolder> {

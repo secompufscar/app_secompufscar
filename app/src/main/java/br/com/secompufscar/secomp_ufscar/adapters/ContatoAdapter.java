@@ -1,4 +1,4 @@
-package br.com.secompufscar.secomp_ufscar;
+package br.com.secompufscar.secomp_ufscar.adapters;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import java.util.List;
 
+import br.com.secompufscar.secomp_ufscar.R;
 import br.com.secompufscar.secomp_ufscar.data.Pessoa;
 
 public class ContatoAdapter extends RecyclerView.Adapter<ContatoAdapter.MyViewHolder> {

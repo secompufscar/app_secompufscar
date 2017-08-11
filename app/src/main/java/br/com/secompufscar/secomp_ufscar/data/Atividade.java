@@ -154,12 +154,12 @@ public class Atividade {
 
     }
 
-    public void setMinistrantes(JSONArray ministrantes, String root_image) {
+    public void setMinistrantes(JSONArray ministrantes, String root_image, Context context) {
         try {
             this.ministrantes = new ArrayList<>();
 
             for (int i = 0; i < ministrantes.length(); i++) {
-                Pessoa pessoa = Pessoa.resumoPessoaParseJSON(ministrantes.getString(i), root_image);
+                Pessoa pessoa = Pessoa.resumoPessoaParseJSON(ministrantes.getString(i), root_image, context);
                 this.ministrantes.add(pessoa);
             }
 
@@ -209,6 +209,13 @@ public class Atividade {
         horario_inicio.setDataHora_inicio(this.dataHora_inicio);
 
         return horario_inicio.dateInCurrentTimeZone(horario_inicio.dataHora_inicio, "HH:mm");
+    }
+
+    public String getHorarioInicialDiaDaSemana(){
+        Horario horario_inicio = new Horario();
+        horario_inicio.setDataHora_inicio(this.dataHora_inicio);
+
+        return horario_inicio.dateInCurrentTimeZone(horario_inicio.dataHora_inicio, "EE HH:mm").toUpperCase();
     }
 
     public String getHorarios() {
@@ -266,7 +273,7 @@ public class Atividade {
         return this.favorito;
     }
 
-    public static ArrayList<Atividade> atividadesParseJSON(String json) {
+    public static ArrayList<Atividade> atividadesParseJSON(String json, Context context) {
         if (json != null) {
             try {
                 // Lista de patrocinadores
@@ -293,7 +300,7 @@ public class Atividade {
                         atividade.setTitulo(atividadeObject.getString(TAG_TITULO));
                         atividade.setTipo(tipo);
                         atividade.setHorarios(atividadeObject.getString(TAG_HORARIOS));
-                        atividade.setMinistrantes(atividadeObject.getJSONArray(TAG_MINISTRANTES), root_image);
+                        atividade.setMinistrantes(atividadeObject.getJSONArray(TAG_MINISTRANTES), root_image, context);
 
                         atividadeList.add(atividade);
                     }
@@ -312,7 +319,7 @@ public class Atividade {
         }
     }
 
-    public static Atividade detalheAtividadeParseJSON(String json) {
+    public static Atividade detalheAtividadeParseJSON(String json, Context context) {
         if (json != null) {
             try {
                 JSONObject atividadeObject = new JSONObject(json);
@@ -325,8 +332,8 @@ public class Atividade {
                 atividade.setTitulo(atividadeObject.getString(TAG_TITULO));
                 atividade.setTipo(atividadeObject.getString(TAG_TIPO));
                 atividade.setHorarios(atividadeObject.getString(TAG_HORARIOS));
-                //TODO: Incluir dominio imagem na api de detalhes
-                atividade.setMinistrantes(atividadeObject.getJSONArray(TAG_MINISTRANTES), NetworkUtils.BASE_URL);
+
+                atividade.setMinistrantes(atividadeObject.getJSONArray(TAG_MINISTRANTES), NetworkUtils.BASE_URL, context);
 
                 return atividade;
 
@@ -341,27 +348,34 @@ public class Atividade {
         }
     }
 
-    public static void getAtividadesFromHTTP() {
+    public static void getAtividadesFromHTTP(Context context) {
         URL url = NetworkUtils.buildUrl(RESUMO_URL);
         String response;
 
         try {
-            response = NetworkUtils.getResponseFromHttpUrl(url);
+            response = NetworkUtils.getResponseFromHttpUrl(url, context);
             if (response != null) {
-                DatabaseHandler.getDB().addManyAtividades(atividadesParseJSON(response));
+                try {
+                    JSONObject jsonObj = new JSONObject(response);
+                    if(NetworkUtils.checkUpdate(context,jsonObj.getString("ultima_atualizacao"), "atividades")){
+                        DatabaseHandler.getDB().addManyAtividades(atividadesParseJSON(response, context));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static Atividade getDetalheAtividadeFromHTTP(int id) {
+    public static Atividade getDetalheAtividadeFromHTTP(int id, Context context) {
         URL url = NetworkUtils.buildUrl(API_URL + Integer.toString(id));
         String response;
         try {
-            response = NetworkUtils.getResponseFromHttpUrl(url);
+            response = NetworkUtils.getResponseFromHttpUrl(url, context);
             if (response != null) {
-                Atividade atividade = detalheAtividadeParseJSON(response);
+                Atividade atividade = detalheAtividadeParseJSON(response, context);
                 DatabaseHandler.getDB().updateAtividade(atividade);
                 return atividade;
             }
