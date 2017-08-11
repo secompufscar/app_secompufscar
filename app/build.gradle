@@ -18,7 +18,9 @@ android {
         }
     }
 }
+
 dependencies {
+
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -36,5 +38,6 @@ dependencies {
     compile 'com.google.firebase:firebase-messaging:10.2.1'
     testCompile 'junit:junit:4.12'
     compile 'joda-time:joda-time:2.9.9'
+
+    compile 'com.google.android.gms:play-services-maps:11.0.4'
 }
-apply plugin:'com.google.gms.google-services'

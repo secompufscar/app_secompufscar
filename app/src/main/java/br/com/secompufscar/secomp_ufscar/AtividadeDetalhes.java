@@ -52,6 +52,7 @@ public class AtividadeDetalhes extends AppCompatActivity implements
     private View contentView;
     private View loadingView;
 
+    public static final int TELA_DETALHES_ATIVIDADE = 1; //IDENTIFICAO DE QUAL TELA O RESULTADO ESTA VINDO
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -252,4 +253,15 @@ public class AtividadeDetalhes extends AppCompatActivity implements
             }
         }
     }
+
+        public void EnviarDadosMapa (View view){
+
+            Bundle params = new Bundle();
+            params.putInt("Local", 1); //Inteiro que vai definir onde "setar" o mapa
+
+            Intent i = new Intent(this, MapsActivity.class);
+            i.putExtras(params);
+
+            startActivityForResult(i, TELA_DETALHES_ATIVIDADE);
+        }
 }

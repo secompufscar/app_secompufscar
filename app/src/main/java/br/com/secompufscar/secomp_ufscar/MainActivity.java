@@ -332,6 +332,8 @@ public class MainActivity extends AppCompatActivity
                     current_fragment = MINHAS_ATIVIDADES_POSITION;
                     break;
                 case R.id.nav_map:
+                    Intent i = new Intent(this, MapsActivity.class);
+                    startActivity(i);
                     break;
                 case R.id.nav_patrocinadores:
                     fragment = fragmentos.get("patrocinadores");

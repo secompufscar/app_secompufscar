@@ -162,6 +162,13 @@
                 android:orientation="horizontal">
 
             </android.support.v7.widget.RecyclerView>
+                tools:text="@string/detail_location" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ver no Mapa" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
