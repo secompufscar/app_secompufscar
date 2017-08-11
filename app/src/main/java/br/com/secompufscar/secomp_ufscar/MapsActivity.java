@@ -1,6 +1,7 @@
 package br.com.secompufscar.secomp_ufscar;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -21,6 +22,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final String TAG = "MapsActivity";
     private GoogleMap mMap;
     private LocationManager locationManager;
+    private int Local = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        Intent intent = getIntent();
+        if(intent != null){
+            Bundle params = intent.getExtras();
+            if(params != null){
+                Local = params.getInt("Local");
+            }
+        }
     }
 
 
@@ -63,9 +73,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         LatLng DC = new LatLng(-21.979509, -47.880528);
         LatLng BentoPrado = new LatLng(-21.983667, -47.881668);
+        LatLng Centro_UFSCar = new LatLng(-21.984163, -47.880243);
+
+
         mMap.addMarker(new MarkerOptions().position(DC).title("Departamento de Computação"));
         mMap.addMarker(new MarkerOptions().position(BentoPrado).title("Anfiteatro Bento Prado Júnior"));
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(DC));
+        switch(Local){
+            case 0:
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(Centro_UFSCar));break;
+            case 1:
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(DC));break;
+            case 2:
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(BentoPrado));break;
+        }
     }
 }

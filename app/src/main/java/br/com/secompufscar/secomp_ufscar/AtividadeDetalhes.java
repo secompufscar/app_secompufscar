@@ -1,5 +1,6 @@
 package br.com.secompufscar.secomp_ufscar;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -12,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,6 +23,7 @@ import br.com.secompufscar.secomp_ufscar.utilities.NetworkUtils;
 
 public class AtividadeDetalhes extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener {
+    public static final int TELA_DETALHES_ATIVIDADE = 1; //IDENTIFICAO DE QUAL TELA O RESULTADO ESTA VINDO
     public static final String EXTRA_POSITION = "position";
     ImageView imageTeste;
 
@@ -92,4 +95,15 @@ public class AtividadeDetalhes extends AppCompatActivity implements
             imageTeste.setImageBitmap(result);
         }
     }
+
+        public void EnviarDadosMapa (View view){
+
+            Bundle params = new Bundle();
+            params.putInt("Local", 1); //Inteiro que vai definir onde "setar" o mapa
+
+            Intent i = new Intent(this, MapsActivity.class);
+            i.putExtras(params);
+
+            startActivityForResult(i, TELA_DETALHES_ATIVIDADE);
+        }
 }
