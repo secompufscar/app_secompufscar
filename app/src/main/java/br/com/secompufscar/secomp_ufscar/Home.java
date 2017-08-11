@@ -87,8 +87,6 @@ public class Home extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         // Faz a referência ao Swipe Refresh do XML
-
-
     }
 
     @Override
@@ -149,7 +147,6 @@ public class Home extends Fragment {
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-
                         //Executa a atualização dos tweets
                         //Apenas se a thread não está sendo executada
                         if (!(a.getStatus() == AsyncTask.Status.RUNNING)) {

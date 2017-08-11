@@ -1,4 +1,4 @@
-package br.com.secompufscar.secomp_ufscar;
+package br.com.secompufscar.secomp_ufscar.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -6,12 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import java.util.List;
 
-import br.com.secompufscar.secomp_ufscar.data.Atividade;
+import br.com.secompufscar.secomp_ufscar.R;
 import br.com.secompufscar.secomp_ufscar.data.Pessoa;
 
 public class MinistrantesAdapter extends RecyclerView.Adapter<MinistrantesAdapter.MyViewHolder> {

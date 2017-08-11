@@ -1,18 +1,15 @@
-package br.com.secompufscar.secomp_ufscar;
+package br.com.secompufscar.secomp_ufscar.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.widget.BaseAdapter;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.SimpleAdapter;
-import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import br.com.secompufscar.secomp_ufscar.R;
 import br.com.secompufscar.secomp_ufscar.data.Patrocinador;
 
 public class PatrocinadorAdapter extends RecyclerView.Adapter<PatrocinadorAdapter.SimpleViewHolder> {

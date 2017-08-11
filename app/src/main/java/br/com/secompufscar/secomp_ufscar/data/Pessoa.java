@@ -146,7 +146,7 @@ public class Pessoa {
         return imageRounded;
     }
 
-    public String getContatosString(){
+    public String getContatosRaw(){
         return this.contatosJSON;
     }
 
@@ -207,7 +207,7 @@ public class Pessoa {
         this.contatosJSON = contatosJSON;
     }
 
-    public static ArrayList<Pessoa> PessoaResumoParseJSON(JSONArray pessoas) {
+    public static ArrayList<Pessoa> PessoaResumoParseJSON(JSONArray pessoas, Context context) {
         try {
             ArrayList<Pessoa> pessoaList = new ArrayList<>();
 
@@ -222,7 +222,7 @@ public class Pessoa {
                 pessoa.setEmpresa(pessoaObject.getString(TAG_EMPRESA));
 
                 try {
-                    pessoa.setFoto(NetworkUtils.getImageFromHttpUrl(pessoaObject.getString(TAG_FOTO)));
+                    pessoa.setFoto(NetworkUtils.getImageFromHttpUrl(pessoaObject.getString(TAG_FOTO), context));
 
                 } catch (Exception IOException) {
                     pessoa.setFoto(null);
@@ -236,7 +236,7 @@ public class Pessoa {
         }
     }
 
-    public static Pessoa resumoPessoaParseJSON(String json, String root_foto) {
+    public static Pessoa resumoPessoaParseJSON(String json, String root_foto, Context context) {
         try {
             JSONObject pessoaObject = new JSONObject(json);
 
@@ -248,9 +248,7 @@ public class Pessoa {
             pessoa.setProfissao(pessoaObject.getString(TAG_PROFISSAO));
             pessoa.setEmpresa(pessoaObject.getString(TAG_EMPRESA));
             try {
-                pessoa.setFoto(NetworkUtils.getImageFromHttpUrl(root_foto + pessoaObject.getString(TAG_FOTO)));
-                Log.d("TESTE resumoParser", Integer.toString(pessoa.getFoto().length));
-
+                pessoa.setFoto(NetworkUtils.getImageFromHttpUrl(root_foto + pessoaObject.getString(TAG_FOTO), context));
             } catch (Exception IOException) {
                 pessoa.setFoto(null);
             }
@@ -261,7 +259,7 @@ public class Pessoa {
         }
     }
 
-    public static Pessoa detalhePessoaParseJSON(String json) {
+    public static Pessoa detalhePessoaParseJSON(String json, Context context) {
         try {
             JSONObject jsonObject = new JSONObject(json);
 //          TODO: Tem que arrumar essa duplicação de informação na api
@@ -278,7 +276,7 @@ public class Pessoa {
             pessoa.setContatos(pessoaObject.getString(TAG_CONTATOS));
 
             try {
-                pessoa.setFoto(NetworkUtils.getImageFromHttpUrl(NetworkUtils.BASE_URL + pessoaObject.getString(TAG_FOTO)));
+                pessoa.setFoto(NetworkUtils.getImageFromHttpUrl(NetworkUtils.BASE_URL + pessoaObject.getString(TAG_FOTO), context));
             } catch (Exception IOException) {
                 pessoa.setFoto(null);
             }
@@ -290,7 +288,7 @@ public class Pessoa {
         }
     }
 
-    public static ArrayList<Pessoa> pessoasParseJSON(String json) {
+    public static ArrayList<Pessoa> pessoasParseJSON(String json, Context context) {
         if (json != null) {
             try {
                 // Lista de pessoas
@@ -315,7 +313,7 @@ public class Pessoa {
                     pessoa.setContatos(pessoaObject.getString(TAG_CONTATOS));
 
                     try {
-                        pessoa.setFoto(NetworkUtils.getImageFromHttpUrl(NetworkUtils.BASE_URL + pessoaObject.getString(TAG_FOTO)));
+                        pessoa.setFoto(NetworkUtils.getImageFromHttpUrl(NetworkUtils.BASE_URL + pessoaObject.getString(TAG_FOTO), context));
 
                     } catch (Exception IOException) {
                         pessoa.setFoto(null);
@@ -334,13 +332,13 @@ public class Pessoa {
         }
     }
 
-    public static Pessoa getDetalhePessoaFromHTTP(int id) {
+    public static Pessoa getDetalhePessoaFromHTTP(int id, Context context) {
         URL url = NetworkUtils.buildUrl(API_URL + Integer.toString(id));
         String response;
         try {
-            response = NetworkUtils.getResponseFromHttpUrl(url);
+            response = NetworkUtils.getResponseFromHttpUrl(url, context);
             if (response != null) {
-                Pessoa pessoa = detalhePessoaParseJSON(response);
+                Pessoa pessoa = detalhePessoaParseJSON(response, context);
                 DatabaseHandler.getDB().updatePessoa(pessoa);
                 return pessoa;
             }
