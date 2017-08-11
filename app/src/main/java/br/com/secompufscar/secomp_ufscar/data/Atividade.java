@@ -1,40 +1,117 @@
 package br.com.secompufscar.secomp_ufscar.data;
 
+import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
+
+import br.com.secompufscar.secomp_ufscar.R;
+import br.com.secompufscar.secomp_ufscar.utilities.NetworkUtils;
 
 public class Atividade {
-    private final static String TAG_ATIVIDADE = "palestras";
-    private final static String TAG_ID = "id_atividade";
-    private final static String TAG_DATA_INICIO = "data_inicio";
-    private final static String TAG_HORA_INICIO = "hora_inicio";
-    private final static String TAG_HORA_FIM = "hora_fim";
-    private final static String TAG_NOME = "nome_atividade";
-    private final static String TAG_MINISTRANTE = "ministrante_atividade";
-    private final static String TAG_DESCRICAO = "descricao_atividade";
-    private final static String TAG_LOCAL = "local_atividade";
+
+    public final static String TAG_ATIVIDADES = "atividades";
+    public final static String TAG_TIPOS_ATIVIDADE = "tipos_atividades";
+    public final static String TAG_DOMINIO_IMAGEM = "dominio_imagens";
+
+    public final static String TAG_ID = "id";
+    public final static String TAG_TITULO = "titulo";
+    public final static String TAG_MINISTRANTES = "ministrantes";
+    public final static String TAG_DESCRICAO = "descricao";
+    public final static String TAG_TIPO = "tipo";
+    public final static String TAG_LOCAL = "local";
+    public final static String TAG_FAVORITO = "favorito";
+
+    public final static String TAG_HORARIOS = "horarios";
+    public final static String TAG_DATAHORA_INICIO = "data_hora_inicio";
+    public final static String TAG_DATAHORA_FIM = "data_hora_fim";
+
+
+    public final static String API_URL = "api/atividades/";
+    public final static String RESUMO_URL = API_URL + "?ministrantes_resumo=True/";
+
+    class Horario {
+        public Date dataHora_inicio, dataHora_fim;
+
+        @Override
+        public String toString() {
+            return dateInCurrentTimeZone(this.dataHora_inicio, "EE").toUpperCase() + " " + getHoras();
+        }
+
+        public String getHoras() {
+            String horarioFim = (this.dataHora_fim != null) ? " - " + dateInCurrentTimeZone(this.dataHora_fim, "HH:mm") : "";
+            return dateInCurrentTimeZone(this.dataHora_inicio, "HH:mm") + horarioFim;
+        }
+
+        public Date dataHoraParser(String dateString) {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
+            formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+            Date value = null;
+            try {
+                value = formatter.parse(dateString);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            return value;
+        }
+
+        /**
+         * String format: formato utilizado para formatar a saída (veja documentação do SimpleDateFormat)
+         * Exemplos: "dd/MM/yyyy HH:mm" (Dia/Mes/Ano Horas:minutos), "EE" (dia da semana em formato reduzido)
+         **/
+
+        public String dateInCurrentTimeZone(Date dateObject, String format) {
+
+            SimpleDateFormat dateFormatter = new SimpleDateFormat(format, Locale.getDefault());
+            dateFormatter.setTimeZone(TimeZone.getDefault());
+            String datahora = dateFormatter.format(dateObject);
+
+            return datahora;
+        }
+
+        public String getDataHoraInicio() {
+            return dateInCurrentTimeZone(this.dataHora_inicio, "dd/MM/yyyy HH:mm");
+        }
+
+        public String getDataHoraFim() {
+            return dateInCurrentTimeZone(this.dataHora_fim, "dd/MM/yyyy HH:mm");
+        }
+
+        public void setDataHora_inicio(String dataHora_inicio) {
+            this.dataHora_inicio = dataHoraParser(dataHora_inicio);
+        }
+
+        public void setDataHora_Fim(String dataHora_fim) {
+            this.dataHora_fim = dataHoraParser(dataHora_fim);
+        }
+    }
 
     private int id;
-    private String nome, local, tipo, descricao;
-    private Date horarioInicio, horarioFim;
+    private String titulo, local, tipo, descricao;
+    private String horarios;
+    private String dataHora_inicio;
+    private ArrayList<Pessoa> ministrantes;
+    private boolean favorito;
 
-    public Atividade() {
-
+    @Override
+    public String toString() {
+        return this.titulo + " Tipo:" + this.tipo;
     }
 
-    public Atividade(int id, String nome, String local, String descricao) {
-        this.id = id;
-        this.nome = nome;
-        this.local = local;
-        this.descricao = descricao;
-    }
 
     /**
      * Métodos set
@@ -44,11 +121,11 @@ public class Atividade {
         this.id = id;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
-    public void setLocal(String local){
+    public void setLocal(String local) {
         this.local = local;
     }
 
@@ -60,82 +137,239 @@ public class Atividade {
         this.tipo = tipo;
     }
 
-    // TODO: padronizar formato de hora da api do site
-    // TODO: Arrumar formato da data
-    public void setHorarioInicio(String data, String horario) {
-        GregorianCalendar cal = new GregorianCalendar();
-        // TODO: Achar solução para isso
-        int ano = 2016;
-        int dia = Integer.valueOf(data.substring(0, data.indexOf("/")));
-        int mes = Integer.valueOf(data.substring(data.indexOf("/") + 1, data.length())) - 1;
-        Log.d("data", ano + " " + mes + "  " + dia + "  " + "\n");
-        cal.set(ano, mes, dia, 12, 00, 00);
-        horarioInicio = cal.getTime();
+    public void setHorarios(String horarios) {
+        this.horarios = horarios;
+
+        if (!this.horarios.isEmpty()) {
+            try {
+                JSONArray horariosArray = new JSONArray(this.horarios);
+                JSONObject horarioObject = horariosArray.getJSONObject(0);
+
+                this.dataHora_inicio = horarioObject.getString(TAG_DATAHORA_INICIO);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
-    public void setHorarioFim(String data, String horario) {
-        GregorianCalendar cal = new GregorianCalendar();
-        // TODO: Achar solução para isso
-        int ano = 2016;
-        int dia = Integer.valueOf(data.substring(0, data.indexOf("/")));
-        int mes = Integer.valueOf(data.substring(data.indexOf("/") + 1, data.length())) - 1;
-        Log.d("data", ano + " " + mes + "  " + dia + "  " + "\n");
-        cal.set(ano, mes, dia, 12, 00, 00);
-        horarioFim = cal.getTime();
+    public void setMinistrantes(JSONArray ministrantes, String root_image) {
+        try {
+            this.ministrantes = new ArrayList<>();
+
+            for (int i = 0; i < ministrantes.length(); i++) {
+                Pessoa pessoa = Pessoa.resumoPessoaParseJSON(ministrantes.getString(i), root_image);
+                this.ministrantes.add(pessoa);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setFavorito(boolean isFavorito) {
+        this.favorito = isFavorito;
     }
 
     /**
      * Métodos get
-     * **/
+     **/
 
-    public int getId(){
+    public int getId() {
         return this.id;
     }
 
-    public String getNome(){
-        return this.nome;
+    public String getTitulo() {
+        return this.titulo;
     }
 
-    public String getLocal(){
+    public String getLocal() {
         return this.local;
     }
 
-    public String getDescricao(){
+    public String getTipo() {
+        return this.tipo;
+    }
+
+    public String getDescricao() {
         return this.descricao;
     }
 
+    public String getHorariosString() {
+        return this.horarios;
+    }
 
-    public static ArrayList<Atividade> AtividadeParseJSON(String json) {
+    public String getDataHoraInicio() {
+        return this.dataHora_inicio;
+    }
 
-        if (json != null) {
+    public String getHorarioInicial(){
+        Horario horario_inicio = new Horario();
+        horario_inicio.setDataHora_inicio(this.dataHora_inicio);
+
+        return horario_inicio.dateInCurrentTimeZone(horario_inicio.dataHora_inicio, "HH:mm");
+    }
+
+    public String getHorarios() {
+        String horarios_string = "";
+        if (!this.horarios.isEmpty()) {
+
             try {
-                // Lista das atividades
-                ArrayList<Atividade> atividadeList = new ArrayList<Atividade>();
-                JSONObject jsonObj = new JSONObject(json);
-                // Getting JSON Array node
-                JSONArray atividades = jsonObj.getJSONArray(TAG_ATIVIDADE);
-                // Looping em para pegar cada atividade
-                for (int i = 0; i < atividades.length(); i++) {
-                    Atividade atividade = new Atividade();
-                    JSONObject atividadeObject = atividades.getJSONObject(i);
+                JSONArray horariosArray = new JSONArray(this.horarios);
 
-                    atividade.id = Integer.valueOf(atividadeObject.getString(TAG_ID));
-                    atividade.nome = atividadeObject.getString(TAG_NOME);
-                    atividade.descricao = atividadeObject.getString(TAG_DESCRICAO);
-                    atividade.local = atividadeObject.getString(TAG_LOCAL);
+                for (int j = 0; j < horariosArray.length(); j++) {
+                    Horario horario = new Horario();
+                    JSONObject horarioObject = horariosArray.getJSONObject(j);
+                    horario.setDataHora_inicio(horarioObject.getString(TAG_DATAHORA_INICIO));
+                    horario.setDataHora_Fim(horarioObject.getString(TAG_DATAHORA_FIM));
 
-                    // Adicionando a atividade a lista
-                    Log.d("testsql","adicionaAtividade");
-                    atividadeList.add(atividade);
+                    if (j == 0) {
+                        horarios_string = horario.toString();
+                    } else if (j < horariosArray.length() - 1) {
+                        horarios_string += ", " + horario.getHoras();
+                    } else {
+                        horarios_string += " e " + horario.getHoras();
+                    }
                 }
-                return atividadeList;
+                return horarios_string;
             } catch (JSONException e) {
                 e.printStackTrace();
                 return null;
             }
         } else {
+            return null;
+        }
+    }
+
+    public int getColor(Context context) {
+        int color;
+        switch (this.tipo.toLowerCase()) {
+            case "palestra":
+                color = ContextCompat.getColor(context, R.color.palestraColor);
+                break;
+            case "minicurso":
+                color = ContextCompat.getColor(context, R.color.minicursoColor);
+                break;
+            default:
+                color = ContextCompat.getColor(context, R.color.palestraColor);
+        }
+
+        return color;
+    }
+
+    public List<Pessoa> getMinistrantes(){
+        return this.ministrantes;
+    }
+
+    public Boolean isFavorito() {
+        return this.favorito;
+    }
+
+    public static ArrayList<Atividade> atividadesParseJSON(String json) {
+        if (json != null) {
+            try {
+                // Lista de patrocinadores
+                ArrayList<Atividade> atividadeList = new ArrayList<>();
+                // Lista de tipos de atividade
+//                ArrayList<String> tipoList = new ArrayList<>();
+                JSONObject jsonObj = new JSONObject(json);
+
+                JSONArray tipos = jsonObj.getJSONArray(TAG_TIPOS_ATIVIDADE);
+                JSONObject atividadesObject = jsonObj.getJSONObject(TAG_ATIVIDADES);
+                String root_image = jsonObj.getString(TAG_DOMINIO_IMAGEM);
+
+                String tipo;
+                for (int i = 0; i < tipos.length(); i++) {
+                    tipo = tipos.getString(i);
+                    JSONArray tipo_atividade = atividadesObject.getJSONArray(tipo);
+
+                    for (int j = 0; j < tipo_atividade.length(); j++) {
+                        Atividade atividade = new Atividade();
+
+                        JSONObject atividadeObject = tipo_atividade.getJSONObject(j);
+
+                        atividade.setId(atividadeObject.getInt(TAG_ID));
+                        atividade.setTitulo(atividadeObject.getString(TAG_TITULO));
+                        atividade.setTipo(tipo);
+                        atividade.setHorarios(atividadeObject.getString(TAG_HORARIOS));
+                        atividade.setMinistrantes(atividadeObject.getJSONArray(TAG_MINISTRANTES), root_image);
+
+                        atividadeList.add(atividade);
+                    }
+                }
+
+                return atividadeList;
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        } else {
+            //TODO: tratar esse problema no app
             Log.e("ServiceHandler", "No data received from HTTP request");
             return null;
         }
+    }
+
+    public static Atividade detalheAtividadeParseJSON(String json) {
+        if (json != null) {
+            try {
+                JSONObject atividadeObject = new JSONObject(json);
+
+                Atividade atividade = new Atividade();
+
+                atividade.setDescricao(atividadeObject.getString(TAG_DESCRICAO));
+                atividade.setLocal(atividadeObject.getString(TAG_LOCAL));
+                atividade.setId(atividadeObject.getInt(TAG_ID));
+                atividade.setTitulo(atividadeObject.getString(TAG_TITULO));
+                atividade.setTipo(atividadeObject.getString(TAG_TIPO));
+                atividade.setHorarios(atividadeObject.getString(TAG_HORARIOS));
+                //TODO: Incluir dominio imagem na api de detalhes
+                atividade.setMinistrantes(atividadeObject.getJSONArray(TAG_MINISTRANTES), NetworkUtils.BASE_URL);
+
+                return atividade;
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        } else {
+            //TODO: tratar esse problema no app
+            Log.e("ServiceHandler", "No data received from HTTP request");
+            return null;
+        }
+    }
+
+    public static void getAtividadesFromHTTP() {
+        URL url = NetworkUtils.buildUrl(RESUMO_URL);
+        String response;
+
+        try {
+            response = NetworkUtils.getResponseFromHttpUrl(url);
+            if (response != null) {
+                DatabaseHandler.getDB().addManyAtividades(atividadesParseJSON(response));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Atividade getDetalheAtividadeFromHTTP(int id) {
+        URL url = NetworkUtils.buildUrl(API_URL + Integer.toString(id));
+        String response;
+        try {
+            response = NetworkUtils.getResponseFromHttpUrl(url);
+            if (response != null) {
+                Atividade atividade = detalheAtividadeParseJSON(response);
+                DatabaseHandler.getDB().updateAtividade(atividade);
+                return atividade;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return null;
     }
 }

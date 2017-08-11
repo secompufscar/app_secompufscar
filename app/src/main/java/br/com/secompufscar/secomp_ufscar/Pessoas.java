@@ -1,108 +1,100 @@
 package br.com.secompufscar.secomp_ufscar;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link Pessoas.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link Pessoas#newInstance} factory method to
- * create an instance of this fragment.
- */
+import br.com.secompufscar.secomp_ufscar.data.Atividade;
+import br.com.secompufscar.secomp_ufscar.data.DatabaseHandler;
+import br.com.secompufscar.secomp_ufscar.data.Pessoa;
+import br.com.secompufscar.secomp_ufscar.utilities.ClickListener;
+import br.com.secompufscar.secomp_ufscar.utilities.RecyclerTouchListener;
+
 public class Pessoas extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    public static List<Pessoa> pessoaList = new ArrayList<>();
 
-    private OnFragmentInteractionListener mListener;
+    private RecyclerView recycler_pessoas;
+    private PessoasAdapter adapter;
 
     public Pessoas() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Pessoas.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static Pessoas newInstance(String param1, String param2) {
-        Pessoas fragment = new Pessoas();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+//        if (getArguments() != null) {
+//            mParam1 = getArguments().getString(ARG_PARAM1);
+//            mParam2 = getArguments().getString(ARG_PARAM2);
+//        }
+
+        adapter = new PessoasAdapter(getActivity(), pessoaList);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_pessoas, container, false);
+        View view = inflater.inflate(R.layout.fragment_pessoas, container, false);
+        recycler_pessoas = (RecyclerView) view.findViewById(R.id.recycler_pessoas);
+
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+        recycler_pessoas.setLayoutManager(mLayoutManager);
+
+        recycler_pessoas.setAdapter(adapter);
+
+        recycler_pessoas.addOnItemTouchListener(new RecyclerTouchListener(getActivity().getApplicationContext(), recycler_pessoas, new ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+
+                Pessoa pessoa = pessoaList.get(position);
+
+                Context context = view.getContext();
+                Intent detalhesPessoa = new Intent(context, PessoaDetalhes.class);
+                detalhesPessoa.putExtra(PessoaDetalhes.EXTRA, pessoa.getId());
+                context.startActivity(detalhesPessoa);
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
+
+        new UpdatePessoas().execute();
+
+        return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+    private class UpdatePessoas extends AsyncTask<Void, Void, List<Pessoa>> {
+        @Override
+        protected List<Pessoa> doInBackground(Void... params) {
+            try {
+                return DatabaseHandler.getDB().getAllPessoas();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
         }
-    }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+        @Override
+        protected void onPostExecute(List<Pessoa> pessoasFromDB) {
+            pessoaList.clear();
+            pessoaList.addAll(pessoasFromDB);
+            adapter.notifyDataSetChanged();
         }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 }

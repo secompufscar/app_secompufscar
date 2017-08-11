@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/detail_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="false">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/atividade_detalhe_header"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:scaleType="centerCrop">
+
+            <ImageView
+                android:id="@+id/imagem_tipo_atividade"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                tools:background="@color/defaultColor" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/detalhes_info_header_margin"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/atividade_detalhe_titulo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingBottom="10dp"
+                    android:text="Nome da atividade"
+                    android:textAlignment="center"
+                    android:textColor="@color/detalhesHeaderText"
+                    android:textSize="@dimen/detalhes_nome_size"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/atividade_detalhe_frame_local"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_local"
+                        android:tint="@color/detalhesHeaderText" />
+
+                    <TextView
+                        android:id="@+id/atividade_detalhe_local"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:text="Local"
+                        android:textAlignment="center"
+                        android:textColor="@color/detalhesHeaderText"
+                        android:textSize="@dimen/detalhes_local_size" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/atividade_detalhe_frame_horario"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center">
+
+                    <ImageView
+                        android:id="@+id/atividade_detalhe_horario_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_horario"
+                        android:tint="@color/detalhesHeaderText" />
+
+                    <TextView
+                        android:id="@+id/atividade_detalhe_horarios"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:text="SEG 16h30 - 17h30"
+                        android:textColor="@color/detalhesHeaderText"
+                        android:textSize="@dimen/detalhes_horario_size" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/appBarSize"
+                android:orientation="vertical"
+                android:padding="@dimen/detalhes_body_padding">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/titulo_margin_bottom"
+                    android:text="@string/atividade_titulo_descricao"
+                    android:textColor="@color/detalhesTituloText"
+                    android:textSize="@dimen/titulo_size" />
+
+                <TextView
+                    android:id="@+id/atividade_detalhe_descricao"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Descrição da atividade"
+                    android:textColor="@color/secondaryText" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/titulo_margin_bottom"
+                    android:layout_marginTop="@dimen/titulo_margin_top"
+                    android:text="@string/atividade_titulo_ministrantes"
+                    android:textColor="@color/detalhesTituloText"
+                    android:textSize="@dimen/titulo_size" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_ministrantes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+                </android.support.v7.widget.RecyclerView>
+
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/atividade_detalhe_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:src="@drawable/ic_atividade_favorito_borda"
+        android:tint="@color/floatButtonTint"
+        app:fabSize="normal"
+        app:layout_anchor="@id/atividade_detalhe_header"
+        app:layout_anchorGravity="bottom|center" />
+</android.support.design.widget.CoordinatorLayout>
