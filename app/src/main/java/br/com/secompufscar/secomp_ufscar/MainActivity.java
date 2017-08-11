@@ -332,8 +332,7 @@ public class MainActivity extends AppCompatActivity
                     current_fragment = MINHAS_ATIVIDADES_POSITION;
                     break;
                 case R.id.nav_map:
-                    Intent i = new Intent(this, MapsActivity.class);
-                    startActivity(i);
+                    startActivity(new Intent(MainActivity.this, MapsActivity.class));
                     break;
                 case R.id.nav_patrocinadores:
                     fragment = fragmentos.get("patrocinadores");
@@ -356,7 +355,6 @@ public class MainActivity extends AppCompatActivity
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
             }
-
             return null;
         }
 
