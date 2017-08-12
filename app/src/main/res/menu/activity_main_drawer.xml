@@ -1,61 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/menu_set_1"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_menu_home"
-            android:title="A SECOMP" />
+            android:title="@string/home_button" />
         <item
             android:id="@+id/nav_cronograma"
             android:icon="@drawable/ic_menu_cronograma"
-            android:title="Cronograma"/>
+            android:title="@string/cronograma_button" />
         <item
             android:id="@+id/nav_feed"
             android:icon="@drawable/ic_menu_news"
-            android:title="Redes Sociais" />
+            android:title="@string/redes_sociais_button" />
         <item
             android:id="@+id/nav_pessoas"
             android:icon="@drawable/ic_menu_person"
-            android:title="Pessoas" />
+            android:title="@string/pessoas_button" />
         <item
             android:id="@+id/nav_minhasAtividades"
             android:icon="@drawable/ic_menu_favorite"
-            android:title="Minhas Atividades" />
+            android:title="@string/favoritos_button" />
         <item
             android:id="@+id/nav_map"
             android:icon="@drawable/ic_menu_map"
-            android:title="Mapa" />
+            android:title="@string/mapa_button" />
         <item
             android:id="@+id/nav_areaParticipante"
             android:icon="@android:drawable/ic_lock_lock"
-            android:title="Área do Participante" />
+            android:title="@string/area_participante_button" />
     </group>
 
-    <item android:title="">
-        <menu>
-            <group android:checkableBehavior="single">
-                <item
-                    android:id="@+id/nav_patrocinadores"
-                    android:icon="@drawable/ic_menu_patrocinador"
-                    android:title="Patrocinadores" />
-                <item
-                    android:id="@+id/nav_sobre"
-                    android:icon="@drawable/ic_menu_sobre"
-                    android:title="Sobre" />
-            </group>
-        </menu>
-    </item>
-    <item android:title="">
-        <menu>
-            <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/menu_set_2"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_patrocinadores"
+            android:icon="@drawable/ic_menu_patrocinador"
+            android:title="@string/patrocinio_button" />
+        <item
+            android:id="@+id/nav_sobre"
+            android:icon="@drawable/ic_menu_sobre"
+            android:title="@string/sobre_button" />
+    </group>
 
-                <item
-                    android:id="@+id/nav_settings"
-                    android:icon="@android:drawable/ic_menu_preferences"
-                    android:title="Settings" />
-            </group>
-        </menu>
-    </item>
+    <group
+        android:id="@+id/menu_set_3"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@android:drawable/ic_menu_preferences"
+            android:title="@string/configuracoes_button"/>
+    </group>
+
 </menu>

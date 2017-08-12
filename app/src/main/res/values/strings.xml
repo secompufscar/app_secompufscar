@@ -10,6 +10,16 @@
     <string name="action_settings">Configurações</string>
 
     <!-- Menu -->
+    <string name="home_button">A SECOMP</string>
+    <string name="cronograma_button">Cronograma</string>
+    <string name="redes_sociais_button">Redes Sociais</string>
+    <string name="pessoas_button">Pessoas</string>
+    <string name="favoritos_button">Minhas Atividades</string>
+    <string name="mapa_button">Mapa</string>
+    <string name="area_participante_button">Área do Participante</string>
+    <string name="patrocinio_button">Patrocínio</string>
+    <string name="sobre_button">Sobre</string>
+    <string name="configuracoes_button">Configurações</string>
 
     <!-- Detalhes de Atividade -->
     <string name="msg_favoritado">Atividade salva em Minhas Atividades</string>
@@ -71,6 +81,5 @@
     <string name="OAuthSecret">CZDkwMIbnhfpp3bkFfmCsSmfKXyebMFXmt19Qx9gkgLVQ9F53p</string>
     <string name="OAuthToken">865280565217558528-KAJ29DWJZCwEtohlMvcuMGdBQLVsbGs</string>
     <string name="OAuthTokenSecret">C8gFlTi5HhG79ffJyTO9eckdVqUL3ywBdUlJtIVLdHZi1</string>
-
 
 </resources>
