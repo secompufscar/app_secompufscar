@@ -1,22 +1,18 @@
 package br.com.secompufscar.secomp_ufscar;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.secompufscar.secomp_ufscar.data.DatabaseHandler;
 import br.com.secompufscar.secomp_ufscar.listaAtividades.ListaQuarta;
 import br.com.secompufscar.secomp_ufscar.listaAtividades.ListaQuinta;
 import br.com.secompufscar.secomp_ufscar.listaAtividades.ListaSegunda;
@@ -24,8 +20,6 @@ import br.com.secompufscar.secomp_ufscar.listaAtividades.ListaSexta;
 import br.com.secompufscar.secomp_ufscar.listaAtividades.ListaTerca;
 
 public class Cronograma extends Fragment {
-
-//    private OnFragmentInteractionListener mListener;
 
     private TabLayout tabLayout;
     private ViewPager viewPager;

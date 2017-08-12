@@ -7,11 +7,9 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import org.joda.time.DateTime;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -115,17 +113,35 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // Configura valores para insereir uma atividade
     private ContentValues getAtividadeRow(Atividade atividade) {
         ContentValues values = new ContentValues();
+
         values.put(Atividade.TAG_ID, atividade.getId());
-        values.put(Atividade.TAG_TITULO, atividade.getTitulo());
-        values.put(Atividade.TAG_LOCAL, atividade.getLocal());
-        values.put(Atividade.TAG_DESCRICAO, atividade.getDescricao());
-        values.put(Atividade.TAG_TIPO, atividade.getTipo());
-        values.put(Atividade.TAG_HORARIOS, atividade.getHorariosString());
-        values.put(Atividade.TAG_DATAHORA_INICIO, atividade.getDataHoraInicio());
+
+        if (atividade.getTitulo() != null) {
+            values.put(Atividade.TAG_TITULO, atividade.getTitulo());
+        }
+
+        if (atividade.getLocal() != null) {
+            values.put(Atividade.TAG_LOCAL, atividade.getLocal());
+        }
+
+        if (atividade.getDescricao() != null) {
+            values.put(Atividade.TAG_DESCRICAO, atividade.getDescricao());
+        }
+
+        if (atividade.getTipo() != null) {
+            values.put(Atividade.TAG_TIPO, atividade.getTipo());
+        }
+
+        if (atividade.getHorariosRaw() != null) {
+            values.put(Atividade.TAG_HORARIOS, atividade.getHorariosRaw());
+        }
+
+        if (atividade.getDataHoraInicio() != null) {
+            values.put(Atividade.TAG_DATAHORA_INICIO, atividade.getDataHoraInicio());
+        }
 
         return values;
     }
-    // TODO: É necessário verificar os ministrantes ainda
 
     // Adicionar uma nova atividade
     public void addAtividade(Atividade atividade) throws SQLiteException {
@@ -139,7 +155,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // Adiciona várias atividades de uma única vez, se alguma atividade já existir ela é atualizada
     public void addManyAtividades(List<Atividade> atividades) {
         if (atividades != null) {
-
             for (int i = 0; i < atividades.size(); i++) {
                 try {
                     addAtividade(atividades.get(i));
@@ -372,14 +387,36 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // Configura valores para inserir uma pessoa
     private ContentValues getPessoaRow(Pessoa pessoa) {
         ContentValues values = new ContentValues();
+
         values.put(Pessoa.TAG_ID, pessoa.getId());
-        values.put(Pessoa.TAG_NOME, pessoa.getNome());
-        values.put(Pessoa.TAG_SOBRENOME, pessoa.getSobrenome());
-        values.put(Pessoa.TAG_DESCRICAO, pessoa.getDescricao());
-        values.put(Pessoa.TAG_EMPRESA, pessoa.getEmpresa());
-        values.put(Pessoa.TAG_PROFISSAO, pessoa.getProfissao());
-        values.put(Pessoa.TAG_FOTO, pessoa.getFoto());
-        values.put(Pessoa.TAG_CONTATOS, pessoa.getContatosString());
+
+        if (pessoa.getNome() != null) {
+            values.put(Pessoa.TAG_NOME, pessoa.getNome());
+        }
+
+        if (pessoa.getSobrenome() != null) {
+            values.put(Pessoa.TAG_SOBRENOME, pessoa.getSobrenome());
+        }
+
+        if (pessoa.getDescricao() != null) {
+            values.put(Pessoa.TAG_DESCRICAO, pessoa.getDescricao());
+        }
+
+        if (pessoa.getEmpresa() != null) {
+            values.put(Pessoa.TAG_EMPRESA, pessoa.getEmpresa());
+        }
+
+        if (pessoa.getProfissao() != null) {
+            values.put(Pessoa.TAG_PROFISSAO, pessoa.getProfissao());
+        }
+
+        if (pessoa.getFoto() != null) {
+            values.put(Pessoa.TAG_FOTO, pessoa.getFoto());
+        }
+
+        if (pessoa.getContatosRaw() != null) {
+            values.put(Pessoa.TAG_CONTATOS, pessoa.getContatosRaw());
+        }
 
         return values;
     }
@@ -529,33 +566,58 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private ContentValues getPatrocinadorRow(Patrocinador patrocinador) {
         ContentValues values = new ContentValues();
         values.put(Patrocinador.TAG_ID, patrocinador.getId());
-        values.put(Patrocinador.TAG_ORDEM, patrocinador.getOrdem());
-        values.put(Patrocinador.TAG_NOME, patrocinador.getNome());
-        values.put(Patrocinador.TAG_WEBSITE, patrocinador.getWebsite());
-        values.put(Patrocinador.TAG_COTA, patrocinador.getCota());
-        values.put(Patrocinador.TAG_LOGO, patrocinador.getLogo());
+
+        if (patrocinador.getOrdem() > 0) {
+            values.put(Patrocinador.TAG_ORDEM, patrocinador.getOrdem());
+        }
+
+        if (patrocinador.getNome() != null) {
+            values.put(Patrocinador.TAG_NOME, patrocinador.getNome());
+        }
+
+        if (patrocinador.getWebsite() != null) {
+            values.put(Patrocinador.TAG_WEBSITE, patrocinador.getWebsite());
+        }
+
+        if (patrocinador.getCota() != null) {
+            values.put(Patrocinador.TAG_COTA, patrocinador.getCota());
+        }
+
+        if (patrocinador.getLogo() != null) {
+            values.put(Patrocinador.TAG_LOGO, patrocinador.getLogo());
+        }
 
         return values;
     }
 
+    public void addPatrocinador(Patrocinador patrocinador) throws SQLiteConstraintException {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.insertOrThrow(TABLE_PATROCINADOR, null, getPatrocinadorRow(patrocinador));
+        db.close(); // Closing database connection
+    }
+
     // Adiciona vários patrocinadores de uma única vez
     public void addManyPatrocinadores(List<Patrocinador> patrocinadores) {
-        if (patrocinadores != null) {
-
-            SQLiteDatabase db = this.getWritableDatabase();
-
+        if (patrocinadores != null && !patrocinadores.isEmpty()) {
             for (int i = 0; i < patrocinadores.size(); i++) {
-
                 try {
-                    db.insertOrThrow(TABLE_PATROCINADOR, null, getPatrocinadorRow(patrocinadores.get(i)));
+                    addPatrocinador(patrocinadores.get(i));
                 } catch (Exception e) {
-                    int linhasAfetadas = db.update(TABLE_PATROCINADOR, getPatrocinadorRow(patrocinadores.get(i)), Patrocinador.TAG_ID + " = ?",
-                            new String[]{String.valueOf(patrocinadores.get(i).getId())});
+                    updatePatrocinador(patrocinadores.get(i));
                 }
             }
-
-            db.close(); // Closing database connection
         }
+    }
+
+    // Atualiza um patrocinador
+    public int updatePatrocinador(Patrocinador patrocinador) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        int linhasAfetadas = db.update(TABLE_PATROCINADOR, getPatrocinadorRow(patrocinador), Patrocinador.TAG_ID + " = ?",
+                new String[]{String.valueOf(patrocinador.getId())});
+        db.close();
+
+        return linhasAfetadas;
     }
 
     public HashMap<String, List<Patrocinador>> getPatrocinadoresByCota() {
@@ -603,17 +665,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return map;
     }
 
-    // Atualiza um patrocinador
-    public int updatePatrocinador(Patrocinador patrocinador) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        int linhasAfetadas = db.update(TABLE_PATROCINADOR, getPatrocinadorRow(patrocinador), Patrocinador.TAG_ID + " = ?",
-                new String[]{String.valueOf(patrocinador.getId())});
-        db.close();
-
-        return linhasAfetadas;
-    }
-
     /**
      * Operações para a tabela Ministrante
      **/
@@ -655,12 +706,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     public void updateMinistrantes(Atividade atividade) {
-        deleteAllMinistrantesByAtividade(atividade.getId());
-        addMinistrantes(atividade);
+        if (atividade.getMinistrantes() != null) {
+            deleteAllMinistrantesByAtividade(atividade.getId());
+            addMinistrantes(atividade);
+        }
     }
 
     public List<Pessoa> getMinistrantes(Atividade atividade) {
-
 
         List<Pessoa> pessoas = new ArrayList<>();
 

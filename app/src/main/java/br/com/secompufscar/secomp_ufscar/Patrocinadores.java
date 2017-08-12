@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import br.com.secompufscar.secomp_ufscar.adapters.PatrocinadorAdapter;
 import br.com.secompufscar.secomp_ufscar.data.DatabaseHandler;
 import br.com.secompufscar.secomp_ufscar.data.Patrocinador;
 import br.com.secompufscar.secomp_ufscar.utilities.ClickListener;

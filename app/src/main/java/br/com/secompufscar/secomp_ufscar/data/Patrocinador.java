@@ -1,6 +1,7 @@
 package br.com.secompufscar.secomp_ufscar.data;
 
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -37,7 +38,7 @@ public class Patrocinador {
     public final static String COTA_OURO = "ouro";
     public final static String COTA_PRATA = "prata";
     public final static String COTA_DESAFIO = "desafio_de_programadores";
-    public final static String COTA_APOIO= "apoio";
+    public final static String COTA_APOIO = "apoio";
 
     public final static String API_URL = "api/patrocinadores/";
 
@@ -116,7 +117,7 @@ public class Patrocinador {
         this.cota = cota;
     }
 
-    public static ArrayList<Patrocinador> patrocinadoresParseJSON(String json) {
+    public static ArrayList<Patrocinador> patrocinadoresParseJSON(String json, Context context) {
         if (json != null) {
             try {
                 // Lista de patrocinadores
@@ -149,7 +150,7 @@ public class Patrocinador {
                         patrocinador.setCota(cota);
 
                         try {
-                            patrocinador.setLogo(NetworkUtils.getImageFromHttpUrl(root_image + patrocinadorObject.getString(TAG_LOGO)));
+                            patrocinador.setLogo(NetworkUtils.getImageFromHttpUrl(root_image + patrocinadorObject.getString(TAG_LOGO), context));
                         } catch (Exception IOException) {
                             patrocinador.setLogo(null);
                         }
@@ -170,15 +171,22 @@ public class Patrocinador {
         }
     }
 
-    public static void getPatrocinadoresFromHTTP() {
+    public static void getPatrocinadoresFromHTTP(Context context) {
         URL url = NetworkUtils.buildUrl(API_URL);
         String response;
 
         try {
-            response = NetworkUtils.getResponseFromHttpUrl(url);
+            response = NetworkUtils.getResponseFromHttpUrl(url, context);
+            Log.d("TESTE", "parou");
             if (response != null) {
-                DatabaseHandler.getDB().addManyPatrocinadores(patrocinadoresParseJSON(response));
-//                Log.d("Teste", patrocinadoresParseJSON(response).toString());
+                try {
+                    JSONObject jsonObj = new JSONObject(response);
+                    if (NetworkUtils.checkUpdate(context, jsonObj.getString("ultima_atualizacao"), "patrocinadores")) {
+                        DatabaseHandler.getDB().addManyPatrocinadores(patrocinadoresParseJSON(response, context));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();

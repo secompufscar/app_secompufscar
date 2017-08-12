@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.secompufscar.secomp_ufscar.AtividadeDetalhes;
-import br.com.secompufscar.secomp_ufscar.AtividadesAdapter;
+import br.com.secompufscar.secomp_ufscar.adapters.AtividadesAdapter;
 import br.com.secompufscar.secomp_ufscar.R;
 import br.com.secompufscar.secomp_ufscar.data.Atividade;
 import br.com.secompufscar.secomp_ufscar.data.DatabaseHandler;

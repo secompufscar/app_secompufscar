@@ -1,8 +1,9 @@
 package br.com.secompufscar.secomp_ufscar;
 
-import android.content.Intent;
-import android.os.Bundle;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -10,6 +11,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -26,6 +28,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.secompufscar.secomp_ufscar.adapters.MinistrantesAdapter;
 import br.com.secompufscar.secomp_ufscar.data.Atividade;
 import br.com.secompufscar.secomp_ufscar.data.DatabaseHandler;
 import br.com.secompufscar.secomp_ufscar.data.Pessoa;
@@ -35,19 +38,21 @@ import br.com.secompufscar.secomp_ufscar.utilities.RecyclerTouchListener;
 public class AtividadeDetalhes extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener {
 
-    public static final int TELA_DETALHES_ATIVIDADE = 1;
-
     public static final String EXTRA = "id_atividade";
 
     public static List<Pessoa> ministranteList = new ArrayList<>();
 
-    TextView descricao, local, horarios, titulo;
+    private TextView descricao, local, horarios, titulo;
 
-    RecyclerView recycler_ministrantes;
-    MinistrantesAdapter adapter;
+    private RecyclerView recycler_ministrantes;
+    private MinistrantesAdapter adapter;
 
-    Atividade atividadeAtual;
+    private Atividade atividadeAtual;
 
+    private View contentView;
+    private View loadingView;
+
+    public static final int TELA_DETALHES_ATIVIDADE = 1; //IDENTIFICAO DE QUAL TELA O RESULTADO ESTA VINDO
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +64,15 @@ public class AtividadeDetalhes extends AppCompatActivity implements
 
         setContentView(R.layout.activity_atividade_detalhes);
 
+        contentView = findViewById(R.id.atividade_detalhes_scroll);
+        loadingView = findViewById(R.id.loading_spinner_atividade);
+
+        if(savedInstanceState == null){
+            contentView.setVisibility(View.GONE);
+            new UpdateDetalhes().execute(id);
+        } else {
+            loadingView.setVisibility(View.GONE);
+        }
 
         //Get current screen orientation
         Display display = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
@@ -153,8 +167,6 @@ public class AtividadeDetalhes extends AppCompatActivity implements
                 }
             }
         });
-
-        new UpdateDetalhes().execute(id);
     }
 
     @Override
@@ -174,7 +186,7 @@ public class AtividadeDetalhes extends AppCompatActivity implements
         @Override
         protected Atividade doInBackground(Integer... params) {
 
-            return Atividade.getDetalheAtividadeFromHTTP(params[0]);
+            return Atividade.getDetalheAtividadeFromHTTP(params[0], getBaseContext());
         }
 
         @Override
@@ -198,6 +210,26 @@ public class AtividadeDetalhes extends AppCompatActivity implements
                 ministranteList.addAll(atividadeAtual.getMinistrantes());
                 adapter.notifyDataSetChanged();
             }
+
+            contentView.setAlpha(0f);
+            contentView.setVisibility(View.VISIBLE);
+
+            contentView.animate()
+                    .alpha(1f)
+                    .setDuration(getResources().getInteger(
+                            android.R.integer.config_longAnimTime))
+                    .setListener(null);
+
+            loadingView.animate()
+                    .alpha(0f)
+                    .setDuration(getResources().getInteger(
+                            android.R.integer.config_longAnimTime))
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            loadingView.setVisibility(View.GONE);
+                        }
+                    });
         }
     }
 

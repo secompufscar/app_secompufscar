@@ -99,6 +99,7 @@
         </RelativeLayout>
 
         <android.support.v4.widget.NestedScrollView
+            android:id="@+id/atividade_detalhes_scroll"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -148,6 +149,14 @@
         </android.support.v4.widget.NestedScrollView>
 
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/loading_spinner_atividade"
+        style="?android:progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:progressTint="@color/colorAccent" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/atividade_detalhe_fab"

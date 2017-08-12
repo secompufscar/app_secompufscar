@@ -66,4 +66,11 @@
     <string name="infoUFSCar7">Em 2014, a UFSCar obteve a 18ª colocação entre as 300 universidades da América Latina incluídas no ranking elaborado pela Quacquarelli Symonds (QS). A instituição obteve 82 pontos na avaliação geral e é, portanto, considerada a 10ª melhor instituição brasileira.</string>
     <string name="infoUFSCar8">Texto obtido da página institucional da UFSCar, disponível em www.ufscar.br.</string>
     <string name="config">Configurações</string>
+
+    <string name="OAuthConsumer">hAvDqs2xpY5MrILVlPaR2zvdb</string>
+    <string name="OAuthSecret">CZDkwMIbnhfpp3bkFfmCsSmfKXyebMFXmt19Qx9gkgLVQ9F53p</string>
+    <string name="OAuthToken">865280565217558528-KAJ29DWJZCwEtohlMvcuMGdBQLVsbGs</string>
+    <string name="OAuthTokenSecret">C8gFlTi5HhG79ffJyTO9eckdVqUL3ywBdUlJtIVLdHZi1</string>
+
+
 </resources>

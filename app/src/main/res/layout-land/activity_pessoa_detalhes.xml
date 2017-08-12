@@ -67,6 +67,7 @@
         </RelativeLayout>
 
         <android.support.v4.widget.NestedScrollView
+            android:id="@+id/pessoa_detalhes_scroll"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -112,4 +113,11 @@
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
     </LinearLayout>
+
+    <ProgressBar android:id="@+id/loading_spinner_pessoa"
+        style="?android:progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:progressTint="@color/colorAccent"/>
 </android.support.design.widget.CoordinatorLayout>

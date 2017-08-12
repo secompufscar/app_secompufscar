@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.secompufscar.secomp_ufscar.adapters.MinhasAtividadesAdapter;
 import br.com.secompufscar.secomp_ufscar.data.Atividade;
 import br.com.secompufscar.secomp_ufscar.data.DatabaseHandler;
 import br.com.secompufscar.secomp_ufscar.utilities.ClickListener;
@@ -24,7 +25,7 @@ public class MinhasAtividades extends Fragment {
     
     public static List<Atividade> atividadeList = new ArrayList<>();
     private RecyclerView recycler_atividades;
-    private AtividadesAdapter adapter;
+    private MinhasAtividadesAdapter adapter;
 
     public MinhasAtividades() {
         // Required empty public constructor
@@ -34,7 +35,7 @@ public class MinhasAtividades extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        adapter = new AtividadesAdapter(getActivity(), atividadeList);
+        adapter = new MinhasAtividadesAdapter(getActivity(), atividadeList);
     }
 
     @Override

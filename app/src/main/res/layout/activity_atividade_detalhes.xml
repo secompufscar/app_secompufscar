@@ -80,14 +80,6 @@
                             android:textAlignment="center"
                             android:textColor="@color/detalhesHeaderText"
                             android:textSize="@dimen/detalhes_local_size" />
-
-                        <Button
-                            android:id="@+id/button"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:onClick="EnviarDadosMapa"
-                            android:text="Ver no Mapa" />
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -127,6 +119,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/atividade_detalhes_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -136,7 +129,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="@dimen/detalhes_body_padding">
-
 
             <TextView
                 android:layout_width="match_parent"
@@ -170,6 +162,14 @@
                 android:orientation="horizontal">
 
             </android.support.v7.widget.RecyclerView>
+                tools:text="@string/detail_location" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="EnviarDadosMapa"
+                android:text="Ver no Mapa" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
@@ -183,4 +183,12 @@
         app:fabSize="normal"
         app:layout_anchor="@id/appbar"
         app:layout_anchorGravity="bottom|right|end" />
+
+    <ProgressBar android:id="@+id/loading_spinner_atividade"
+        style="?android:progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:progressTint="@color/colorAccent"/>
+
 </android.support.design.widget.CoordinatorLayout>
