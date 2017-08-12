@@ -48,16 +48,15 @@ public class Patrocinadores extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_patrocinadores, container, false);
-        recycler_patrocinadores = (RecyclerView) view.findViewById(R.id.recycler_patrocinadores);
 
         //Your RecyclerView
         recycler_patrocinadores = (RecyclerView) view.findViewById(R.id.recycler_patrocinadores);
-        recycler_patrocinadores.setHasFixedSize(true);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
 
         recycler_patrocinadores.setLayoutManager(gridLayoutManager);
+        recycler_patrocinadores.setHasFixedSize(true);
 
-        recycler_patrocinadores.addOnItemTouchListener(new RecyclerTouchListener(getActivity().getApplicationContext(), recycler_patrocinadores, new ClickListener() {
+        recycler_patrocinadores.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recycler_patrocinadores, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
                 int itemPosition = sectionedAdapter.getItemPosition(position);
@@ -75,9 +74,13 @@ public class Patrocinadores extends Fragment {
             }
         }));
 
-        new UpdatePatrocinadores().execute();
-
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        new UpdatePatrocinadores().execute();
     }
 
     private class UpdatePatrocinadores extends AsyncTask<Void, Void, Void> {

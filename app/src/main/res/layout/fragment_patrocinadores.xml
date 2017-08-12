@@ -4,17 +4,6 @@
     android:layout_height="match_parent"
     tools:context="br.com.secompufscar.secomp_ufscar.Patrocinadores">
 
-    <!--<GridView-->
-        <!--android:id="@+id/patrocinador_diamante"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:columnWidth="100dp"-->
-        <!--android:numColumns="auto_fit"-->
-        <!--android:verticalSpacing="10dp"-->
-        <!--android:horizontalSpacing="10dp"-->
-        <!--android:stretchMode="columnWidth"-->
-        <!--android:gravity="fill"/>-->
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_patrocinadores"
         android:layout_width="match_parent"

@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import br.com.secompufscar.secomp_ufscar.R;
 import br.com.secompufscar.secomp_ufscar.utilities.NetworkUtils;
 
 public class Patrocinador {
@@ -41,6 +42,9 @@ public class Patrocinador {
     public final static String COTA_APOIO = "apoio";
 
     public final static String API_URL = "api/patrocinadores/";
+
+    public final static int LOGO_SIZE_LIMIT = 900;
+
 
     /**
      * Atributos dos objetos patrocinador
@@ -86,7 +90,18 @@ public class Patrocinador {
     public Bitmap getLogoBitmap() {
 
         Bitmap image = BitmapFactory.decodeByteArray(this.logo, 0, this.logo.length);
-        return image;
+
+        if(image.getWidth() > LOGO_SIZE_LIMIT){
+            double ratio = (double)image.getHeight()/(double)image.getWidth();
+            int newHeight = (int) (LOGO_SIZE_LIMIT * ratio);
+            return Bitmap.createScaledBitmap(image, LOGO_SIZE_LIMIT, newHeight, false);
+        } else if(image.getHeight() > LOGO_SIZE_LIMIT){
+            double ratio = (double)image.getWidth()/(double)image.getHeight();
+            int newWidth = (int) (LOGO_SIZE_LIMIT * ratio);
+            return Bitmap.createScaledBitmap(image, newWidth, LOGO_SIZE_LIMIT, false);
+        }else {
+            return image;
+        }
     }
 
     /**
@@ -177,7 +192,6 @@ public class Patrocinador {
 
         try {
             response = NetworkUtils.getResponseFromHttpUrl(url, context);
-            Log.d("TESTE", "parou");
             if (response != null) {
                 try {
                     JSONObject jsonObj = new JSONObject(response);
