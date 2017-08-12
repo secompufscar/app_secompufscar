@@ -257,8 +257,16 @@ public class AtividadeDetalhes extends AppCompatActivity implements
         public void EnviarDadosMapa (View view){
 
             Bundle params = new Bundle();
-            params.putInt("Local", 1); //Inteiro que vai definir onde "setar" o mapa
-
+            switch(local.getText().toString()) {
+                case "Auditório Mauro Biajiz":
+                    params.putInt("Local", 1);
+                    break;
+                case "Anfiteatro Bento Prado Jr.":
+                    params.putInt("Local", 2);
+                    break;
+                default:
+                    params.putInt("Local", 0);
+            }
             Intent i = new Intent(this, MapsActivity.class);
             i.putExtras(params);
 
