@@ -59,7 +59,7 @@ public class PessoaDetalhes extends AppCompatActivity implements
 
         if (savedInstanceState == null) {
             contentView.setAlpha(0f);
-            new UpdatePessoa().execute(id);
+            new UpdatePessoa().execute();
         } else {
             loadingView.setVisibility(View.GONE);
         }
@@ -119,11 +119,11 @@ public class PessoaDetalhes extends AppCompatActivity implements
 //        outState.putInt(STATE_COUNTER, mCounter);
     }
 
-    private class UpdatePessoa extends AsyncTask<Integer, Void, Pessoa> {
+    private class UpdatePessoa extends AsyncTask<Void, Void, Pessoa> {
         @Override
-        protected Pessoa doInBackground(Integer... params) {
+        protected Pessoa doInBackground(Void... params) {
 
-            return Pessoa.getDetalhePessoaFromHTTP(params[0], getBaseContext());
+            return Pessoa.getDetalhePessoaFromHTTP(pessoaAtual, getBaseContext());
         }
 
         @Override

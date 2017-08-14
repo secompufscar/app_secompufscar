@@ -1,5 +1,9 @@
 package br.com.secompufscar.secomp_ufscar;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +35,8 @@ public class Patrocinadores extends Fragment {
     private PatrocinadorAdapter adapter;
     private SectionedGridRecyclerViewAdapter sectionedAdapter;
 
+    private View loadingView;
+
 
     public Patrocinadores() {
         // Required empty public constructor
@@ -41,6 +48,7 @@ public class Patrocinadores extends Fragment {
 
         patrocinadores = new ArrayList<>();
 
+        new GetDataTask().execute();
     }
 
     @Override
@@ -49,8 +57,11 @@ public class Patrocinadores extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_patrocinadores, container, false);
 
+        loadingView = view.findViewById(R.id.loading_spinner_patrocinadores);
+
         //Your RecyclerView
         recycler_patrocinadores = (RecyclerView) view.findViewById(R.id.recycler_patrocinadores);
+        recycler_patrocinadores.setVisibility(View.GONE);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
 
         recycler_patrocinadores.setLayoutManager(gridLayoutManager);
@@ -63,8 +74,17 @@ public class Patrocinadores extends Fragment {
                 if (itemPosition >= 0) {
                     Patrocinador patrocinador = patrocinadores.get(itemPosition);
 
-                    Toast.makeText(getActivity(), patrocinador.getNome(),
-                            Toast.LENGTH_SHORT).show();
+                    if(patrocinador.getWebsite() != null){
+                        try {
+                            Uri url = Uri.parse(patrocinador.getWebsite());
+
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, url);
+                            startActivity(browserIntent);
+                        } catch (Exception e){
+                            Toast.makeText(getActivity(), patrocinador.getNome(),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
                 }
             }
 
@@ -83,7 +103,21 @@ public class Patrocinadores extends Fragment {
         new UpdatePatrocinadores().execute();
     }
 
+    private class GetDataTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            Patrocinador.getPatrocinadoresFromHTTP(getActivity());
+            return null;
+        }
+    }
+
     private class UpdatePatrocinadores extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute(){
+            loadingView.setVisibility(View.VISIBLE);
+        }
+
         @Override
         protected Void doInBackground(Void... params) {
 
@@ -110,13 +144,10 @@ public class Patrocinadores extends Fragment {
 
         @Override
         protected void onPostExecute(Void param) {
-
             adapter = new PatrocinadorAdapter(getActivity(), patrocinadores);
-
             //This is the code to provide a sectioned grid
             List<SectionedGridRecyclerViewAdapter.Section> sections =
                     new ArrayList<>();
-
             //Sections
             sections.add(new SectionedGridRecyclerViewAdapter.Section(0, "Diamante", ContextCompat.getColor(getActivity(), R.color.diamanteColor)));
             sections.add(new SectionedGridRecyclerViewAdapter.Section(delimOuro, "Ouro", ContextCompat.getColor(getActivity(), R.color.ouroColor)));
@@ -133,6 +164,26 @@ public class Patrocinadores extends Fragment {
 
             //Apply this adapter to the RecyclerView
             recycler_patrocinadores.setAdapter(sectionedAdapter);
+
+            recycler_patrocinadores.setAlpha(0f);
+            recycler_patrocinadores.setVisibility(View.VISIBLE);
+
+            recycler_patrocinadores.animate()
+                    .alpha(1f)
+                    .setDuration(getResources().getInteger(
+                            android.R.integer.config_longAnimTime))
+                    .setListener(null);
+
+            loadingView.animate()
+                    .alpha(0f)
+                    .setDuration(getResources().getInteger(
+                            android.R.integer.config_longAnimTime))
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            loadingView.setVisibility(View.GONE);
+                        }
+                    });
         }
     }
 }

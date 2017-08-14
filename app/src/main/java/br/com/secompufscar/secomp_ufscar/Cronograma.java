@@ -1,5 +1,8 @@
 package br.com.secompufscar.secomp_ufscar;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -13,6 +16,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.secompufscar.secomp_ufscar.data.Atividade;
 import br.com.secompufscar.secomp_ufscar.listaAtividades.ListaQuarta;
 import br.com.secompufscar.secomp_ufscar.listaAtividades.ListaQuinta;
 import br.com.secompufscar.secomp_ufscar.listaAtividades.ListaSegunda;
@@ -24,6 +28,10 @@ public class Cronograma extends Fragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
+    private View loadingView;
+
+    private GetDataTask getDataTask;
+
     public Cronograma() {
         // Required empty public constructor
     }
@@ -31,6 +39,8 @@ public class Cronograma extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getDataTask = new GetDataTask();
     }
 
     @Override
@@ -39,14 +49,17 @@ public class Cronograma extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_cronograma, container, false);
 
+        loadingView = view.findViewById(R.id.loading_spinner_cronograma);
+        loadingView.setVisibility(View.GONE);
+
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
         tabLayout = (TabLayout) view.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
+//        getDataTask.execute();
         return view;
-
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -112,6 +125,34 @@ public class Cronograma extends Fragment {
         @Override
         public CharSequence getPageTitle(int position) {
             return fragmentTitleList.get(position);
+        }
+    }
+
+    private class GetDataTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            loadingView.setVisibility(View.VISIBLE);
+            viewPager.setVisibility(View.GONE);
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            Atividade.getAtividadesFromHTTP(getActivity());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void s) {
+            loadingView.animate()
+                    .alpha(0f)
+                    .setDuration(getResources().getInteger(
+                            android.R.integer.config_longAnimTime))
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            loadingView.setVisibility(View.GONE);
+                        }
+                    });
         }
     }
 }

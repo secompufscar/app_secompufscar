@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import org.joda.time.DateTime;
 
@@ -52,11 +53,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String CREATE_ATIVIDADE_TABLE = "CREATE TABLE " + TABLE_ATIVIDADE + "("
                 + Atividade.TAG_ID + " INTEGER PRIMARY KEY,"
                 + Atividade.TAG_TITULO + " TEXT,"
-                + Atividade.TAG_LOCAL + " TEXT,"
+                + Atividade.TAG_PREDIO + " TEXT,"
+                + Atividade.TAG_SALA + " TEXT,"
                 + Atividade.TAG_TIPO + " TEXT,"
                 + Atividade.TAG_DESCRICAO + " TEXT,"
                 + Atividade.TAG_HORARIOS + " TEXT,"
                 + Atividade.TAG_DATAHORA_INICIO + " DATETIME,"
+                + Atividade.TAG_ULTIMA_ATUALIZACAO + " TEXT,"
                 + Atividade.TAG_FAVORITO + " INTEGER)";
 
         // Tabela Pessoa
@@ -68,6 +71,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + Pessoa.TAG_EMPRESA + " TEXT,"
                 + Pessoa.TAG_PROFISSAO + " TEXT,"
                 + Pessoa.TAG_CONTATOS + " TEXT,"
+                + Pessoa.TAG_ULTIMA_ATUALIZACAO + " TEXT,"
                 + Pessoa.TAG_FOTO + " BLOB)";
 
         // Tabela Patrocinador
@@ -120,8 +124,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             values.put(Atividade.TAG_TITULO, atividade.getTitulo());
         }
 
-        if (atividade.getLocal() != null) {
-            values.put(Atividade.TAG_LOCAL, atividade.getLocal());
+        if (atividade.getPredio() != null) {
+            values.put(Atividade.TAG_PREDIO, atividade.getPredio());
+        }
+
+        if (atividade.getSala() != null) {
+            values.put(Atividade.TAG_SALA, atividade.getSala());
         }
 
         if (atividade.getDescricao() != null) {
@@ -138,6 +146,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         if (atividade.getDataHoraInicio() != null) {
             values.put(Atividade.TAG_DATAHORA_INICIO, atividade.getDataHoraInicio());
+        }
+
+        if (atividade.getHorarioUltimaAtualizacao() != null) {
+            values.put(Atividade.TAG_ULTIMA_ATUALIZACAO, atividade.getHorarioUltimaAtualizacao());
         }
 
         return values;
@@ -203,10 +215,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = db.query(TABLE_ATIVIDADE,
                 new String[]{Atividade.TAG_ID,
                         Atividade.TAG_TITULO,
-                        Atividade.TAG_LOCAL,
+                        Atividade.TAG_PREDIO,
+                        Atividade.TAG_SALA,
                         Atividade.TAG_DESCRICAO,
                         Atividade.TAG_HORARIOS,
                         Atividade.TAG_TIPO,
+                        Atividade.TAG_ULTIMA_ATUALIZACAO,
                         Atividade.TAG_FAVORITO},
                 Atividade.TAG_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
@@ -217,12 +231,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
             atividade.setId(id);
             atividade.setTitulo(cursor.getString(1));
-            atividade.setLocal(cursor.getString(2));
-            atividade.setDescricao(cursor.getString(3));
-            atividade.setHorarios(cursor.getString(4));
-            atividade.setTipo(cursor.getString(5));
+            atividade.setLocal(cursor.getString(2), cursor.getString(3));
+            atividade.setDescricao(cursor.getString(4));
+            atividade.setHorarios(cursor.getString(5));
+            atividade.setTipo(cursor.getString(6));
 
-            if (cursor.getInt(6) == 1) {
+            atividade.setHorarioUltimaAtualizacao(cursor.getString(7));
+
+            if (cursor.getInt(8) == 1) {
                 atividade.setFavorito(true);
             }
         }
@@ -230,31 +246,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         cursor.close();
         db.close();
 
-        return atividade;
-    }
-
-    public Atividade getResumoAtividade(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor cursor = db.query(TABLE_ATIVIDADE,
-                new String[]{Atividade.TAG_ID,
-                        Atividade.TAG_TITULO,
-                        Atividade.TAG_HORARIOS,
-                        Atividade.TAG_TIPO},
-                Atividade.TAG_ID + "=?",
-                new String[]{String.valueOf(id)}, null, null, null, null);
-
-        Atividade atividade = new Atividade();
-
-        if (cursor.moveToFirst()) {
-            atividade.setId(id);
-            atividade.setTitulo(cursor.getString(1));
-            atividade.setHorarios(cursor.getString(2));
-            atividade.setTipo(cursor.getString(3));
-        }
-
-        cursor.close();
-        db.close();
+        List<Pessoa> ministrantes = getMinistrantes(atividade);
+        atividade.setMinistrantes(ministrantes);
 
         return atividade;
     }
@@ -268,7 +261,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = db.query(TABLE_ATIVIDADE,
                 new String[]{Atividade.TAG_ID,
                         Atividade.TAG_TITULO,
-                        Atividade.TAG_LOCAL,
+                        Atividade.TAG_PREDIO,
+                        Atividade.TAG_SALA,
                         Atividade.TAG_HORARIOS,
                         Atividade.TAG_TIPO}, null, null, null, null, "date(" + Atividade.TAG_DATAHORA_INICIO + "), " + Atividade.TAG_TITULO + " ASC");
 
@@ -278,9 +272,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 Atividade atividade = new Atividade();
                 atividade.setId(cursor.getInt(0));
                 atividade.setTitulo(cursor.getString(1));
-                atividade.setLocal(cursor.getString(2));
-                atividade.setHorarios(cursor.getString(3));
-                atividade.setTipo(cursor.getString(4));
+                atividade.setLocal(cursor.getString(2), cursor.getString(3));
+                atividade.setHorarios(cursor.getString(4));
+                atividade.setTipo(cursor.getString(5));
 
                 atividades.add(atividade);
             } while (cursor.moveToNext());
@@ -302,7 +296,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = db.query(TABLE_ATIVIDADE,
                 new String[]{Atividade.TAG_ID,
                         Atividade.TAG_TITULO,
-                        Atividade.TAG_LOCAL,
+                        Atividade.TAG_PREDIO,
+                        Atividade.TAG_SALA,
                         Atividade.TAG_HORARIOS,
                         Atividade.TAG_TIPO,
                         Atividade.TAG_DATAHORA_INICIO}, "date(" + Atividade.TAG_DATAHORA_INICIO + ") = date(?)",
@@ -314,9 +309,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
                 atividade.setId(cursor.getInt(0));
                 atividade.setTitulo(cursor.getString(1));
-                atividade.setLocal(cursor.getString(2));
-                atividade.setHorarios(cursor.getString(3));
-                atividade.setTipo(cursor.getString(4));
+                atividade.setLocal(cursor.getString(2), cursor.getString(3));
+                atividade.setHorarios(cursor.getString(4));
+                atividade.setTipo(cursor.getString(5));
 
                 atividades.add(atividade);
             } while (cursor.moveToNext());
@@ -336,7 +331,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = db.query(TABLE_ATIVIDADE,
                 new String[]{Atividade.TAG_ID,
                         Atividade.TAG_TITULO,
-                        Atividade.TAG_LOCAL,
+                        Atividade.TAG_PREDIO,
+                        Atividade.TAG_SALA,
                         Atividade.TAG_HORARIOS,
                         Atividade.TAG_TIPO,
                         Atividade.TAG_FAVORITO}, Atividade.TAG_FAVORITO + "=?",
@@ -348,9 +344,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
                 atividade.setId(cursor.getInt(0));
                 atividade.setTitulo(cursor.getString(1));
-                atividade.setLocal(cursor.getString(2));
-                atividade.setHorarios(cursor.getString(3));
-                atividade.setTipo(cursor.getString(4));
+                atividade.setLocal(cursor.getString(2), cursor.getString(3));
+                atividade.setHorarios(cursor.getString(4));
+                atividade.setTipo(cursor.getString(5));
                 atividade.setFavorito(true);
 
                 atividades.add(atividade);
@@ -418,6 +414,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             values.put(Pessoa.TAG_CONTATOS, pessoa.getContatosRaw());
         }
 
+        if (pessoa.getHorarioUltimaAtualizacao() != null) {
+            Log.d("teste getValorepessoa", pessoa.getHorarioUltimaAtualizacao());
+            values.put(Pessoa.TAG_ULTIMA_ATUALIZACAO, pessoa.getHorarioUltimaAtualizacao());
+        }
+
         return values;
     }
 
@@ -462,7 +463,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                         Pessoa.TAG_EMPRESA,
                         Pessoa.TAG_PROFISSAO,
                         Pessoa.TAG_FOTO,
-                        Pessoa.TAG_CONTATOS},
+                        Pessoa.TAG_CONTATOS,
+                        Pessoa.TAG_ULTIMA_ATUALIZACAO},
                 Pessoa.TAG_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
 
@@ -479,6 +481,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             pessoa.setProfissao(cursor.getString(5));
             pessoa.setFoto(cursor.getBlob(6));
             pessoa.setContatos(cursor.getString(7));
+            pessoa.setHorarioUltimaAtualizacao(cursor.getString(8));
 
             cursor.close();
         }

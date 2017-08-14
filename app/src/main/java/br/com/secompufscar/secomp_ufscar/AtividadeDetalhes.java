@@ -62,14 +62,17 @@ public class AtividadeDetalhes extends AppCompatActivity implements
 
         atividadeAtual = DatabaseHandler.getDB().getDetalheAtividade(id);
 
+        ministranteList.clear();
+        ministranteList.addAll(atividadeAtual.getMinistrantes());
+
         setContentView(R.layout.activity_atividade_detalhes);
 
         contentView = findViewById(R.id.atividade_detalhes_scroll);
         loadingView = findViewById(R.id.loading_spinner_atividade);
 
-        if(savedInstanceState == null){
+        if (savedInstanceState == null) {
             contentView.setVisibility(View.GONE);
-            new UpdateDetalhes().execute(id);
+            new UpdateDetalhes().execute();
         } else {
             loadingView.setVisibility(View.GONE);
         }
@@ -182,17 +185,15 @@ public class AtividadeDetalhes extends AppCompatActivity implements
 //        outState.putInt(STATE_COUNTER, mCounter);
     }
 
-    private class UpdateDetalhes extends AsyncTask<Integer, Void, Atividade> {
+    private class UpdateDetalhes extends AsyncTask<Void, Void, Atividade> {
         @Override
-        protected Atividade doInBackground(Integer... params) {
+        protected Atividade doInBackground(Void... params) {
 
-            return Atividade.getDetalheAtividadeFromHTTP(params[0], getBaseContext());
+            return Atividade.getDetalheAtividadeFromHTTP(atividadeAtual, getBaseContext());
         }
 
         @Override
         protected void onPostExecute(Atividade atividadeAtualizada) {
-
-            DatabaseHandler.getDB().getMinistrantes(atividadeAtual);
 
             if (atividadeAtualizada != null) {
                 boolean favorito = atividadeAtual.isFavorito();
@@ -254,22 +255,22 @@ public class AtividadeDetalhes extends AppCompatActivity implements
         }
     }
 
-        public void EnviarDadosMapa (View view){
+    public void EnviarDadosMapa(View view) {
 
-            Bundle params = new Bundle();
-            switch(local.getText().toString()) {
-                case "Auditório Mauro Biajiz":
-                    params.putInt("Local", 1);
-                    break;
-                case "Anfiteatro Bento Prado Jr.":
-                    params.putInt("Local", 2);
-                    break;
-                default:
-                    params.putInt("Local", 0);
-            }
-            Intent i = new Intent(this, MapsActivity.class);
-            i.putExtras(params);
-
-            startActivityForResult(i, TELA_DETALHES_ATIVIDADE);
+        Bundle params = new Bundle();
+        switch (atividadeAtual.getPredio()) {
+            case "Auditório Mauro Biajiz":
+                params.putInt("Local", 1);
+                break;
+            case "Anfiteatro Bento Prado Jr.":
+                params.putInt("Local", 2);
+                break;
+            default:
+                params.putInt("Local", 0);
         }
+        Intent i = new Intent(this, MapsActivity.class);
+        i.putExtras(params);
+
+        startActivityForResult(i, TELA_DETALHES_ATIVIDADE);
+    }
 }

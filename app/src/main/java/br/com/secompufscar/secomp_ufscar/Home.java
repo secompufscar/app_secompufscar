@@ -221,7 +221,6 @@ public class Home extends Fragment {
                     // Se a timeline não for nula então
                     if (user.getStatus() != null) {
 
-
                         //Pega a timeline
                         ResponseList<twitter4j.Status> statusess = twitter.getUserTimeline(twitters[0]);
 
@@ -240,12 +239,13 @@ public class Home extends Fragment {
                     //Agora ficou show
                     if (tweets.get(i).trim().contains(getString(R.string.now))) {
                         tweets.set(i, tweets.get(i).replace(getString(R.string.now), ""));
-                        if (now == "") {
+                        if (now.isEmpty()) {
                             now = tweets.get(i);
                             tweets.remove(i);
                         }
                     }
                 }
+
                 tweetsArray = new String[tweets.size()];
                 for (int i = 0; i < tweets.size(); i++) {
                     tweetsArray[i] = tweets.get(i);
@@ -254,15 +254,12 @@ public class Home extends Fragment {
             } catch (Exception e) {
                 ok = false;
                 return "";
-
             }
             return now;
         }
 
         @Override
         protected void onPostExecute(String s) {
-
-
             if (s != "") {
                 hn.setText(now);
             }

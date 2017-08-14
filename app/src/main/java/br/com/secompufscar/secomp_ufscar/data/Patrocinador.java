@@ -24,7 +24,6 @@ public class Patrocinador {
      **/
 
     public final static String TAG_COTAS = "cotas";
-    public final static String TAG_DOMINIO_IMAGEM = "dominio_imagens";
 
     public final static String TAG_PATROCINADORES = "patrocinadores";
     public final static String TAG_ID = "id";
@@ -41,6 +40,7 @@ public class Patrocinador {
     public final static String COTA_DESAFIO = "desafio_de_programadores";
     public final static String COTA_APOIO = "apoio";
 
+    public final static String TAG_ULTIMA_ATUALIZACAO = "ultima_atualizacao";
     public final static String API_URL = "api/patrocinadores/";
 
     public final static int LOGO_SIZE_LIMIT = 900;
@@ -146,7 +146,6 @@ public class Patrocinador {
 
                 JSONArray cotas = jsonObj.getJSONArray(TAG_COTAS);
                 JSONObject patrocinadoresObject = jsonObj.getJSONObject(TAG_PATROCINADORES);
-                String root_image = jsonObj.getString(TAG_DOMINIO_IMAGEM);
 
                 String cota;
                 // Loop em para pegar cada cota
@@ -165,7 +164,7 @@ public class Patrocinador {
                         patrocinador.setCota(cota);
 
                         try {
-                            patrocinador.setLogo(NetworkUtils.getImageFromHttpUrl(root_image + patrocinadorObject.getString(TAG_LOGO), context));
+                            patrocinador.setLogo(NetworkUtils.getImageFromHttpUrl(patrocinadorObject.getString(TAG_LOGO), context));
                         } catch (Exception IOException) {
                             patrocinador.setLogo(null);
                         }
@@ -195,7 +194,7 @@ public class Patrocinador {
             if (response != null) {
                 try {
                     JSONObject jsonObj = new JSONObject(response);
-                    if (NetworkUtils.checkUpdate(context, jsonObj.getString("ultima_atualizacao"), "patrocinadores")) {
+                    if (NetworkUtils.checkUpdate(context, jsonObj.getString(TAG_ULTIMA_ATUALIZACAO), "patrocinadores")) {
                         DatabaseHandler.getDB().addManyPatrocinadores(patrocinadoresParseJSON(response, context));
                     }
                 } catch (JSONException e) {

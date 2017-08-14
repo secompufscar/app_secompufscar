@@ -17,9 +17,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 
@@ -27,7 +27,6 @@ import java.util.HashMap;
 
 import br.com.secompufscar.secomp_ufscar.data.Atividade;
 import br.com.secompufscar.secomp_ufscar.data.DatabaseHandler;
-import br.com.secompufscar.secomp_ufscar.data.Patrocinador;
 import br.com.secompufscar.secomp_ufscar.utilities.NetworkUtils;
 
 public class MainActivity extends AppCompatActivity
@@ -36,14 +35,14 @@ public class MainActivity extends AppCompatActivity
 
     private final String CURRENT_FRAGMENT_PARAM = "current_fragment";
 
+    private boolean GETTING_DATA_FROM_SERVER;
+
     private static final int HOME_POSITION = 0;
     private static final int CRONOGRAMA_POSITION = 1;
     private static final int PESSOAS_POSITION = 3;
     private static final int MINHAS_ATIVIDADES_POSITION = 4;
-    private static final int PATROCINADORES_POSITION = 6;
-    private static final int SOBRE_POSITION = 7;
-
-    private boolean GET_DATA_FROM_SERVER;
+    private static final int PATROCINADORES_POSITION = 7;
+    private static final int SOBRE_POSITION = 8;
 
     private SharedPreferences preferencias;
     private boolean notifications;
@@ -53,9 +52,11 @@ public class MainActivity extends AppCompatActivity
 
     private DrawerLayout drawer;
     private NavigationView navigationView;
+    private TextView title;
 
     private View contentView;
     private View loadingView;
+
     private Toolbar toolbar;
     private GetDataTask getDataTask;
 
@@ -65,7 +66,22 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (savedInstanceState != null) {
+            current_fragment = savedInstanceState.getInt(CURRENT_FRAGMENT_PARAM);
+
+        } else {
+            current_fragment = HOME_POSITION;
+        }
+
+        getDataTask = new GetDataTask();
+
+        GETTING_DATA_FROM_SERVER = false;
+
+        DatabaseHandler.setInstance(this);
+
         setContentView(R.layout.activity_main);
+
+        title = (TextView) findViewById(R.id.fragment_title);
 
         fragmentos = new HashMap<>();
         fragmentos.put("home", new Home());
@@ -78,15 +94,9 @@ public class MainActivity extends AppCompatActivity
         contentView = findViewById(R.id.content_frame);
         loadingView = findViewById(R.id.loading_spinner);
 
-        if (savedInstanceState != null) {
-            current_fragment = savedInstanceState.getInt(CURRENT_FRAGMENT_PARAM);
-            GET_DATA_FROM_SERVER = false;
-            loadingView.setVisibility(View.GONE);
-        } else {
-            current_fragment = HOME_POSITION;
-            GET_DATA_FROM_SERVER = true;
-            contentView.setVisibility(View.GONE);
-        }
+
+        loadingView.setVisibility(View.GONE);
+
 
         //Define uma font padrão para tudo no app
         FontsOverride.setDefaultFont(this, "DEFAULT", "fonts/ClearSans-Regular.ttf");
@@ -102,12 +112,10 @@ public class MainActivity extends AppCompatActivity
             public void onDrawerClosed(View drawerView) {
 
                 if (itemSelected != previousItemSelected) {
-                    if(getDataTask.getStatus() == AsyncTask.Status.RUNNING){
+                    if (getDataTask.getStatus() == AsyncTask.Status.RUNNING) {
                         navigationView.getMenu().getItem(current_fragment).setChecked(true);
                         itemSelected = previousItemSelected;
-                    }
-                    else {
-                        previousItemSelected = itemSelected;
+                    } else {
                         new HandleMenuClick().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, itemSelected);
                     }
                 }
@@ -158,6 +166,10 @@ public class MainActivity extends AppCompatActivity
                         break;
                 }
                 mEditor.apply();
+
+                if (!GETTING_DATA_FROM_SERVER) {
+                    getDataTask.execute();
+                }
             }
         };
 
@@ -176,15 +188,15 @@ public class MainActivity extends AppCompatActivity
 
         internet = preferencias.getBoolean("internet", true);
         notifications = preferencias.getBoolean("notifications", true);
+
         //FIREBASE MENINO caso a pessoa queira
         if (notifications)
             FirebaseMessaging.getInstance().subscribeToTopic("secomp2l17");
 
-        DatabaseHandler.setInstance(this);
-        getDataTask = new GetDataTask();
-
-        if (GET_DATA_FROM_SERVER && NetworkUtils.updateConnectionState(getBaseContext())) {
-            getDataTask.execute();
+        if (DatabaseHandler.getDB().getAtividadesCount() == 0) {
+            if (NetworkUtils.updateConnectionState(getBaseContext()) && !GETTING_DATA_FROM_SERVER) {
+                    getDataTask.execute();
+            }
         }
     }
 
@@ -219,26 +231,32 @@ public class MainActivity extends AppCompatActivity
 
         switch (current_fragment) {
             case CRONOGRAMA_POSITION:
+                title.setText("CRONOGRAMA");
                 previousItemSelected = R.id.nav_cronograma;
                 fragment_atual = fragmentos.get("cronograma");
                 break;
             case PESSOAS_POSITION:
+                title.setText("PESSOAS");
                 previousItemSelected = R.id.nav_pessoas;
                 fragment_atual = fragmentos.get("pessoas");
                 break;
             case MINHAS_ATIVIDADES_POSITION:
+                title.setText("MINHAS ATIVIDADES");
                 previousItemSelected = R.id.nav_minhasAtividades;
                 fragment_atual = fragmentos.get("minhas_atividades");
                 break;
             case PATROCINADORES_POSITION:
+                title.setText("PATROCINIO");
                 previousItemSelected = R.id.nav_patrocinadores;
                 fragment_atual = fragmentos.get("patrocinadores");
                 break;
             case SOBRE_POSITION:
+                title.setText("SOBRE");
                 previousItemSelected = R.id.nav_sobre;
                 fragment_atual = fragmentos.get("sobre");
                 break;
             default:
+                title.setText("HOME");
                 current_fragment = HOME_POSITION;
                 previousItemSelected = R.id.nav_home;
                 fragment_atual = fragmentos.get("home");
@@ -275,8 +293,30 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         drawer.closeDrawer(GravityCompat.START);
-
         itemSelected = item.getItemId();
+
+        switch (item.getItemId()) {
+            case R.id.nav_home:
+                title.setText("HOME");
+                break;
+            case R.id.nav_cronograma:
+                title.setText("CRONOGRAMA");
+                break;
+            case R.id.nav_pessoas:
+                title.setText("PESSOAS");
+                break;
+            case R.id.nav_minhasAtividades:
+                title.setText("MINHAS ATIVIDADES");
+                break;
+            case R.id.nav_patrocinadores:
+                title.setText("PATROCINIO");
+                break;
+            case R.id.nav_sobre:
+                title.setText("SOBRE");
+                break;
+            default:
+        }
+
         if (itemSelected != previousItemSelected) {
             contentView.animate()
                     .alpha(0f)
@@ -301,12 +341,13 @@ public class MainActivity extends AppCompatActivity
         super.onResume();  // Always call the superclass method first
         navigationView.getMenu().getItem(current_fragment).setChecked(true);
         setFragment();
+        itemSelected = previousItemSelected;
+
     }
 
-    private class HandleMenuClick extends AsyncTask<Integer, Void, Void> {
+    private class HandleMenuClick extends AsyncTask<Integer, Void, Boolean> {
         @Override
-        protected Void doInBackground(Integer... params) {
-            Log.d("Teste", "doing");
+        protected Boolean doInBackground(Integer... params) {
             int id = params[0];
 
             Fragment fragment = null;
@@ -354,26 +395,39 @@ public class MainActivity extends AppCompatActivity
             if (fragment != null) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+                previousItemSelected = itemSelected;
+                return false;
             }
-            return null;
+
+            return true;
         }
 
         @Override
-        protected void onPostExecute(Void s) {
-            contentView.setAlpha(1f);
+        protected void onPostExecute(Boolean isActivity) {
+            if (!isActivity) {
+                contentView.setAlpha(1f);
+            }
         }
     }
 
     private class GetDataTask extends AsyncTask<Void, Void, Void> {
         @Override
+        protected void onPreExecute() {
+            GETTING_DATA_FROM_SERVER = true;
+            loadingView.setVisibility(View.VISIBLE);
+            contentView.setVisibility(View.GONE);
+        }
+
+        @Override
         protected Void doInBackground(Void... params) {
-            Patrocinador.getPatrocinadoresFromHTTP(getBaseContext());
             Atividade.getAtividadesFromHTTP(getBaseContext());
             return null;
         }
 
         @Override
         protected void onPostExecute(Void s) {
+            GETTING_DATA_FROM_SERVER = false;
+
             if (loadingView.isShown()) {
                 fadeOut();
             }

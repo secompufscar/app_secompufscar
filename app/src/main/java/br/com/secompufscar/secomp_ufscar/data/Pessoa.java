@@ -31,8 +31,6 @@ public class Pessoa {
      * Esses atributos estáticos são utilizados para capturar cada campo do JSON que é envidado
      * e para dar nome as colunas da tabela Pessoa no banco de dados do aplicativo.
      **/
-    public final static String TAG_MINISTRANTES = "ministrantes";
-    public final static String TAG_DOMINIO_IMAGEM = "dominio_imagens";
 
     public final static String TAG_ID = "id";
     public final static String TAG_NOME = "nome";
@@ -45,6 +43,7 @@ public class Pessoa {
     public final static String TAG_CONTATO_LINK = "link";
     public final static String TAG_CONTATO_TIPO = "tipo_contato";
 
+    public final static String TAG_ULTIMA_ATUALIZACAO = "ultima_atualizacao";
     public final static String API_URL = "api/ministrantes/";
 
 
@@ -52,26 +51,26 @@ public class Pessoa {
         private String tipo, link;
 
         @Override
-        public String toString(){
+        public String toString() {
             if (this.tipo != null)
                 return this.tipo + ": " + this.link;
             else
                 return "Contato não inicializado";
         }
 
-        public String getTipo(){
+        public String getTipo() {
             return this.tipo;
         }
 
-        public String getLink(){
+        public String getLink() {
             return this.link;
         }
 
-        public void setTipo(String tipo){
+        public void setTipo(String tipo) {
             this.tipo = tipo;
         }
 
-        public void setLink(String link){
+        public void setLink(String link) {
             this.link = link;
         }
     }
@@ -83,6 +82,7 @@ public class Pessoa {
     private String nome, sobrenome, descricao, empresa, profissao;
     private byte[] foto;
     private String contatosJSON;
+    private String horarioUltimaAtualizacao;
 
     @Override
     public String toString() {
@@ -129,10 +129,9 @@ public class Pessoa {
 
         Bitmap image;
 
-        if(this.foto != null){
+        if (this.foto != null) {
             image = BitmapFactory.decodeByteArray(this.foto, 0, this.foto.length);
-        }
-        else {
+        } else {
             image = BitmapFactory.decodeResource(context.getResources(), R.drawable.pessoa_foto_default);
         }
 
@@ -141,12 +140,16 @@ public class Pessoa {
         Paint paint = new Paint();
         paint.setAntiAlias(true);
         paint.setShader(new BitmapShader(image, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
-        canvas.drawRoundRect((new RectF(0, 0, image.getWidth(), image.getHeight())), image.getWidth()/2, image.getWidth()/2, paint);// Round Image Corner 100 100 100 100
+        canvas.drawRoundRect((new RectF(0, 0, image.getWidth(), image.getHeight())), image.getWidth() / 2, image.getWidth() / 2, paint);// Round Image Corner 100 100 100 100
 
         return imageRounded;
     }
 
-    public String getContatosRaw(){
+    public String getHorarioUltimaAtualizacao() {
+        return this.horarioUltimaAtualizacao;
+    }
+
+    public String getContatosRaw() {
         return this.contatosJSON;
     }
 
@@ -207,36 +210,41 @@ public class Pessoa {
         this.contatosJSON = contatosJSON;
     }
 
-    public static ArrayList<Pessoa> PessoaResumoParseJSON(JSONArray pessoas, Context context) {
-        try {
-            ArrayList<Pessoa> pessoaList = new ArrayList<>();
-
-            for (int i = 0; i < pessoas.length(); i++) {
-                Pessoa pessoa = new Pessoa();
-                JSONObject pessoaObject = pessoas.getJSONObject(i);
-
-                pessoa.setId(Integer.valueOf(pessoaObject.getString(TAG_ID)));
-                pessoa.setNome(pessoaObject.getString(TAG_NOME));
-                pessoa.setSobrenome(pessoaObject.getString(TAG_SOBRENOME));
-                pessoa.setProfissao(pessoaObject.getString(TAG_PROFISSAO));
-                pessoa.setEmpresa(pessoaObject.getString(TAG_EMPRESA));
-
-                try {
-                    pessoa.setFoto(NetworkUtils.getImageFromHttpUrl(pessoaObject.getString(TAG_FOTO), context));
-
-                } catch (Exception IOException) {
-                    pessoa.setFoto(null);
-                }
-                pessoaList.add(pessoa);
-            }
-            return pessoaList;
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public void setHorarioUltimaAtualizacao(String horario) {
+        this.horarioUltimaAtualizacao = horario;
     }
 
-    public static Pessoa resumoPessoaParseJSON(String json, String root_foto, Context context) {
+//    public static ArrayList<Pessoa> PessoaResumoParseJSON(JSONArray pessoas, Context context) {
+//        try {
+//            ArrayList<Pessoa> pessoaList = new ArrayList<>();
+//
+//            for (int i = 0; i < pessoas.length(); i++) {
+//                Pessoa pessoa = new Pessoa();
+//                JSONObject pessoaObject = pessoas.getJSONObject(i);
+//
+//                pessoa.setId(Integer.valueOf(pessoaObject.getString(TAG_ID)));
+//                pessoa.setNome(pessoaObject.getString(TAG_NOME));
+//                pessoa.setSobrenome(pessoaObject.getString(TAG_SOBRENOME));
+//                pessoa.setProfissao(pessoaObject.getString(TAG_PROFISSAO));
+//                pessoa.setEmpresa(pessoaObject.getString(TAG_EMPRESA));
+//                pessoa.setHorarioUltimaAtualizacao(pessoaObject.getString(TAG_ULTIMA_ATUALIZACAO));
+//
+//                try {
+//                    pessoa.setFoto(NetworkUtils.getImageFromHttpUrl(pessoaObject.getString(TAG_FOTO), context));
+//
+//                } catch (Exception IOException) {
+//                    pessoa.setFoto(null);
+//                }
+//                pessoaList.add(pessoa);
+//            }
+//            return pessoaList;
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
+
+    public static Pessoa resumoPessoaParseJSON(String json, Context context) {
         try {
             JSONObject pessoaObject = new JSONObject(json);
 
@@ -247,8 +255,9 @@ public class Pessoa {
             pessoa.setSobrenome(pessoaObject.getString(TAG_SOBRENOME));
             pessoa.setProfissao(pessoaObject.getString(TAG_PROFISSAO));
             pessoa.setEmpresa(pessoaObject.getString(TAG_EMPRESA));
+
             try {
-                pessoa.setFoto(NetworkUtils.getImageFromHttpUrl(root_foto + pessoaObject.getString(TAG_FOTO), context));
+                pessoa.setFoto(NetworkUtils.getImageFromHttpUrl(pessoaObject.getString(TAG_FOTO), context));
             } catch (Exception IOException) {
                 pessoa.setFoto(null);
             }
@@ -261,9 +270,7 @@ public class Pessoa {
 
     public static Pessoa detalhePessoaParseJSON(String json, Context context) {
         try {
-            JSONObject jsonObject = new JSONObject(json);
-//          TODO: Tem que arrumar essa duplicação de informação na api
-            JSONObject pessoaObject = jsonObject.getJSONObject("ministrante");
+            JSONObject pessoaObject = new JSONObject(json);
 
             Pessoa pessoa = new Pessoa();
 
@@ -274,9 +281,10 @@ public class Pessoa {
             pessoa.setProfissao(pessoaObject.getString(TAG_PROFISSAO));
             pessoa.setEmpresa(pessoaObject.getString(TAG_EMPRESA));
             pessoa.setContatos(pessoaObject.getString(TAG_CONTATOS));
+            pessoa.setHorarioUltimaAtualizacao(pessoaObject.getString(TAG_ULTIMA_ATUALIZACAO));
 
             try {
-                pessoa.setFoto(NetworkUtils.getImageFromHttpUrl(NetworkUtils.BASE_URL + pessoaObject.getString(TAG_FOTO), context));
+                pessoa.setFoto(NetworkUtils.getImageFromHttpUrl(pessoaObject.getString(TAG_FOTO), context));
             } catch (Exception IOException) {
                 pessoa.setFoto(null);
             }
@@ -288,59 +296,26 @@ public class Pessoa {
         }
     }
 
-    public static ArrayList<Pessoa> pessoasParseJSON(String json, Context context) {
-        if (json != null) {
-            try {
-                // Lista de pessoas
-                ArrayList<Pessoa> pessoaList = new ArrayList<>();
 
-                // Inicializaçao de um objeto json para realizaçao do parsing
-                JSONObject jsonObj = new JSONObject(json);
-
-                JSONArray pessoas = jsonObj.getJSONArray(TAG_MINISTRANTES);
-
-                // Loop em para pegar cada pessoa
-                for (int i = 0; i < pessoas.length(); i++) {
-                    Pessoa pessoa = new Pessoa();
-                    JSONObject pessoaObject = pessoas.getJSONObject(i);
-
-                    pessoa.setId(Integer.valueOf(pessoaObject.getString(TAG_ID)));
-                    pessoa.setNome(pessoaObject.getString(TAG_NOME));
-                    pessoa.setSobrenome(pessoaObject.getString(TAG_SOBRENOME));
-                    pessoa.setDescricao(pessoaObject.getString(TAG_DESCRICAO));
-                    pessoa.setProfissao(pessoaObject.getString(TAG_PROFISSAO));
-                    pessoa.setEmpresa(pessoaObject.getString(TAG_EMPRESA));
-                    pessoa.setContatos(pessoaObject.getString(TAG_CONTATOS));
-
-                    try {
-                        pessoa.setFoto(NetworkUtils.getImageFromHttpUrl(NetworkUtils.BASE_URL + pessoaObject.getString(TAG_FOTO), context));
-
-                    } catch (Exception IOException) {
-                        pessoa.setFoto(null);
-                    }
-
-                    pessoaList.add(pessoa);
-                }
-                return pessoaList;
-            } catch (JSONException e) {
-                e.printStackTrace();
-                return null;
-            }
-        } else {
-            Log.e("ServiceHandler", "No data received from HTTP request");
-            return null;
-        }
-    }
-
-    public static Pessoa getDetalhePessoaFromHTTP(int id, Context context) {
-        URL url = NetworkUtils.buildUrl(API_URL + Integer.toString(id));
+    public static Pessoa getDetalhePessoaFromHTTP(Pessoa pessoa_antiga, Context context) {
+        URL url = NetworkUtils.buildUrl(API_URL + Integer.toString(pessoa_antiga.getId()));
         String response;
         try {
             response = NetworkUtils.getResponseFromHttpUrl(url, context);
             if (response != null) {
-                Pessoa pessoa = detalhePessoaParseJSON(response, context);
-                DatabaseHandler.getDB().updatePessoa(pessoa);
-                return pessoa;
+                try {
+                    JSONObject horarioObject = new JSONObject(response);
+                    String dataUtimaAtualizacao = horarioObject.getString(TAG_ULTIMA_ATUALIZACAO);
+
+                    if (pessoa_antiga.getHorarioUltimaAtualizacao() == null || !pessoa_antiga.getHorarioUltimaAtualizacao().equals(dataUtimaAtualizacao)) {
+                        Pessoa pessoa = detalhePessoaParseJSON(response, context);
+                        DatabaseHandler.getDB().updatePessoa(pessoa);
+
+                        return pessoa;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();

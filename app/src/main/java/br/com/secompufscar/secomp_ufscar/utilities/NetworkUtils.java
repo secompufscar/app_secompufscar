@@ -21,7 +21,7 @@ import br.com.secompufscar.secomp_ufscar.MainActivity;
 
 public class NetworkUtils {
 
-    public final static String BASE_URL = "https://beta2.secompufscar.com.br/";
+    public final static String BASE_URL = "https://secompufscar.com.br/";
     public static boolean CONNECTED = false;
 
     public static URL buildUrl(String path) {
@@ -47,7 +47,6 @@ public class NetworkUtils {
                 .isConnectedOrConnecting();
 
         if (isWifi) {
-            Log.d("TESTE", "é wifi");
             CONNECTED = true;
         } else {
             //For 3G check
@@ -58,10 +57,8 @@ public class NetworkUtils {
             boolean internet = preferencias.getBoolean("internet", false);
 
             if (internet && is3g) {
-                Log.d("TESTE", "é 3g e eu aceitei");
                 CONNECTED = true;
             } else {
-                Log.d("TESTE", "não é 3g ou eu não aceitei");
                 CONNECTED = false;
             }
         }
