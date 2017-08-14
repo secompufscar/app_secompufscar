@@ -51,7 +51,7 @@ public class Settings extends AppCompatActivity {
     //Autoexplicativo
     public void onSwitch(View v)
     {
-        save(switch_notifications.isChecked(),switch_3g.isChecked());
+        save(switch_3g.isChecked(),switch_notifications.isChecked());
     }
 
     //Salva as preferências de acordo com o estado dos switches

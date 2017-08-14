@@ -237,13 +237,15 @@ public class Home extends Fragment {
 
                 for (int i = 0; i < tweets.size(); i++) {
                     //Agora ficou show
-                    if (tweets.get(i).trim().contains(getString(R.string.now))) {
+                    if (tweets.get(i).trim().contains(getString(R.string.now)))
+                    {
                         tweets.set(i, tweets.get(i).replace(getString(R.string.now), ""));
                         if (now.isEmpty()) {
                             now = tweets.get(i);
                             tweets.remove(i);
                         }
                     }
+                    tweets.set(i, tweets.get(i).replace(getString(R.string.now), ""));
                 }
 
                 tweetsArray = new String[tweets.size()];

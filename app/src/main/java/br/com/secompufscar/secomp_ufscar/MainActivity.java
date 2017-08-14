@@ -274,7 +274,26 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             if (current_fragment == HOME_POSITION) {
-                super.onBackPressed();
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SharedPreferences.Editor mEditor = preferencias.edit();
+                        switch (which) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                finish();
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                break;
+                        }
+                        mEditor.apply();
+                    }
+                };
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(R.string.sair).setPositiveButton("Sim", dialogClickListener)
+                        .setNegativeButton("Não", dialogClickListener).show();
+                builder = new AlertDialog.Builder(this);
+
             } else {
                 current_fragment = HOME_POSITION;
                 setFragment();
@@ -338,7 +357,6 @@ public class MainActivity extends AppCompatActivity
         itemSelected = previousItemSelected;
 
     }
-
     private class HandleMenuClick extends AsyncTask<Integer, Void, Boolean> {
         @Override
         protected Boolean doInBackground(Integer... params) {

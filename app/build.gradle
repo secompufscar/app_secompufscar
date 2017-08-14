@@ -5,10 +5,10 @@ android {
     buildToolsVersion "26.0.0"
     defaultConfig {
         applicationId "br.com.secompufscar.secomp_ufscar"
-        minSdkVersion 21
+        minSdkVersion 17
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
