@@ -35,8 +35,6 @@ public class MainActivity extends AppCompatActivity
 
     private final String CURRENT_FRAGMENT_PARAM = "current_fragment";
 
-    private boolean GETTING_DATA_FROM_SERVER;
-
     private static final int HOME_POSITION = 0;
     private static final int CRONOGRAMA_POSITION = 1;
     private static final int PESSOAS_POSITION = 3;
@@ -74,8 +72,6 @@ public class MainActivity extends AppCompatActivity
         }
 
         getDataTask = new GetDataTask();
-
-        GETTING_DATA_FROM_SERVER = false;
 
         DatabaseHandler.setInstance(this);
 
@@ -167,7 +163,7 @@ public class MainActivity extends AppCompatActivity
                 }
                 mEditor.apply();
 
-                if (!GETTING_DATA_FROM_SERVER) {
+                if (getDataTask.getStatus() != AsyncTask.Status.RUNNING) {
                     getDataTask.execute();
                 }
             }
@@ -184,6 +180,12 @@ public class MainActivity extends AppCompatActivity
             SharedPreferences.Editor mEditor = preferencias.edit();
             mEditor.putBoolean("first", false);
             mEditor.apply();
+        } else {
+            if (DatabaseHandler.getDB().getAtividadesCount() == 0) {
+                if (NetworkUtils.updateConnectionState(getBaseContext()) && getDataTask.getStatus() != AsyncTask.Status.RUNNING) {
+                    getDataTask.execute();
+                }
+            }
         }
 
         internet = preferencias.getBoolean("internet", true);
@@ -192,12 +194,6 @@ public class MainActivity extends AppCompatActivity
         //FIREBASE MENINO caso a pessoa queira
         if (notifications)
             FirebaseMessaging.getInstance().subscribeToTopic("secomp2l17");
-
-        if (DatabaseHandler.getDB().getAtividadesCount() == 0) {
-            if (NetworkUtils.updateConnectionState(getBaseContext()) && !GETTING_DATA_FROM_SERVER) {
-                    getDataTask.execute();
-            }
-        }
     }
 
     private void fadeOut() {
@@ -413,7 +409,6 @@ public class MainActivity extends AppCompatActivity
     private class GetDataTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() {
-            GETTING_DATA_FROM_SERVER = true;
             loadingView.setVisibility(View.VISIBLE);
             contentView.setVisibility(View.GONE);
         }
@@ -426,8 +421,6 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected void onPostExecute(Void s) {
-            GETTING_DATA_FROM_SERVER = false;
-
             if (loadingView.isShown()) {
                 fadeOut();
             }

@@ -47,8 +47,6 @@ public class Patrocinadores extends Fragment {
         super.onCreate(savedInstanceState);
 
         patrocinadores = new ArrayList<>();
-
-        new GetDataTask().execute();
     }
 
     @Override
@@ -94,56 +92,13 @@ public class Patrocinadores extends Fragment {
             }
         }));
 
+        new GetPatrocinadores().execute();
+
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        new UpdatePatrocinadores().execute();
-    }
-
-    private class GetDataTask extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            Patrocinador.getPatrocinadoresFromHTTP(getActivity());
-            return null;
-        }
-    }
-
-    private class UpdatePatrocinadores extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected void onPreExecute(){
-            loadingView.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-
-            try {
-                patrocinadores.clear();
-
-                HashMap<String, List<Patrocinador>> patrocioByCota = DatabaseHandler.getDB().getPatrocinadoresByCota();
-                patrocinadores.addAll(patrocioByCota.get(Patrocinador.COTA_DIAMANTE));
-                delimOuro = patrocinadores.size();
-                patrocinadores.addAll(patrocioByCota.get(Patrocinador.COTA_OURO));
-                delimPrata = patrocinadores.size();
-                patrocinadores.addAll(patrocioByCota.get(Patrocinador.COTA_PRATA));
-                delimDesafio = patrocinadores.size();
-                patrocinadores.addAll(patrocioByCota.get(Patrocinador.COTA_DESAFIO));
-                delimApoio = patrocinadores.size();
-                patrocinadores.addAll(patrocioByCota.get(Patrocinador.COTA_APOIO));
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void param) {
+    private void setupRecycler(){
+        if(getActivity() != null){
             adapter = new PatrocinadorAdapter(getActivity(), patrocinadores);
             //This is the code to provide a sectioned grid
             List<SectionedGridRecyclerViewAdapter.Section> sections =
@@ -184,6 +139,62 @@ public class Patrocinadores extends Fragment {
                             loadingView.setVisibility(View.GONE);
                         }
                     });
+        }
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    private class GetPatrocinadores extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            Patrocinador.getPatrocinadoresFromHTTP(getActivity());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void param){
+            new UpdatePatrocinadores().execute();
+        }
+    }
+
+    private class UpdatePatrocinadores extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute(){
+            loadingView.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            try {
+                patrocinadores.clear();
+
+                HashMap<String, List<Patrocinador>> patrocioByCota = DatabaseHandler.getDB().getPatrocinadoresByCota();
+                patrocinadores.addAll(patrocioByCota.get(Patrocinador.COTA_DIAMANTE));
+                delimOuro = patrocinadores.size();
+                patrocinadores.addAll(patrocioByCota.get(Patrocinador.COTA_OURO));
+                delimPrata = patrocinadores.size();
+                patrocinadores.addAll(patrocioByCota.get(Patrocinador.COTA_PRATA));
+                delimDesafio = patrocinadores.size();
+                patrocinadores.addAll(patrocioByCota.get(Patrocinador.COTA_DESAFIO));
+                delimApoio = patrocinadores.size();
+                patrocinadores.addAll(patrocioByCota.get(Patrocinador.COTA_APOIO));
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void param) {
+            setupRecycler();
         }
     }
 }

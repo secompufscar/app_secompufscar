@@ -40,30 +40,36 @@ public class NetworkUtils {
     }
 
     public static boolean updateConnectionState(Context context) {
-        ConnectivityManager manager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
+        try {
 
-        //For WiFi Check
-        boolean isWifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
-                .isConnectedOrConnecting();
+            ConnectivityManager manager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
 
-        if (isWifi) {
-            CONNECTED = true;
-        } else {
-            //For 3G check
-            boolean is3g = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)
+            //For WiFi Check
+            boolean isWifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
                     .isConnectedOrConnecting();
 
-            SharedPreferences preferencias = context.getSharedPreferences("Settings", 0);
-            boolean internet = preferencias.getBoolean("internet", false);
-
-            if (internet && is3g) {
+            if (isWifi) {
                 CONNECTED = true;
             } else {
-                CONNECTED = false;
-            }
-        }
+                //For 3G check
+                boolean is3g = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)
+                        .isConnectedOrConnecting();
 
-        return CONNECTED;
+                SharedPreferences preferencias = context.getSharedPreferences("Settings", 0);
+                boolean internet = preferencias.getBoolean("internet", false);
+
+                if (internet && is3g) {
+                    CONNECTED = true;
+                } else {
+                    CONNECTED = false;
+                }
+            }
+
+            return CONNECTED;
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Nullable
