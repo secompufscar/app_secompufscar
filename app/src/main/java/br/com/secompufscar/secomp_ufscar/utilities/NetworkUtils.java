@@ -41,7 +41,6 @@ public class NetworkUtils {
 
     public static boolean updateConnectionState(Context context) {
         try {
-
             ConnectivityManager manager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
 
             //For WiFi Check

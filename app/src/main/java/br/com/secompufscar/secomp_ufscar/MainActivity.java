@@ -181,10 +181,8 @@ public class MainActivity extends AppCompatActivity
             mEditor.putBoolean("first", false);
             mEditor.apply();
         } else {
-            if (DatabaseHandler.getDB().getAtividadesCount() == 0) {
-                if (NetworkUtils.updateConnectionState(getBaseContext()) && getDataTask.getStatus() != AsyncTask.Status.RUNNING) {
-                    getDataTask.execute();
-                }
+            if (NetworkUtils.updateConnectionState(getBaseContext()) && getDataTask.getStatus() != AsyncTask.Status.RUNNING) {
+                getDataTask.execute();
             }
         }
 
@@ -415,7 +413,10 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected Void doInBackground(Void... params) {
-            Atividade.getAtividadesFromHTTP(getBaseContext());
+            if (DatabaseHandler.getDB().getAtividadesCount() == 0) {
+                Atividade.getAtividadesFromHTTP(getBaseContext());
+            }
+
             return null;
         }
 

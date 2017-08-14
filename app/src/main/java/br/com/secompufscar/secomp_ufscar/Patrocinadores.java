@@ -140,7 +140,6 @@ public class Patrocinadores extends Fragment {
                         }
                     });
         }
-
     }
 
     @Override
