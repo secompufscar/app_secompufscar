@@ -1,7 +1,6 @@
 package br.com.secompufscar.secomp_ufscar;
 
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -37,10 +36,10 @@ public class Settings extends AppCompatActivity {
         //Início da gambiarra
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         toolbar.setTitle(R.string.config);
-        toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //Fim da gambiarra
+
 
     }
     public void onLoad()
