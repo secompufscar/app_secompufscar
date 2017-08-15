@@ -3,10 +3,12 @@ package br.com.secompufscar.secomp_ufscar;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import br.com.secompufscar.secomp_ufscar.utilities.ListHashtagAdapter;
 import twitter4j.Query;
@@ -20,7 +22,7 @@ import twitter4j.conf.ConfigurationBuilder;
  */
 
 public class TwitterHashtag extends Fragment {
-
+    private SwipeRefreshLayout swipeLayout;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.rs_twitter, container, false);
@@ -29,7 +31,28 @@ public class TwitterHashtag extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        swipeLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swiperefresh);
+        //Famoso migué
+        swipeLayout.setRefreshing(true);
+        //Seta as corzinhas do loading (Fun)
+        swipeLayout.setColorSchemeResources(R.color.loadingColor_1, R.color.loadingColor_2, R.color.loadingColor_3);
+        swipeLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
 
+                        //Executa a atualização dos tweets
+                        //Apenas se a thread não está sendo executada
+                            try {
+                                new MegaChecker().execute("");
+                            } catch (Exception e) {
+                                Toast.makeText(getContext(), R.string.verifique, Toast.LENGTH_SHORT).show();
+                                swipeLayout.setRefreshing(false);
+                            }
+                        }
+                }
+
+        );
         new MegaChecker().execute("");
     }
     public class MegaChecker extends AsyncTask<String, String, String> {
@@ -82,6 +105,12 @@ public class TwitterHashtag extends Fragment {
 
         @Override
         protected void onPostExecute(String s) {
+            //Checa se o loading está ativo
+            if (swipeLayout.isRefreshing()) {
+                //Se estiver cancela ele, pois nossa tarefa já foi executada
+                swipeLayout.setRefreshing(false);
+            }
+
             if(s!="Deu ruim") {
                 ListView ht;
                 ht = (ListView) getView().findViewById(R.id.hashtag);
