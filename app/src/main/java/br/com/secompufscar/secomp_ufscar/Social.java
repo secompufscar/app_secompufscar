@@ -1,6 +1,8 @@
 package br.com.secompufscar.secomp_ufscar;
 
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -24,17 +26,17 @@ public class Social extends AppCompatActivity {
             ft = fm.beginTransaction();
             switch (item.getItemId()) {
                 case R.id.twitter:
-                    ft.replace(R.id.content,twitterHashtag);
+                    ft.replace(R.id.content,twitterHashtag, "twitter");
                     ft.addToBackStack(null);
                     ft.commit();
                     return true;
                 case R.id.instagram:
-                    ft.replace(R.id.content,instagram);
+                    ft.replace(R.id.content,instagram, "instagram");
                     ft.addToBackStack(null);
                     ft.commit();
                     return true;
                 case R.id.facebook:
-                    ft.replace(R.id.content, facebook);
+                    ft.replace(R.id.content, facebook, "facebook");
                     ft.addToBackStack(null);
                     ft.commit();
                     return true;
@@ -47,6 +49,14 @@ public class Social extends AppCompatActivity {
     };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ConnectivityManager manager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+
+        boolean is3g = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)
+                .isConnectedOrConnecting();
+
+        boolean isWifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
+                .isConnectedOrConnecting();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.redes_sociais);
         //Início da gambiarra
@@ -63,11 +73,32 @@ public class Social extends AppCompatActivity {
         ft = fm.beginTransaction();
         ft.add(R.id.content,twitterHashtag);
         ft.commit();
-
+        if(isWifi){
+            new GetDataTask().execute();
+        }
+        else {
+             //TODO: tratar isso
+            new GetDataTask().execute();
+        }
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
+    private class GetDataTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            Facebook.getTimelineFromHTTP();
+            Instagram.getTimelineFromHTTP();
+            return null;
+        }
+
+
+        @Override
+        protected void onPostExecute(Void s) {
+
+//          textForTest.setText(s);
+        }
+    }
 
 
 
