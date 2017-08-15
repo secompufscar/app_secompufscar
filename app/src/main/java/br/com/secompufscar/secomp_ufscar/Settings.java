@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Switch;
+import android.widget.TextView;
 
 /**
  * Created by olivato on 05/08/17.
@@ -18,6 +19,7 @@ public class Settings extends AppCompatActivity {
     //Linka com o switch do visual
     private Switch switch_3g;
     private Switch switch_notifications;
+    private TextView textView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,12 +32,13 @@ public class Settings extends AppCompatActivity {
         //Linka com o visual
         switch_3g = (Switch)findViewById(R.id.settings_3g);
         switch_notifications = (Switch)findViewById(R.id.settings_notification);
-
+        textView = (TextView)findViewById(R.id.fragment_title);
         //Carrega as prefências em variáveis e adiciona o estado switch
         onLoad();
         //Início da gambiarra
-        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        toolbar.setTitle(R.string.config);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        textView.setText("Configurações");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //Fim da gambiarra
