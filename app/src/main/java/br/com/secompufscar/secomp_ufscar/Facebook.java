@@ -1,14 +1,17 @@
 package br.com.secompufscar.secomp_ufscar;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,6 +32,7 @@ import br.com.secompufscar.secomp_ufscar.utilities.NetworkUtils;
 public class Facebook extends Fragment {
     private RecyclerView fbRecyclerView;
     private FacebookAdapter fbAdapter;
+    public SwipeRefreshLayout swipeRefreshLayout;
     private final static String URL_FACEBOOK = "https://beta.secompufscar.com.br/api/facebook/";
 
 //    private AccessToken token = new AccessToken(ACCESS_TOKEN, APP_ID, USER_ID)
@@ -43,22 +47,43 @@ public class Facebook extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fbAdapter = new FacebookAdapter(timelinePosts);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.rs_facebook, container, false);
-        fbRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_facebook);
+        new GetDataTask().execute();
+        return inflater.inflate(R.layout.rs_facebook, container, false);
 
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
-        fbRecyclerView.setLayoutManager(mLayoutManager);
-
-        fbRecyclerView.setAdapter(fbAdapter);
-
-        return view;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        swipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.fb_Swipe);
+        swipeRefreshLayout.setRefreshing(true);
+        swipeRefreshLayout.setColorSchemeResources(
+                R.color.loadingColor_1,
+                R.color.loadingColor_2,
+                R.color.loadingColor_3);
+        swipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        try{
+                            new GetDataTask().execute();
+                        } catch (Exception e) {
+                            Toast.makeText(getContext(), R.string.verifique, Toast.LENGTH_SHORT).show();
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                    }
+                }
+        );
+        fbAdapter = new FacebookAdapter(timelinePosts);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+        fbRecyclerView = (RecyclerView) getView().findViewById(R.id.recycler_facebook);
+        fbRecyclerView.setLayoutManager(mLayoutManager);
+        fbRecyclerView.setAdapter(fbAdapter);
+    }
 
     private static void parseJSON (String entrada) {
         try {
@@ -83,7 +108,7 @@ public class Facebook extends Fragment {
                 if(post.has("shares")){
                     shares = post.getJSONObject("shares").getString("count");
                 }
-                timelinePosts.add(
+                FacebookAdapter.posts.add(
                         new FacebookPost(
                                 post.getString("id"),
                                 message,
@@ -190,6 +215,30 @@ public class Facebook extends Fragment {
 
         public String getShares() {
             return shares;
+        }
+    }
+
+    private class GetDataTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            getTimelineFromHTTP();
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected void onPostExecute(Void s) {
+            if (swipeRefreshLayout.isRefreshing()) {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+
+            if (!timelinePosts.isEmpty()){
+                fbAdapter.notifyDataSetChanged();
+            }
+//          textForTest.setText(s);
         }
     }
 

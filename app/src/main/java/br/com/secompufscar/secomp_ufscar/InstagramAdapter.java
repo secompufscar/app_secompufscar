@@ -28,7 +28,7 @@ import br.com.secompufscar.secomp_ufscar.utilities.NetworkUtils;
  */
 
 public class InstagramAdapter extends RecyclerView.Adapter<InstagramAdapter.ViewHolder>{
-    private ArrayList<Instagram.InstagramPost> posts;
+    public static ArrayList<Instagram.InstagramPost> posts;
     private static String username;
     private static byte[] user_photo;
 
@@ -61,7 +61,7 @@ public class InstagramAdapter extends RecyclerView.Adapter<InstagramAdapter.View
     }
 
     public InstagramAdapter(ArrayList<Instagram.InstagramPost> posts){
-        this.posts = posts;
+        InstagramAdapter.posts = posts;
     }
 
     @Override
@@ -120,6 +120,8 @@ public class InstagramAdapter extends RecyclerView.Adapter<InstagramAdapter.View
     public int getItemCount() {
         return posts.size();
     }
+
+
 }
 
 

@@ -7,15 +7,18 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Shader;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,6 +39,7 @@ public class Instagram extends Fragment {
     private final static String URL_INSTAGRAM = "https://beta.secompufscar.com.br/api/instagram/";
     private RecyclerView igRecyclerView;
     private InstagramAdapter igAdapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private static ArrayList<InstagramPost> timelinePosts = new ArrayList<>();
     private static ArrayList<String> alreadyParsed = new ArrayList<>();
 
@@ -46,23 +50,44 @@ public class Instagram extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        igAdapter = new InstagramAdapter(timelinePosts);
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.rs_instagram, container, false);
-        igRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_instagram);
-
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
-        igRecyclerView.setLayoutManager(mLayoutManager);
-
-        igRecyclerView.setAdapter(igAdapter);
-
-        return view;
+        new GetDataTask().execute();
+        return inflater.inflate(R.layout.rs_instagram, container, false);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        swipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.ig_Swipe);
+        swipeRefreshLayout.setColorSchemeResources(
+                R.color.loadingColor_1,
+                R.color.loadingColor_2,
+                R.color.loadingColor_3);
+        swipeRefreshLayout.setRefreshing(true);
+        swipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        try{
+                            new GetDataTask().execute();
+                        } catch (Exception e) {
+                            Toast.makeText(getContext(), R.string.verifique, Toast.LENGTH_SHORT).show();
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                    }
+                }
+        );
+        igRecyclerView = (RecyclerView) getView().findViewById(R.id.recycler_instagram);
+        igAdapter = new InstagramAdapter(timelinePosts);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+        igRecyclerView.setLayoutManager(mLayoutManager);
+        igRecyclerView.setAdapter(igAdapter);
+
+    }
 
     private static void parseJSON (String entrada) {
         try {
@@ -93,7 +118,7 @@ public class Instagram extends Fragment {
                 if (post.has("created_time")){
                     created_time = post.getString("created_time");
                 }
-                timelinePosts.add(
+                InstagramAdapter.posts.add(
                         new InstagramPost(
                                 id,
                                 url_image,
@@ -200,5 +225,38 @@ public class Instagram extends Fragment {
         canvas.drawRoundRect((new RectF(0, 0, image.getWidth(), image.getHeight())), image.getWidth()/2, image.getWidth()/2, paint);// Round Image Corner 100 100 100 100
 
         return imageRounded;
+    }
+
+    private class GetDataTask extends AsyncTask<Void, Void, Void> {
+        private int nrOfPosts;
+
+
+        @Override
+        protected void onPreExecute() {
+            try {
+                nrOfPosts = InstagramAdapter.posts.size();
+            } catch (NullPointerException e) {
+                nrOfPosts = 0;
+            }
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            getTimelineFromHTTP();
+            return null;
+        }
+
+
+        @Override
+        protected void onPostExecute(Void s) {
+            if (swipeRefreshLayout.isRefreshing()) {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+
+            if (InstagramAdapter.posts.size() > nrOfPosts){
+                Log.d("Instagram", "tem post novo");
+                igAdapter.notifyDataSetChanged();
+            }
+        }
     }
 }

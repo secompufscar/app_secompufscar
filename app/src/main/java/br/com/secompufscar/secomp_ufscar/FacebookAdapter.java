@@ -25,7 +25,7 @@ import br.com.secompufscar.secomp_ufscar.utilities.NetworkUtils;
  */
 
 public class FacebookAdapter extends RecyclerView.Adapter<FacebookAdapter.ViewHolder>{
-    private ArrayList<Facebook.FacebookPost> posts;
+    public static ArrayList<Facebook.FacebookPost> posts;
     private static String username;
     private static byte[] user_photo;
 
@@ -58,7 +58,7 @@ public class FacebookAdapter extends RecyclerView.Adapter<FacebookAdapter.ViewHo
     }
 
     public FacebookAdapter(ArrayList<Facebook.FacebookPost> posts){
-        this.posts = posts;
+        FacebookAdapter.posts = posts;
     }
 
     @Override
@@ -87,12 +87,16 @@ public class FacebookAdapter extends RecyclerView.Adapter<FacebookAdapter.ViewHo
         DateTime d1 = new DateTime(dt);
         DateTime d2 = DateTime.now();
         long difference = d2.getMillis() - d1.getMillis();
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(difference);
         long hours = TimeUnit.MILLISECONDS.toHours(difference);
         long days = TimeUnit.MILLISECONDS.toDays(difference);
         int daydif = d2.getDayOfYear() - d1.getDayOfYear();
         boolean thisyear = (d1.getYear() == d2.getYear());
         boolean ontem = (daydif == 1 && (days < 2));
-        if (hours < 24 && !ontem) {
+        if (minutes < 60) {
+            out = String.valueOf(minutes) + " min";
+        }
+        else if (hours < 24 && !ontem) {
             out = String.valueOf(hours) + " h";
         } else {
             SimpleDateFormat format = new SimpleDateFormat("d,MMM/yyyy-H:mm", new Locale("pt", "BR"));

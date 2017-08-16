@@ -38,7 +38,7 @@
                     android:id="@+id/fb_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
+                    android:text="SECOMP UFSCar"
                     android:textColor="@color/facebook_blue"
                     android:textStyle="bold"
                     android:textSize="16sp"/>
@@ -47,8 +47,10 @@
                     android:id="@+id/fb_createdtime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
+                    android:text="Dez Mil anos atrás"
                     android:paddingTop="0dp"
+                    android:paddingStart="2dp"
+                    android:paddingEnd="2dp"
                     android:textSize="12sp"/>
 
             </LinearLayout>
