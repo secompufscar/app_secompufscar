@@ -92,7 +92,11 @@ public class Pessoas extends Fragment {
         @Override
         protected void onPostExecute(List<Pessoa> pessoasFromDB) {
             pessoaList.clear();
-            pessoaList.addAll(pessoasFromDB);
+
+            if(pessoasFromDB != null){
+                pessoaList.addAll(pessoasFromDB);
+            }
+
             adapter.notifyDataSetChanged();
         }
     }

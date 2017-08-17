@@ -17,12 +17,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.util.Calendar;
 import java.util.HashMap;
 
 import br.com.secompufscar.secomp_ufscar.data.Atividade;
@@ -34,6 +36,11 @@ public class MainActivity extends AppCompatActivity
         Home.OnFragmentInteractionListener {
 
     private final String CURRENT_FRAGMENT_PARAM = "current_fragment";
+
+    public static final String CURRENT_TAB_PARAM = "currenttab";
+    public static final String GET_DATA_PARAM = "getdata";
+    public static int current_tab;
+    public static boolean get_atividades_from_server = true;
 
     private static final int HOME_POSITION = 0;
     private static final int CRONOGRAMA_POSITION = 1;
@@ -67,8 +74,22 @@ public class MainActivity extends AppCompatActivity
         if (savedInstanceState != null) {
             current_fragment = savedInstanceState.getInt(CURRENT_FRAGMENT_PARAM);
 
+            //TODO: essas duas variáveis são utilizadas no fragmento cronograma, devemos achar uma forma de lidar com isso dentro do fragmento
+            current_tab = savedInstanceState.getInt(CURRENT_TAB_PARAM);
+            get_atividades_from_server = savedInstanceState.getBoolean(GET_DATA_PARAM);
+
         } else {
             current_fragment = HOME_POSITION;
+
+            //TODO: esse processamento de ser feito no fragmento cronograma
+            Calendar calendar = Calendar.getInstance();
+            int day = calendar.get(Calendar.DAY_OF_WEEK); // começa em domingo = 1
+            if(day > 1){
+                current_tab = day - 2;
+            } else {
+                current_tab = 4;
+            }
+            get_atividades_from_server = true;
         }
 
         getDataTask = new GetDataTask();
@@ -345,6 +366,8 @@ public class MainActivity extends AppCompatActivity
     public void onSaveInstanceState(Bundle savedInstanceState) {
         // Save the user's current game state
         savedInstanceState.putInt(CURRENT_FRAGMENT_PARAM, current_fragment);
+        savedInstanceState.putInt(CURRENT_TAB_PARAM, current_tab);
+        savedInstanceState.putBoolean(GET_DATA_PARAM, get_atividades_from_server);
         // Always call the superclass so it can save the view hierarchy state
         super.onSaveInstanceState(savedInstanceState);
     }
@@ -357,6 +380,7 @@ public class MainActivity extends AppCompatActivity
         itemSelected = previousItemSelected;
 
     }
+
     private class HandleMenuClick extends AsyncTask<Integer, Void, Boolean> {
         @Override
         protected Boolean doInBackground(Integer... params) {

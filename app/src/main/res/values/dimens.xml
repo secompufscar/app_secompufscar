@@ -10,7 +10,7 @@
 
     <dimen name="detalhes_body_padding">16dp</dimen>
 
-    <dimen name="detalhes_pessoa_foto_size">150dp</dimen>
+    <dimen name="detalhes_pessoa_foto_size">125dp</dimen>
 
 
     <dimen name="appBarSize">15dp</dimen>

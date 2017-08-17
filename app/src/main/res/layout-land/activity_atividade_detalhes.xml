@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                tools:background="@color/defaultColor" />
+                tools:background="@color/atividadeDefaultColor" />
 
 
             <LinearLayout
@@ -96,6 +96,34 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center|bottom">
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/atividade_detalhe_fab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginEnd="30dp"
+                    android:src="@drawable/ic_atividade_favorito_borda"
+                    android:tint="@color/floatButtonTintText"
+                    app:fabSize="normal" />
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/atividade_detalhe_ver_mapa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="20dp"
+                    android:onClick="EnviarDadosMapa"
+                    android:src="@drawable/ic_place"
+                    android:tint="@color/floatButtonTintText"
+                    app:fabSize="normal" />
+            </LinearLayout>
+
         </RelativeLayout>
 
         <android.support.v4.widget.NestedScrollView
@@ -106,6 +134,7 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
+                android:id="@+id/atividade_content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/appBarSize"
@@ -158,14 +187,15 @@
         android:layout_gravity="center"
         android:progressTint="@color/colorAccent" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/atividade_detalhe_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:src="@drawable/ic_atividade_favorito_borda"
-        android:tint="@color/floatButtonTint"
-        app:fabSize="normal"
-        app:layout_anchor="@id/atividade_detalhe_header"
-        app:layout_anchorGravity="bottom|center" />
+    <!--<android.support.design.widget.FloatingActionButton-->
+    <!--android:id="@+id/atividade_detalhe_fab"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_margin="20dp"-->
+    <!--android:src="@drawable/ic_atividade_favorito_borda"-->
+    <!--android:tint="@color/floatButtonTint"-->
+    <!--app:fabSize="normal"-->
+    <!--app:layout_anchor="@id/atividade_detalhe_header"-->
+    <!--app:layout_anchorGravity="bottom|center" />-->
+
 </android.support.design.widget.CoordinatorLayout>

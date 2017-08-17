@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,8 +30,9 @@ public class Cronograma extends Fragment {
     private ViewPager viewPager;
 
     private View loadingView;
+    private GetAtividades getAtividades;
 
-    private GetDataTask getDataTask;
+    private int current_tab;
 
     public Cronograma() {
         // Required empty public constructor
@@ -39,13 +41,12 @@ public class Cronograma extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        getDataTask = new GetDataTask();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_cronograma, container, false);
 
@@ -53,13 +54,42 @@ public class Cronograma extends Fragment {
         loadingView.setVisibility(View.GONE);
 
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
 
         tabLayout = (TabLayout) view.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-//        getDataTask.execute();
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                current_tab = tab.getPosition();
+                Log.d("teste on select", String.valueOf(MainActivity.current_tab));
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
         return view;
+    }
+
+    @Override
+    public void onResume(){
+        getAtividades = new GetAtividades();
+        getAtividades.execute();
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MainActivity.current_tab = current_tab;
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -72,19 +102,19 @@ public class Cronograma extends Fragment {
         adapter.addFragment(listaSeg, "Seg");
 
         ListaTerca listaTer = new ListaTerca();
-        Bundle paramsTer= new Bundle();
+        Bundle paramsTer = new Bundle();
         paramsTer.putInt("offset", 1);
         listaTer.setArguments(paramsTer);
         adapter.addFragment(listaTer, "Ter");
 
         ListaQuarta listaQua = new ListaQuarta();
-        Bundle paramsQua= new Bundle();
+        Bundle paramsQua = new Bundle();
         paramsQua.putInt("offset", 2);
         listaQua.setArguments(paramsQua);
         adapter.addFragment(listaQua, "Qua");
 
         ListaQuinta listaQui = new ListaQuinta();
-        Bundle paramsQui= new Bundle();
+        Bundle paramsQui = new Bundle();
         paramsQui.putInt("offset", 3);
         listaQui.setArguments(paramsQui);
         adapter.addFragment(listaQui, "Qui");
@@ -128,7 +158,7 @@ public class Cronograma extends Fragment {
         }
     }
 
-    private class GetDataTask extends AsyncTask<Void, Void, Void> {
+    private class GetAtividades extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() {
             loadingView.setVisibility(View.VISIBLE);
@@ -137,14 +167,36 @@ public class Cronograma extends Fragment {
 
         @Override
         protected Void doInBackground(Void... params) {
-            Atividade.getAtividadesFromHTTP(getActivity());
+            if (MainActivity.get_atividades_from_server) {
+                Log.d("teste", "pegando do server");
+                Atividade.getAtividadesFromHTTP(getActivity());
+            }
+
             return null;
         }
 
         @Override
         protected void onPostExecute(Void s) {
-            loadingView.animate()
-                    .alpha(0f)
+            MainActivity.get_atividades_from_server = false;
+
+            setupViewPager(viewPager);
+
+            try {
+                Log.d("teste on try", String.valueOf(MainActivity.current_tab));
+
+                tabLayout.getTabAt(MainActivity.current_tab).select();
+            } catch (Exception e) {
+                e.printStackTrace();
+                tabLayout.getTabAt(0).select();
+            }
+
+            loadingView.setVisibility(View.GONE);
+            viewPager.setAlpha(0f);
+
+            viewPager.setVisibility(View.VISIBLE);
+
+            viewPager.animate()
+                    .alpha(1f)
                     .setDuration(getResources().getInteger(
                             android.R.integer.config_longAnimTime))
                     .setListener(new AnimatorListenerAdapter() {

@@ -63,6 +63,16 @@
                 android:value=".MainActivity" />
         </activity>
 
+        <activity
+            android:name=".Social"
+            android:label="Redes Sociais"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+
         <!-- WebView para Area do Participante -->
         <activity
             android:name=".AreaDoParticipante"

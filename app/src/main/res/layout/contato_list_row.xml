@@ -8,11 +8,12 @@
     android:focusable="true"
     android:gravity="center"
     android:orientation="horizontal"
-    android:layout_marginEnd="10dp">
+    android:layout_marginEnd="5dp">
 
     <ImageView
         android:id="@+id/contato_tipo_image"
-        android:layout_width="50dp"
-        android:layout_height="50dp"/>
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:tint="@color/white"/>
 
 </LinearLayout>

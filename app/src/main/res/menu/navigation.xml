@@ -3,13 +3,13 @@
 
     <item
         android:id="@+id/twitter"
-        android:icon="@android:drawable/ic_menu_compass"
+        android:icon="@drawable/ic_twitter"
         android:title="Twitter" />
 
     <item
         android:id="@+id/facebook"
-        android:icon="@android:drawable/ic_menu_compass"
-        android:title="Facebook" />
+        android:icon="@drawable/ic_facebook"
+        android:title="Facebook"/>
 
     <item
         android:id="@+id/instagram"

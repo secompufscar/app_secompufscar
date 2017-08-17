@@ -125,6 +125,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
+            android:id="@+id/atividade_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -162,33 +163,41 @@
                 android:orientation="horizontal">
 
             </android.support.v7.widget.RecyclerView>
-                tools:text="@string/detail_location" />
-
-            <Button
-                android:id="@+id/button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="EnviarDadosMapa"
-                android:text="Ver no Mapa" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/atividade_detalhe_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_marginEnd="100dp"
         android:src="@drawable/ic_atividade_favorito_borda"
-        android:tint="@color/floatButtonTint"
+        android:tint="@color/floatButtonTintText"
         app:fabSize="normal"
         app:layout_anchor="@id/appbar"
         app:layout_anchorGravity="bottom|right|end" />
 
-    <ProgressBar android:id="@+id/loading_spinner_atividade"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/atividade_detalhe_ver_mapa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:onClick="EnviarDadosMapa"
+        android:src="@drawable/ic_place"
+        android:tint="@color/floatButtonTintText"
+        app:borderWidth="0dp"
+        app:elevation="6dp"
+        app:fabSize="normal"
+        app:layout_anchor="@id/appbar"
+        app:layout_anchorGravity="bottom|right|end" />
+
+
+    <ProgressBar
+        android:id="@+id/loading_spinner_atividade"
         style="?android:progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:progressTint="@color/colorAccent"/>
+        android:layout_gravity="center" />
 
 </android.support.design.widget.CoordinatorLayout>

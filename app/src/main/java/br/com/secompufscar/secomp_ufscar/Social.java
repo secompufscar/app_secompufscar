@@ -16,6 +16,7 @@ public class Social extends AppCompatActivity {
     Facebook facebook;
     Instagram instagram;
     FragmentTransaction ft;
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 

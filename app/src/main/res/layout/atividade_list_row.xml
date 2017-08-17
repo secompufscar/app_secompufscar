@@ -18,7 +18,7 @@
             android:id="@+id/layout_tipo"
             android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:background="@color/colorAccent"
+            android:background="@color/atividadeDefaultColor"
             android:gravity="center_horizontal|center_vertical"
             android:orientation="vertical"
             android:paddingEnd="10dp"
@@ -28,7 +28,8 @@
                 android:id="@+id/atividade_horario_inicial"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="right"
+                android:gravity="center"
+                android:maxLines="2"
                 android:text="14h"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
@@ -37,7 +38,8 @@
                 android:id="@+id/atividade_tipo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="workshop"
+                android:gravity="center"
+                android:text="tipo"
                 android:textColor="@color/white" />
 
         </LinearLayout>
@@ -80,7 +82,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Local da atividade"
-                    android:textAlignment="center" />
+                    android:maxLines="1"
+                    android:gravity="start" />
             </LinearLayout>
         </LinearLayout>
 

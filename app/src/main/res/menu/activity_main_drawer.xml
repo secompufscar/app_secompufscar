@@ -15,8 +15,7 @@
         <item
             android:id="@+id/nav_feed"
             android:icon="@drawable/ic_menu_news"
-            android:title="@string/redes_sociais_button"
-            android:visible="false"/>
+            android:title="@string/redes_sociais_button"/>
         <item
             android:id="@+id/nav_pessoas"
             android:icon="@drawable/ic_menu_person"

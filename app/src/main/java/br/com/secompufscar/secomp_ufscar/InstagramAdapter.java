@@ -1,5 +1,6 @@
 package br.com.secompufscar.secomp_ufscar;
 
+import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
@@ -32,9 +33,9 @@ public class InstagramAdapter extends RecyclerView.Adapter<InstagramAdapter.View
     private static String username;
     private static byte[] user_photo;
 
-    public static void setUser_photo(String url) {
+    public static void setUser_photo(String url, Context context) {
         try {
-            InstagramAdapter.user_photo = NetworkUtils.getImageFromHttpUrl(url);
+            InstagramAdapter.user_photo = NetworkUtils.getImageFromHttpUrl(url, context);
         } catch (IOException e) {
             e.printStackTrace();
         }

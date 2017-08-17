@@ -27,12 +27,13 @@
                 android:scaleType="centerCrop"
                 tools:background="@color/pessoaDetalhe" />
 
+
             <LinearLayout
+                android:id="@+id/pessoa_header_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="20dp"
+                android:layout_centerInParent="true"
+                android:layout_margin="10dp"
                 android:orientation="vertical">
 
                 <ImageView
@@ -59,10 +60,27 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:maxLines="3"
                     android:text="Profissão, Empresa"
                     android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textSize="@dimen/detalhes_profissao_empresa_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/contatos_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_alignParentBottom="true">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_contatos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal" />
             </LinearLayout>
         </RelativeLayout>
 
@@ -95,21 +113,6 @@
                     android:layout_height="wrap_content"
                     android:text="Descrição da pessoa"
                     android:textColor="@color/secondaryText"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/titulo_margin_bottom"
-                    android:layout_marginTop="@dimen/titulo_margin_top"
-                    android:text="Contato"
-                    android:textColor="@color/pessoaDetalhe"
-                    android:textSize="@dimen/titulo_size" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler_contatos"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"/>
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
     </LinearLayout>

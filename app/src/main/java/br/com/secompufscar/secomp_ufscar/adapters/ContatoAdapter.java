@@ -3,6 +3,7 @@ package br.com.secompufscar.secomp_ufscar.adapters;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +47,6 @@ public class ContatoAdapter extends RecyclerView.Adapter<ContatoAdapter.MyViewHo
     public void onBindViewHolder(MyViewHolder holder, int position) {
         try {
             Pessoa.Contato contato = contatoList.get(position);
-
             switch (contato.getTipo().toLowerCase()) {
                 case "facebook":
                     holder.tipo_contato_image.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_facebook));

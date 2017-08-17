@@ -1,5 +1,6 @@
 package br.com.secompufscar.secomp_ufscar;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
@@ -43,7 +44,7 @@ public class Instagram extends Fragment {
     private static ArrayList<InstagramPost> timelinePosts = new ArrayList<>();
     private static ArrayList<String> alreadyParsed = new ArrayList<>();
 
-    public Instagram(){
+    public Instagram() {
 
     }
 
@@ -72,7 +73,7 @@ public class Instagram extends Fragment {
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        try{
+                        try {
                             new GetDataTask().execute();
                         } catch (Exception e) {
                             Toast.makeText(getContext(), R.string.verifique, Toast.LENGTH_SHORT).show();
@@ -89,7 +90,7 @@ public class Instagram extends Fragment {
 
     }
 
-    private static void parseJSON (String entrada) {
+    private static void parseJSON(String entrada, Context context) {
         try {
             JSONObject js = new JSONObject(entrada);
             Log.d("instagram", js.toString());
@@ -98,10 +99,10 @@ public class Instagram extends Fragment {
                     js.getJSONObject("user").getString("username")
             );
             InstagramAdapter.setUser_photo(
-                    js.getJSONObject("user").getString("profile_picture")
-            );
+                    js.getJSONObject("user").getString("profile_picture"),
+                    context);
             Log.d("instagram", posts.toString());
-            for (int i = 0; i < posts.length(); i++){
+            for (int i = 0; i < posts.length(); i++) {
                 JSONObject post = (JSONObject) posts.get(i);
                 String id = post.getString("id");
                 if (alreadyParsed.contains(id)) {
@@ -111,11 +112,11 @@ public class Instagram extends Fragment {
                 }
                 String url_image = post.getJSONObject("images").getJSONObject("standard_resolution").getString("url");
                 String legenda = "";
-                if (post.has("caption")){
+                if (post.has("caption")) {
                     legenda = post.getJSONObject("caption").getString("text");
                 }
                 String created_time = "-";
-                if (post.has("created_time")){
+                if (post.has("created_time")) {
                     created_time = post.getString("created_time");
                 }
                 InstagramAdapter.posts.add(
@@ -123,8 +124,8 @@ public class Instagram extends Fragment {
                                 id,
                                 url_image,
                                 legenda,
-                                created_time
-                        )
+                                created_time,
+                                context)
                 );
             }
             Log.d("instagram", timelinePosts.toString());
@@ -133,16 +134,15 @@ public class Instagram extends Fragment {
         }
     }
 
-    public static void getTimelineFromHTTP(){
+    public static void getTimelineFromHTTP(Context context) {
         try {
             URL url = new URL(URL_INSTAGRAM);
-            String response = NetworkUtils.getResponseFromHttpUrl(url);
-            parseJSON(response);
+            String response = NetworkUtils.getResponseFromHttpUrl(url, context);
+            parseJSON(response, context);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 
 
     public static class InstagramPost {
@@ -152,8 +152,8 @@ public class Instagram extends Fragment {
         private Date createdTime;
         private String tags;
 
-        public InstagramPost(String id, String image_url, String legenda, String createdTime){
-            this.setImage(image_url);
+        public InstagramPost(String id, String image_url, String legenda, String createdTime, Context context) {
+            this.setImage(image_url, context);
             this.setLegenda(legenda);
             this.setId(id);
             this.setCreatedTime(createdTime);
@@ -181,9 +181,9 @@ public class Instagram extends Fragment {
 
 //        METODOS SETTER
 
-        public void setImage(String url) {
+        public void setImage(String url, Context context) {
             try {
-                this.image = NetworkUtils.getImageFromHttpUrl(url);
+                this.image = NetworkUtils.getImageFromHttpUrl(url, context);
             } catch (IOException e) {
                 this.image = null;
                 e.printStackTrace();
@@ -199,7 +199,7 @@ public class Instagram extends Fragment {
         }
 
         public void setCreatedTime(String createdTime) {
-            if(createdTime.equals("-")){
+            if (createdTime.equals("-")) {
                 this.createdTime = new Date(2017, 6, 8);
             } else {
                 this.createdTime = Facebook.dataHoraParser(createdTime);
@@ -210,6 +210,7 @@ public class Instagram extends Fragment {
             this.tags = tags;
         }
     }
+
     public static Bitmap getImageRound(byte[] imageByte) {
 
         Bitmap image;
@@ -222,7 +223,7 @@ public class Instagram extends Fragment {
         Paint paint = new Paint();
         paint.setAntiAlias(true);
         paint.setShader(new BitmapShader(image, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
-        canvas.drawRoundRect((new RectF(0, 0, image.getWidth(), image.getHeight())), image.getWidth()/2, image.getWidth()/2, paint);// Round Image Corner 100 100 100 100
+        canvas.drawRoundRect((new RectF(0, 0, image.getWidth(), image.getHeight())), image.getWidth() / 2, image.getWidth() / 2, paint);// Round Image Corner 100 100 100 100
 
         return imageRounded;
     }
@@ -242,7 +243,7 @@ public class Instagram extends Fragment {
 
         @Override
         protected Void doInBackground(Void... params) {
-            getTimelineFromHTTP();
+            getTimelineFromHTTP(getContext());
             return null;
         }
 
@@ -253,7 +254,7 @@ public class Instagram extends Fragment {
                 swipeRefreshLayout.setRefreshing(false);
             }
 
-            if (InstagramAdapter.posts.size() > nrOfPosts){
+            if (InstagramAdapter.posts.size() > nrOfPosts) {
                 Log.d("Instagram", "tem post novo");
                 igAdapter.notifyDataSetChanged();
             }

@@ -4,12 +4,14 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -67,7 +69,7 @@ public class AtividadeDetalhes extends AppCompatActivity implements
 
         setContentView(R.layout.activity_atividade_detalhes);
 
-        contentView = findViewById(R.id.atividade_detalhes_scroll);
+        contentView = findViewById(R.id.atividade_content);
         loadingView = findViewById(R.id.loading_spinner_atividade);
 
         if (savedInstanceState == null) {
@@ -144,9 +146,11 @@ public class AtividadeDetalhes extends AppCompatActivity implements
         ImageView backgroundCollapsing = (ImageView) findViewById(R.id.imagem_tipo_atividade);
 
         backgroundCollapsing.setColorFilter(atividadeAtual.getColor(getBaseContext()), PorterDuff.Mode.MULTIPLY);
-        backgroundCollapsing.setImageDrawable(getDrawable(R.drawable.fundo_triangulos_branco));
+        backgroundCollapsing.setImageDrawable(ContextCompat.getDrawable(getBaseContext(), R.drawable.fundo_triangulos_branco));
 
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.atividade_detalhe_fab);
+        fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getBaseContext(), R.color.fav_button)));
+
 
         if (atividadeAtual.isFavorito()) {
             fab.setImageResource(R.drawable.ic_menu_favorite);
@@ -170,6 +174,10 @@ public class AtividadeDetalhes extends AppCompatActivity implements
                 }
             }
         });
+
+        final FloatingActionButton fab_map = (FloatingActionButton) findViewById(R.id.atividade_detalhe_ver_mapa);
+        fab_map.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getBaseContext(), R.color.ver_mapa_button)));
+
     }
 
     @Override

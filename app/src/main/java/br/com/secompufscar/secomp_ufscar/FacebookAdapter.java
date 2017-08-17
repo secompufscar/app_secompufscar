@@ -1,5 +1,6 @@
 package br.com.secompufscar.secomp_ufscar;
 
+import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -33,9 +34,9 @@ public class FacebookAdapter extends RecyclerView.Adapter<FacebookAdapter.ViewHo
         FacebookAdapter.username = username;
     }
 
-    public static void setUser_photo(String user_photo) {
+    public static void setUser_photo(String user_photo, Context context) {
         try {
-            FacebookAdapter.user_photo = NetworkUtils.getImageFromHttpUrl(user_photo);
+            FacebookAdapter.user_photo = NetworkUtils.getImageFromHttpUrl(user_photo, context);
         } catch (IOException e) {
             e.printStackTrace();
         }

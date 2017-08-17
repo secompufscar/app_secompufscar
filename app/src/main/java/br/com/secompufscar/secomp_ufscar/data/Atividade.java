@@ -60,7 +60,7 @@ public class Atividade {
         }
 
         public Date dataHoraParser(String dateString) {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", new Locale("pt", "BR"));
             formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
             Date value = null;
             try {
@@ -79,7 +79,7 @@ public class Atividade {
 
         public String dateInCurrentTimeZone(Date dateObject, String format) {
 
-            SimpleDateFormat dateFormatter = new SimpleDateFormat(format, Locale.getDefault());
+            SimpleDateFormat dateFormatter = new SimpleDateFormat(format, new Locale("pt", "BR"));
             dateFormatter.setTimeZone(TimeZone.getDefault());
             String datahora = dateFormatter.format(dateObject);
 

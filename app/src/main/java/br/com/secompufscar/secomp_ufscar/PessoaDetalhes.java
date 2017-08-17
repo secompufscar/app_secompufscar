@@ -52,6 +52,9 @@ public class PessoaDetalhes extends AppCompatActivity implements
 
         pessoaAtual = DatabaseHandler.getDB().getDetalhePessoa(id);
 
+        contatoList.clear();
+        contatoList.addAll(pessoaAtual.getContatos());
+
         setContentView(R.layout.activity_pessoa_detalhes);
 
         contentView = findViewById(R.id.pessoa_detalhes_scroll);
@@ -102,8 +105,8 @@ public class PessoaDetalhes extends AppCompatActivity implements
 
         ImageView backgroundCollapsing = (ImageView) findViewById(R.id.imagem_fundo);
 
-        backgroundCollapsing.setColorFilter(ContextCompat.getColor(getBaseContext(), R.color.apoioColor), PorterDuff.Mode.MULTIPLY);
-        backgroundCollapsing.setImageDrawable(getDrawable(R.drawable.fundo_triangulos_branco));
+        backgroundCollapsing.setColorFilter(ContextCompat.getColor(getBaseContext(), R.color.pessoaDetalhe), PorterDuff.Mode.MULTIPLY);
+        backgroundCollapsing.setImageDrawable(ContextCompat.getDrawable(getBaseContext(), R.drawable.fundo_triangulos_branco));
     }
 
     @Override
