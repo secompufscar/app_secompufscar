@@ -7,6 +7,8 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import br.com.secompufscar.secomp_ufscar.utilities.NetworkUtils;
+
 public class AreaDoParticipante extends AppCompatActivity {
     private WebView areaParticipante;
 
@@ -24,16 +26,18 @@ public class AreaDoParticipante extends AppCompatActivity {
         areaParticipante.getSettings().setJavaScriptEnabled(true);
         areaParticipante.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
 
-        areaParticipante.loadUrl("https://secompufscar.com.br/2016/areadoparticipante/");
+        areaParticipante.loadUrl(NetworkUtils.BASE_URL+"area-do-participante/");
+    }
+
+    class MyBrowser extends WebViewClient {
+
+        @SuppressWarnings("deprecation")
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return true;
+        }
     }
 }
 
-class MyBrowser extends WebViewClient {
 
-    @SuppressWarnings("deprecation")
-    @Override
-    public boolean shouldOverrideUrlLoading(WebView view, String url) {
-        view.loadUrl(url);
-        return true;
-    }
-}

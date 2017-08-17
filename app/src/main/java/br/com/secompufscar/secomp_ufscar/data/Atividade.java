@@ -33,6 +33,8 @@ public class Atividade {
     public final static String TAG_DESCRICAO = "descricao";
     public final static String TAG_TIPO = "tipo";
     public final static String TAG_LOCAL = "local";
+    public final static String TAG_SALA = "sala";
+    public final static String TAG_PREDIO = "predio";
     public final static String TAG_FAVORITO = "favorito";
 
     public final static String TAG_HORARIOS = "horarios";
@@ -40,8 +42,9 @@ public class Atividade {
     public final static String TAG_DATAHORA_FIM = "data_hora_fim";
 
 
+    public final static String TAG_ULTIMA_ATUALIZACAO = "ultima_atualizacao";
     public final static String API_URL = "api/atividades/";
-    public final static String RESUMO_URL = API_URL + "?ministrantes_resumo=True/";
+    public final static String RESUMO_URL = API_URL + "?ministrantes_resumo=True";
 
     class Horario {
         public Date dataHora_inicio, dataHora_fim;
@@ -101,9 +104,11 @@ public class Atividade {
     }
 
     private int id;
-    private String titulo, local, tipo, descricao;
+    private String titulo, tipo, descricao;
+    private String predio, sala;
     private String horarios;
     private String dataHora_inicio;
+    private String horarioUltimaAtualizacao;
     private ArrayList<Pessoa> ministrantes;
     private boolean favorito;
 
@@ -111,7 +116,6 @@ public class Atividade {
     public String toString() {
         return this.titulo + " Tipo:" + this.tipo;
     }
-
 
     /**
      * Métodos set
@@ -125,8 +129,18 @@ public class Atividade {
         this.titulo = titulo;
     }
 
-    public void setLocal(String local) {
-        this.local = local;
+    public void setLocal(JSONObject local) {
+        try {
+            this.predio = local.getString(TAG_PREDIO);
+            this.sala = local.getString(TAG_SALA);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setLocal(String predio, String sala) {
+        this.predio = predio;
+        this.sala = sala;
     }
 
     public void setDescricao(String descricao) {
@@ -151,21 +165,29 @@ public class Atividade {
                 e.printStackTrace();
             }
         }
-
     }
 
-    public void setMinistrantes(JSONArray ministrantes, String root_image) {
+    public void setHorarioUltimaAtualizacao(String horario) {
+        this.horarioUltimaAtualizacao = horario;
+    }
+
+    public void setMinistrantes(JSONArray ministrantes, Context context) {
         try {
             this.ministrantes = new ArrayList<>();
 
             for (int i = 0; i < ministrantes.length(); i++) {
-                Pessoa pessoa = Pessoa.resumoPessoaParseJSON(ministrantes.getString(i), root_image);
+                Pessoa pessoa = Pessoa.resumoPessoaParseJSON(ministrantes.getString(i), context);
                 this.ministrantes.add(pessoa);
             }
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setMinistrantes(List<Pessoa> ministrantes){
+        this.ministrantes = new ArrayList<>();
+        this.ministrantes.addAll(ministrantes);
     }
 
     public void setFavorito(boolean isFavorito) {
@@ -175,7 +197,6 @@ public class Atividade {
     /**
      * Métodos get
      **/
-
     public int getId() {
         return this.id;
     }
@@ -184,8 +205,20 @@ public class Atividade {
         return this.titulo;
     }
 
+    public String getPredio() {
+        return this.predio;
+    }
+
+    public String getSala() {
+        return this.sala;
+    }
+
     public String getLocal() {
-        return this.local;
+        String local = this.predio;
+        if (this.sala != null && !this.sala.equals("null"))
+            local += ", sala " + this.sala;
+
+        return local;
     }
 
     public String getTipo() {
@@ -196,7 +229,7 @@ public class Atividade {
         return this.descricao;
     }
 
-    public String getHorariosString() {
+    public String getHorariosRaw() {
         return this.horarios;
     }
 
@@ -204,11 +237,18 @@ public class Atividade {
         return this.dataHora_inicio;
     }
 
-    public String getHorarioInicial(){
+    public String getHorarioInicial() {
         Horario horario_inicio = new Horario();
         horario_inicio.setDataHora_inicio(this.dataHora_inicio);
 
         return horario_inicio.dateInCurrentTimeZone(horario_inicio.dataHora_inicio, "HH:mm");
+    }
+
+    public String getHorarioInicialDiaDaSemana() {
+        Horario horario_inicio = new Horario();
+        horario_inicio.setDataHora_inicio(this.dataHora_inicio);
+
+        return horario_inicio.dateInCurrentTimeZone(horario_inicio.dataHora_inicio, "EE HH:mm").toUpperCase();
     }
 
     public String getHorarios() {
@@ -242,6 +282,10 @@ public class Atividade {
         }
     }
 
+    public String getHorarioUltimaAtualizacao() {
+        return this.horarioUltimaAtualizacao;
+    }
+
     public int getColor(Context context) {
         int color;
         switch (this.tipo.toLowerCase()) {
@@ -252,13 +296,13 @@ public class Atividade {
                 color = ContextCompat.getColor(context, R.color.minicursoColor);
                 break;
             default:
-                color = ContextCompat.getColor(context, R.color.palestraColor);
+                color = ContextCompat.getColor(context, R.color.atividadeDefaultColor);
         }
 
         return color;
     }
 
-    public List<Pessoa> getMinistrantes(){
+    public List<Pessoa> getMinistrantes() {
         return this.ministrantes;
     }
 
@@ -266,7 +310,7 @@ public class Atividade {
         return this.favorito;
     }
 
-    public static ArrayList<Atividade> atividadesParseJSON(String json) {
+    public static ArrayList<Atividade> atividadesParseJSON(String json, Context context) {
         if (json != null) {
             try {
                 // Lista de patrocinadores
@@ -277,7 +321,6 @@ public class Atividade {
 
                 JSONArray tipos = jsonObj.getJSONArray(TAG_TIPOS_ATIVIDADE);
                 JSONObject atividadesObject = jsonObj.getJSONObject(TAG_ATIVIDADES);
-                String root_image = jsonObj.getString(TAG_DOMINIO_IMAGEM);
 
                 String tipo;
                 for (int i = 0; i < tipos.length(); i++) {
@@ -291,9 +334,11 @@ public class Atividade {
 
                         atividade.setId(atividadeObject.getInt(TAG_ID));
                         atividade.setTitulo(atividadeObject.getString(TAG_TITULO));
+                        atividade.setDescricao(atividadeObject.getString(TAG_DESCRICAO));
                         atividade.setTipo(tipo);
+                        atividade.setLocal(atividadeObject.getJSONObject(TAG_LOCAL));
                         atividade.setHorarios(atividadeObject.getString(TAG_HORARIOS));
-                        atividade.setMinistrantes(atividadeObject.getJSONArray(TAG_MINISTRANTES), root_image);
+                        atividade.setMinistrantes(atividadeObject.getJSONArray(TAG_MINISTRANTES), context);
 
                         atividadeList.add(atividade);
                     }
@@ -312,21 +357,23 @@ public class Atividade {
         }
     }
 
-    public static Atividade detalheAtividadeParseJSON(String json) {
+    public static Atividade detalheAtividadeParseJSON(String json, Context context) {
         if (json != null) {
             try {
                 JSONObject atividadeObject = new JSONObject(json);
 
                 Atividade atividade = new Atividade();
 
-                atividade.setDescricao(atividadeObject.getString(TAG_DESCRICAO));
-                atividade.setLocal(atividadeObject.getString(TAG_LOCAL));
                 atividade.setId(atividadeObject.getInt(TAG_ID));
                 atividade.setTitulo(atividadeObject.getString(TAG_TITULO));
+                atividade.setDescricao(atividadeObject.getString(TAG_DESCRICAO));
+                atividade.setLocal(atividadeObject.getJSONObject(TAG_LOCAL));
                 atividade.setTipo(atividadeObject.getString(TAG_TIPO));
                 atividade.setHorarios(atividadeObject.getString(TAG_HORARIOS));
-                //TODO: Incluir dominio imagem na api de detalhes
-//                atividade.setMinistrantes(atividadeObject.getJSONArray(TAG_MINISTRANTES), "");
+                atividade.setHorarioUltimaAtualizacao(atividadeObject.getString(TAG_ULTIMA_ATUALIZACAO));
+
+
+                atividade.setMinistrantes(atividadeObject.getJSONArray(TAG_MINISTRANTES), context);
 
                 return atividade;
 
@@ -341,34 +388,55 @@ public class Atividade {
         }
     }
 
-    public static void getAtividadesFromHTTP() {
+    public static boolean getAtividadesFromHTTP(Context context) {
         URL url = NetworkUtils.buildUrl(RESUMO_URL);
         String response;
 
         try {
-            response = NetworkUtils.getResponseFromHttpUrl(url);
+            response = NetworkUtils.getResponseFromHttpUrl(url, context);
             if (response != null) {
-                DatabaseHandler.getDB().addManyAtividades(atividadesParseJSON(response));
+                try {
+                    JSONObject jsonObj = new JSONObject(response);
+                    if (NetworkUtils.checkUpdate(context, jsonObj.getString(TAG_ULTIMA_ATUALIZACAO), "atividades")) {
+                        DatabaseHandler.getDB().addManyAtividades(atividadesParseJSON(response, context));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                return true;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return false;
     }
 
-    public static Atividade getDetalheAtividadeFromHTTP(int id) {
-        URL url = NetworkUtils.buildUrl(API_URL + Integer.toString(id));
+    public static Atividade getDetalheAtividadeFromHTTP(Atividade atividade_antiga, Context context) {
+        URL url = NetworkUtils.buildUrl(API_URL + Integer.toString(atividade_antiga.getId()));
         String response;
         try {
-            response = NetworkUtils.getResponseFromHttpUrl(url);
+            response = NetworkUtils.getResponseFromHttpUrl(url, context);
             if (response != null) {
-                Atividade atividade = detalheAtividadeParseJSON(response);
-                DatabaseHandler.getDB().updateAtividade(atividade);
-                return atividade;
+                try {
+                    JSONObject horarioObject = new JSONObject(response);
+                    String dataUtimaAtualizacao = horarioObject.getString(TAG_ULTIMA_ATUALIZACAO);
+
+                    if (atividade_antiga.getHorarioUltimaAtualizacao() == null || !atividade_antiga.getHorarioUltimaAtualizacao().equals(dataUtimaAtualizacao)) {
+                        Atividade atividade = detalheAtividadeParseJSON(response, context);
+                        DatabaseHandler.getDB().updateAtividade(atividade);
+                        Log.d("teste", "atualizando atividade");
+                        return atividade;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
         }
+
         return null;
     }
 }

@@ -10,12 +10,21 @@
     <string name="action_settings">Configurações</string>
 
     <!-- Menu -->
+    <string name="home_button">A SECOMP</string>
+    <string name="cronograma_button">Cronograma</string>
+    <string name="redes_sociais_button">Redes Sociais</string>
+    <string name="pessoas_button">Pessoas</string>
+    <string name="favoritos_button">Minhas Atividades</string>
+    <string name="mapa_button">Mapa</string>
+    <string name="area_participante_button">Área do Participante</string>
+    <string name="patrocinio_button">Patrocínio</string>
+    <string name="sobre_button">Sobre</string>
+    <string name="configuracoes_button">Configurações</string>
 
     <!-- Detalhes de Atividade -->
     <string name="msg_favoritado">Atividade salva em Minhas Atividades</string>
     <string name="msg_nao_favoritado">Atividade excluída de Minhas Atividades</string>
     <string name="msg_erro_favoritado">Não foi possível gravar a alteração</string>
-
 
     <string name="atividade_titulo_descricao">Descrição</string>
     <string name="atividade_titulo_ministrantes">Ministrantes</string>
@@ -32,12 +41,10 @@
         pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
         deserunt mollit anim id est laborum.
     </string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="twitter_user">feedtisecomp</string>
     <string name="now">#NOW</string>
-    <string name="hapnow">Happening Now</string>
+    <string name="hapnow">AGORA</string>
     <string name="noconnection">Sem conexão com a internet</string>
     <string name="verifique">Verifique sua conexão com a internet.</string>
     <string name="receber_notifica_es_sobre_os_eventos_durante_a_secomp">Receber notificações sobre os eventos durante a SECOMP</string>
@@ -46,8 +53,9 @@
     <string name="no">Não, prefiro me manter desatualizado</string>
     <string name="yes">Sim, sou informado!</string>
     <string name="internets">Deseja usar seus dados móveis para baixar o cronograma da SECOMP?</string>
-    <string name="yesint">Sim, eu sei que são poucos dados</string>
-    <string name="noint">Não, eu prefiro usar só WIFI</string>
+    <string name="yesint">Sim</string>
+    <string name="noint">Não, usar apenas WIFI</string>
+
     <!-- Sobre -->
     <string name="sobreSecomp">Sobre a SECOMP</string>
     <string name="sobreDC">Sobre o DC</string>
@@ -68,5 +76,8 @@
     <string name="infoUFSCar7">Em 2014, a UFSCar obteve a 18ª colocação entre as 300 universidades da América Latina incluídas no ranking elaborado pela Quacquarelli Symonds (QS). A instituição obteve 82 pontos na avaliação geral e é, portanto, considerada a 10ª melhor instituição brasileira.</string>
     <string name="infoUFSCar8">Texto obtido da página institucional da UFSCar, disponível em www.ufscar.br.</string>
 
+    <string name="config">Configurações</string>
+
+    <string name="sair">Deseja realmente sair do aplicativo?</string>
 
 </resources>

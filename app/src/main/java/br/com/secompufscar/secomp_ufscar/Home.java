@@ -87,8 +87,6 @@ public class Home extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         // Faz a referência ao Swipe Refresh do XML
-
-
     }
 
     @Override
@@ -142,14 +140,13 @@ public class Home extends Fragment {
             //Famoso migué
             swipeLayout.setRefreshing(true);
             //Seta as corzinhas do loading (Fun)
-            swipeLayout.setColorSchemeResources(R.color.loadingColor_1, R.color.loadingColor_2, R.color.loadingColor_3);
+            swipeLayout.setColorSchemeResources(R.color.loadingColor_1, R.color.loadingColor_2, R.color.loadingColor_3, R.color.loadingColor_4);
         }
         //Listener para executar o código quando der um swipezinho
         swipeLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-
                         //Executa a atualização dos tweets
                         //Apenas se a thread não está sendo executada
                         if (!(a.getStatus() == AsyncTask.Status.RUNNING)) {
@@ -197,11 +194,6 @@ public class Home extends Fragment {
         ArrayList<String> tweets = new ArrayList<>();
 
         @Override
-        protected void onPreExecute() {
-
-        }
-
-        @Override
         protected String doInBackground(String... params) {
             try {
                 //Configuração na API do twitter
@@ -229,7 +221,6 @@ public class Home extends Fragment {
                     // Se a timeline não for nula então
                     if (user.getStatus() != null) {
 
-
                         //Pega a timeline
                         ResponseList<twitter4j.Status> statusess = twitter.getUserTimeline(twitters[0]);
 
@@ -246,14 +237,17 @@ public class Home extends Fragment {
 
                 for (int i = 0; i < tweets.size(); i++) {
                     //Agora ficou show
-                    if (tweets.get(i).trim().contains(getString(R.string.now))) {
+                    if (tweets.get(i).trim().contains(getString(R.string.now)))
+                    {
                         tweets.set(i, tweets.get(i).replace(getString(R.string.now), ""));
-                        if (now == "") {
+                        if (now.isEmpty()) {
                             now = tweets.get(i);
                             tweets.remove(i);
                         }
                     }
+                    tweets.set(i, tweets.get(i).replace(getString(R.string.now), ""));
                 }
+
                 tweetsArray = new String[tweets.size()];
                 for (int i = 0; i < tweets.size(); i++) {
                     tweetsArray[i] = tweets.get(i);
@@ -262,15 +256,12 @@ public class Home extends Fragment {
             } catch (Exception e) {
                 ok = false;
                 return "";
-
             }
             return now;
         }
 
         @Override
         protected void onPostExecute(String s) {
-
-
             if (s != "") {
                 hn.setText(now);
             }
@@ -295,7 +286,6 @@ public class Home extends Fragment {
                 //Se estiver cancela ele, pois nossa tarefa já foi executada
                 swipeLayout.setRefreshing(false);
             }
-
         }
     }
 }

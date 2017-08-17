@@ -10,7 +10,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_bar_height"
+        android:layout_height="@dimen/detalhe_header_height"
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
@@ -21,8 +21,6 @@
             android:fitsSystemWindows="true"
             android:theme="@style/AppTheme.AppBarOverlay"
             app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginEnd="@dimen/md_keylines"
-            app:expandedTitleMarginStart="@dimen/md_keylines"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <RelativeLayout
@@ -37,14 +35,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    tools:background="@drawable/fundo_triangulos_branco" />
+                    tools:background="@color/atividadeDefaultColor" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:layout_margin="20dp"
+                    android:layout_margin="@dimen/detalhes_info_header_margin"
                     android:orientation="vertical">
 
                     <TextView
@@ -52,27 +50,26 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="@dimen/appBarSize"
+                        android:paddingBottom="10dp"
+                        android:text="Nome da atividade"
                         android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:text="Nome da atividade"/>
+                        android:textColor="@color/detalhesHeaderText"
+                        android:textSize="@dimen/detalhes_nome_size"
+                        android:textStyle="bold" />
 
                     <LinearLayout
                         android:id="@+id/atividade_detalhe_frame_local"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="10dp">
+                        android:layout_gravity="center">
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_local"
-                            android:tint="@color/white" />
+                            android:tint="@color/detalhesHeaderText" />
 
                         <TextView
                             android:id="@+id/atividade_detalhe_local"
@@ -81,7 +78,8 @@
                             android:padding="5dp"
                             android:text="Local"
                             android:textAlignment="center"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/detalhesHeaderText"
+                            android:textSize="@dimen/detalhes_local_size" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -96,21 +94,19 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_horario"
-                            android:tint="@color/white" />
+                            android:tint="@color/detalhesHeaderText" />
 
                         <TextView
                             android:id="@+id/atividade_detalhe_horarios"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
-                            android:text="Seg 16:30 - 17:30 | 19:00 - 19:30"
-                            android:textColor="@color/white" />
+                            android:text="SEG 16h30 - 17h30"
+                            android:textColor="@color/detalhesHeaderText"
+                            android:textSize="@dimen/detalhes_horario_size" />
                     </LinearLayout>
                 </LinearLayout>
-
-
             </RelativeLayout>
-
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -123,6 +119,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/atividade_detalhes_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -131,55 +128,48 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/md_keylines"
-            android:paddingRight="@dimen/md_keylines"
-            android:paddingTop="@dimen/md_keylines">
-
+            android:padding="@dimen/detalhes_body_padding">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/md_keylines"
+                android:layout_marginBottom="@dimen/titulo_margin_bottom"
                 android:text="@string/atividade_titulo_descricao"
-                android:textColor="?attr/colorAccent"
-                android:textSize="@dimen/article_titles" />
+                android:textColor="@color/detalhesTituloText"
+                android:textSize="@dimen/titulo_size" />
 
             <TextView
                 android:id="@+id/atividade_detalhe_descricao"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/lorem_ipsum" />
+                android:text="Descrição da atividade"
+                android:textColor="@color/secondaryText" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/md_keylines"
-                android:layout_marginTop="@dimen/md_keylines"
+                android:layout_marginBottom="@dimen/titulo_margin_bottom"
+                android:layout_marginTop="@dimen/titulo_margin_top"
                 android:text="@string/atividade_titulo_ministrantes"
-                android:textColor="?attr/colorAccent"
-                android:textSize="@dimen/article_titles" />
+                android:textColor="@color/detalhesTituloText"
+                android:textSize="@dimen/titulo_size" />
 
-            <LinearLayout
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_ministrantes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true">
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/imagem_teste_1"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="10dp" />
+            </android.support.v7.widget.RecyclerView>
+                tools:text="@string/detail_location" />
 
-                <ImageView
-                    android:id="@+id/imagem_teste_2"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="10dp" />
-
-            </LinearLayout>
+            <Button
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="EnviarDadosMapa"
+                android:text="Ver no Mapa" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
@@ -189,8 +179,16 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:src="@drawable/ic_atividade_favorito_borda"
-        android:tint="@color/white"
+        android:tint="@color/floatButtonTint"
         app:fabSize="normal"
         app:layout_anchor="@id/appbar"
         app:layout_anchorGravity="bottom|right|end" />
+
+    <ProgressBar android:id="@+id/loading_spinner_atividade"
+        style="?android:progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:progressTint="@color/colorAccent"/>
+
 </android.support.design.widget.CoordinatorLayout>

@@ -1,19 +1,8 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="br.com.secompufscar.secomp_ufscar.Patrocinadores">
-
-    <!--<GridView-->
-        <!--android:id="@+id/patrocinador_diamante"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:columnWidth="100dp"-->
-        <!--android:numColumns="auto_fit"-->
-        <!--android:verticalSpacing="10dp"-->
-        <!--android:horizontalSpacing="10dp"-->
-        <!--android:stretchMode="columnWidth"-->
-        <!--android:gravity="fill"/>-->
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_patrocinadores"
@@ -22,4 +11,11 @@
 
     </android.support.v7.widget.RecyclerView>
 
-</LinearLayout>
+    <ProgressBar android:id="@+id/loading_spinner_patrocinadores"
+        style="?android:progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:progressTint="@color/colorAccent"/>
+
+</FrameLayout>

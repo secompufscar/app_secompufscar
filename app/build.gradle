@@ -5,10 +5,10 @@ android {
     buildToolsVersion "26.0.0"
     defaultConfig {
         applicationId "br.com.secompufscar.secomp_ufscar"
-        minSdkVersion 21
+        minSdkVersion 17
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -18,7 +18,9 @@ android {
         }
     }
 }
+
 dependencies {
+
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -36,5 +38,7 @@ dependencies {
     compile 'com.google.firebase:firebase-messaging:10.2.1'
     testCompile 'junit:junit:4.12'
     compile 'joda-time:joda-time:2.9.9'
+
+    compile 'com.google.android.gms:play-services-maps:10.2.1'
 }
 apply plugin:'com.google.gms.google-services'

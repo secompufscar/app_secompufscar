@@ -1,19 +1,19 @@
-package br.com.secompufscar.secomp_ufscar;
+package br.com.secompufscar.secomp_ufscar.adapters;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
 
 import java.util.List;
 
+import br.com.secompufscar.secomp_ufscar.R;
 import br.com.secompufscar.secomp_ufscar.data.Atividade;
 
-public class AtividadesAdapter extends RecyclerView.Adapter<AtividadesAdapter.MyViewHolder> {
+public class MinhasAtividadesAdapter extends RecyclerView.Adapter<MinhasAtividadesAdapter.MyViewHolder> {
 
     private List<Atividade> atividadeList;
     private Context context;
@@ -33,7 +33,7 @@ public class AtividadesAdapter extends RecyclerView.Adapter<AtividadesAdapter.My
     }
 
 
-    public AtividadesAdapter(Context context, List<Atividade> atividadeList) {
+    public MinhasAtividadesAdapter(Context context, List<Atividade> atividadeList) {
         this.atividadeList = atividadeList;
         this.context = context;
     }
@@ -52,12 +52,12 @@ public class AtividadesAdapter extends RecyclerView.Adapter<AtividadesAdapter.My
             Atividade atividade = atividadeList.get(position);
             holder.nome.setText(atividade.getTitulo());
 
-            String local_atividade = atividade.getLocal() != null ? atividade.getLocal() : context.getResources().getString(R.string.atividade_indisponivel_local);
+            String local_atividade = atividade.getPredio() != null ? atividade.getLocal() : context.getResources().getString(R.string.atividade_indisponivel_local);
 
             holder.local.setText(local_atividade);
 
             holder.tipo.setText(atividade.getTipo());
-            holder.horario.setText(atividade.getHorarioInicial());
+            holder.horario.setText(atividade.getHorarioInicialDiaDaSemana());
 
             holder.layout_tipo.setBackgroundColor(atividade.getColor(context));
         } catch (Exception e){

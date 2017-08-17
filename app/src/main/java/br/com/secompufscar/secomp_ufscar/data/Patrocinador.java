@@ -1,6 +1,7 @@
 package br.com.secompufscar.secomp_ufscar.data;
 
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import br.com.secompufscar.secomp_ufscar.R;
 import br.com.secompufscar.secomp_ufscar.utilities.NetworkUtils;
 
 public class Patrocinador {
@@ -22,7 +24,6 @@ public class Patrocinador {
      **/
 
     public final static String TAG_COTAS = "cotas";
-    public final static String TAG_DOMINIO_IMAGEM = "dominio_imagens";
 
     public final static String TAG_PATROCINADORES = "patrocinadores";
     public final static String TAG_ID = "id";
@@ -37,9 +38,13 @@ public class Patrocinador {
     public final static String COTA_OURO = "ouro";
     public final static String COTA_PRATA = "prata";
     public final static String COTA_DESAFIO = "desafio_de_programadores";
-    public final static String COTA_APOIO= "apoio";
+    public final static String COTA_APOIO = "apoio";
 
+    public final static String TAG_ULTIMA_ATUALIZACAO = "ultima_atualizacao";
     public final static String API_URL = "api/patrocinadores/";
+
+    public final static int LOGO_SIZE_LIMIT = 900;
+
 
     /**
      * Atributos dos objetos patrocinador
@@ -85,7 +90,18 @@ public class Patrocinador {
     public Bitmap getLogoBitmap() {
 
         Bitmap image = BitmapFactory.decodeByteArray(this.logo, 0, this.logo.length);
-        return image;
+
+        if(image.getWidth() > LOGO_SIZE_LIMIT){
+            double ratio = (double)image.getHeight()/(double)image.getWidth();
+            int newHeight = (int) (LOGO_SIZE_LIMIT * ratio);
+            return Bitmap.createScaledBitmap(image, LOGO_SIZE_LIMIT, newHeight, false);
+        } else if(image.getHeight() > LOGO_SIZE_LIMIT){
+            double ratio = (double)image.getWidth()/(double)image.getHeight();
+            int newWidth = (int) (LOGO_SIZE_LIMIT * ratio);
+            return Bitmap.createScaledBitmap(image, newWidth, LOGO_SIZE_LIMIT, false);
+        }else {
+            return image;
+        }
     }
 
     /**
@@ -116,7 +132,7 @@ public class Patrocinador {
         this.cota = cota;
     }
 
-    public static ArrayList<Patrocinador> patrocinadoresParseJSON(String json) {
+    public static ArrayList<Patrocinador> patrocinadoresParseJSON(String json, Context context) {
         if (json != null) {
             try {
                 // Lista de patrocinadores
@@ -130,7 +146,6 @@ public class Patrocinador {
 
                 JSONArray cotas = jsonObj.getJSONArray(TAG_COTAS);
                 JSONObject patrocinadoresObject = jsonObj.getJSONObject(TAG_PATROCINADORES);
-                String root_image = jsonObj.getString(TAG_DOMINIO_IMAGEM);
 
                 String cota;
                 // Loop em para pegar cada cota
@@ -149,7 +164,7 @@ public class Patrocinador {
                         patrocinador.setCota(cota);
 
                         try {
-                            patrocinador.setLogo(NetworkUtils.getImageFromHttpUrl(root_image + patrocinadorObject.getString(TAG_LOGO)));
+                            patrocinador.setLogo(NetworkUtils.getImageFromHttpUrl(patrocinadorObject.getString(TAG_LOGO), context));
                         } catch (Exception IOException) {
                             patrocinador.setLogo(null);
                         }
@@ -170,15 +185,21 @@ public class Patrocinador {
         }
     }
 
-    public static void getPatrocinadoresFromHTTP() {
+    public static void getPatrocinadoresFromHTTP(Context context) {
         URL url = NetworkUtils.buildUrl(API_URL);
         String response;
 
         try {
-            response = NetworkUtils.getResponseFromHttpUrl(url);
+            response = NetworkUtils.getResponseFromHttpUrl(url, context);
             if (response != null) {
-                DatabaseHandler.getDB().addManyPatrocinadores(patrocinadoresParseJSON(response));
-//                Log.d("Teste", patrocinadoresParseJSON(response).toString());
+                try {
+                    JSONObject jsonObj = new JSONObject(response);
+                    if (NetworkUtils.checkUpdate(context, jsonObj.getString(TAG_ULTIMA_ATUALIZACAO), "patrocinadores")) {
+                        DatabaseHandler.getDB().addManyPatrocinadores(patrocinadoresParseJSON(response, context));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
