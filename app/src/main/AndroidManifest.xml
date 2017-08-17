@@ -76,7 +76,6 @@
 
         <activity
             android:name=".Settings"
-            android:label="Configurações"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme">
             <meta-data

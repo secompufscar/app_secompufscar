@@ -4,20 +4,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     >
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="24dp"
+        android:background="@color/colorPrimaryDark"
+        android:layout_marginTop="0dp">
+    </View>
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:paddingTop="24dp"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/my_toolbar"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            android:weightSum="1">
+            android:weightSum="1"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
 
+            <TextView
+                android:id="@+id/fragment_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="NOME DO FRAGMENTO"
+                android:textColor="@color/titleFragmentText"
+                android:textSize="@dimen/titulo_size"
+                android:textStyle="bold" />
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
