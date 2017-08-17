@@ -24,20 +24,25 @@ public class Social extends AppCompatActivity {
             ft = fm.beginTransaction();
             switch (item.getItemId()) {
                 case R.id.twitter:
-                    ft.replace(R.id.content,twitterHashtag);
-                    ft.addToBackStack(null);
+                    ft.replace(R.id.content,twitterHashtag, "twitter");
+//                    ft.addToBackStack(null);
                     ft.commit();
                     return true;
                 case R.id.instagram:
-                    ft.replace(R.id.content,instagram);
-                    ft.addToBackStack(null);
+                    ft.replace(R.id.content,instagram, "instagram");
+//                    ft.addToBackStack(null);
                     ft.commit();
                     return true;
                 case R.id.facebook:
-                    ft.replace(R.id.content, facebook);
-                    ft.addToBackStack(null);
+                    ft.replace(R.id.content, facebook, "facebook");
+//                    ft.addToBackStack(null);
                     ft.commit();
                     return true;
+                /*
+                    COMENTEI A PARTE DE ADICIONAR PARA A STACK PORQUE NÃO ACHO QUE SEJA INTERESSANTE
+                    SE TEM AS TABS ALI EMBAIXO, NÃO TEM PRA QUE VOLTAR PRA UMA OUTRA TAB, E SIM SÓ
+                    SAIR DA ATIVIDADE
+                 */
 
             }
 
@@ -51,7 +56,7 @@ public class Social extends AppCompatActivity {
         setContentView(R.layout.redes_sociais);
         //Início da gambiarra
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        toolbar.setTitle("SECOMP");
+        toolbar.setTitle("Redes Sociais");
         toolbar.setTitleTextColor(Color.BLACK);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -63,10 +68,12 @@ public class Social extends AppCompatActivity {
         ft = fm.beginTransaction();
         ft.add(R.id.content,twitterHashtag);
         ft.commit();
-
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
     }
+
+
 
 
 

@@ -22,6 +22,8 @@
     <color name="colorBackSplash">#FFF</color>
     <color name="colorButton">#FFF</color>
 
+    <color name="facebook_divider">#e5e5e5</color>
+
     <color name="loadingColor_1">#1a3f72</color>
     <color name="loadingColor_2">#378540</color>
     <color name="loadingColor_3">#3267b0</color>
@@ -33,6 +35,9 @@
     <color name="prataColor">#767676</color>
     <color name="desafioColor">#e03997</color>
     <color name="apoioColor">#1b1c1d</color>
+
+    <color name="black">#000000</color>
+    <color name="facebook_blue">#3b5998</color>
 
     <!--Cores dos tipos de atividade-->
     <color name="palestraColor">#1a3f72</color>
