@@ -1,5 +1,6 @@
 package br.com.secompufscar.secomp_ufscar;
 
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -52,6 +53,12 @@ public class Social extends AppCompatActivity {
 
     };
     @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+
+    }
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.redes_sociais);
@@ -67,8 +74,10 @@ public class Social extends AppCompatActivity {
         instagram = new Instagram();
         fm =  getSupportFragmentManager();
         ft = fm.beginTransaction();
-        ft.add(R.id.content,twitterHashtag);
-        ft.commit();
+        if(ft.isEmpty()){
+            ft.add(R.id.content, twitterHashtag);
+            ft.commit();
+        }
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 

@@ -32,7 +32,8 @@
         <activity
             android:name=".MainActivity"
             android:label=""
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:configChanges="keyboardHidden|orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
@@ -67,10 +68,12 @@
             android:name=".Social"
             android:label="Redes Sociais"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:configChanges="keyboardHidden|orientation|screenSize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
+
         </activity>
 
         <!-- WebView para Area do Participante -->
