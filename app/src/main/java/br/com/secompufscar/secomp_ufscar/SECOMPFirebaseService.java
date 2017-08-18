@@ -27,8 +27,5 @@ public class SECOMPFirebaseService extends FirebaseMessagingService {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
         }
 
-
-
-
     }
 }

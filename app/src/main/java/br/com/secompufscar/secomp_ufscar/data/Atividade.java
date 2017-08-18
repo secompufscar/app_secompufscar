@@ -25,7 +25,6 @@ public class Atividade {
 
     public final static String TAG_ATIVIDADES = "atividades";
     public final static String TAG_TIPOS_ATIVIDADE = "tipos_atividades";
-    public final static String TAG_DOMINIO_IMAGEM = "dominio_imagens";
 
     public final static String TAG_ID = "id";
     public final static String TAG_TITULO = "titulo";
