@@ -1,4 +1,4 @@
-package br.com.secompufscar.secomp_ufscar;
+package br.com.secompufscar.secomp_ufscar.adapters;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
@@ -22,6 +22,8 @@ import java.util.Locale;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
+import br.com.secompufscar.secomp_ufscar.Instagram;
+import br.com.secompufscar.secomp_ufscar.R;
 import br.com.secompufscar.secomp_ufscar.utilities.NetworkUtils;
 
 /**

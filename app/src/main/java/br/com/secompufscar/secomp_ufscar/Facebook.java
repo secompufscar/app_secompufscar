@@ -27,6 +27,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import br.com.secompufscar.secomp_ufscar.adapters.FacebookAdapter;
 import br.com.secompufscar.secomp_ufscar.utilities.NetworkUtils;
 
 
