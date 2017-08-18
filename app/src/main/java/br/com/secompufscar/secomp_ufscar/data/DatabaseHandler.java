@@ -759,4 +759,49 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         return pessoas;
     }
+
+    public List<Atividade> getAtividadesByMinistrante(Pessoa ministrante) {
+
+        List<Atividade> atividades = new ArrayList<>();
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.query(TABLE_MINISTRANTE,
+                new String[]{"ID_ATIVIDADE",
+                        "ID_PESSOA"},
+                "ID_PESSOA=?",
+                new String[]{Integer.toString(ministrante.getId())}, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+
+                Cursor cursor_atividade = db.query(TABLE_ATIVIDADE,
+                        new String[]{Atividade.TAG_ID,
+                                Atividade.TAG_TITULO,
+                                Atividade.TAG_PREDIO,
+                                Atividade.TAG_HORARIOS,
+                                Atividade.TAG_TIPO}, Atividade.TAG_ID + "=?",
+                        new String[]{cursor.getString(0)}, null, null, "datetime(" + Atividade.TAG_DATAHORA_INICIO + "), " + Atividade.TAG_TITULO + " ASC");
+
+
+                if (cursor_atividade.moveToFirst()) {
+
+                    Atividade atividade = new Atividade();
+                    atividade.setId(cursor_atividade.getInt(0));
+                    atividade.setTitulo(cursor_atividade.getString(1));
+                    atividade.setLocal(cursor_atividade.getString(2), "");
+                    atividade.setHorarios(cursor_atividade.getString(3));
+                    atividade.setTipo(cursor_atividade.getString(4));
+                    atividades.add(atividade);
+                    cursor_atividade.close();
+                }
+
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return atividades;
+    }
 }

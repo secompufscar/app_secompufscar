@@ -2,12 +2,15 @@ package br.com.secompufscar.secomp_ufscar;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -70,18 +73,39 @@ public class Patrocinadores extends Fragment {
             public void onClick(View view, int position) {
                 int itemPosition = sectionedAdapter.getItemPosition(position);
                 if (itemPosition >= 0) {
-                    Patrocinador patrocinador = patrocinadores.get(itemPosition);
 
-                    if(patrocinador.getWebsite() != null){
-                        try {
-                            Uri url = Uri.parse(patrocinador.getWebsite());
+                    final Patrocinador patrocinador = patrocinadores.get(itemPosition);
 
-                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, url);
-                            startActivity(browserIntent);
-                        } catch (Exception e){
-                            Toast.makeText(getActivity(), patrocinador.getNome(),
-                                    Toast.LENGTH_SHORT).show();
-                        }
+                    if (patrocinador.getWebsite() != null && !patrocinador.getWebsite().isEmpty()) {
+                        String msg = getResources().getString(R.string.open_browser_patrocinador, patrocinador.getNome());
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setMessage(msg);
+
+                        builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                try {
+                                    Uri url = Uri.parse(patrocinador.getWebsite());
+
+                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, url);
+                                    startActivity(browserIntent);
+                                } catch (Exception e) {
+                                    Toast.makeText(getActivity(), "Não foi possível abrir o site",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                        builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                            }
+                        });
+
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    } else {
+                        Toast.makeText(getActivity(), patrocinador.getNome(),
+                                Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -97,8 +121,8 @@ public class Patrocinadores extends Fragment {
         return view;
     }
 
-    private void setupRecycler(){
-        if(getActivity() != null){
+    private void setupRecycler() {
+        if (getActivity() != null) {
             adapter = new PatrocinadorAdapter(getActivity(), patrocinadores);
             //This is the code to provide a sectioned grid
             List<SectionedGridRecyclerViewAdapter.Section> sections =
@@ -156,14 +180,14 @@ public class Patrocinadores extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(Void param){
+        protected void onPostExecute(Void param) {
             new UpdatePatrocinadores().execute();
         }
     }
 
     private class UpdatePatrocinadores extends AsyncTask<Void, Void, Void> {
         @Override
-        protected void onPreExecute(){
+        protected void onPreExecute() {
             loadingView.setVisibility(View.VISIBLE);
         }
 

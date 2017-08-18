@@ -2,17 +2,19 @@ package br.com.secompufscar.secomp_ufscar;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,25 +24,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.secompufscar.secomp_ufscar.adapters.ContatoAdapter;
+import br.com.secompufscar.secomp_ufscar.adapters.MinhasAtividadesAdapter;
+import br.com.secompufscar.secomp_ufscar.data.Atividade;
 import br.com.secompufscar.secomp_ufscar.data.DatabaseHandler;
 import br.com.secompufscar.secomp_ufscar.data.Pessoa;
 import br.com.secompufscar.secomp_ufscar.utilities.ClickListener;
 import br.com.secompufscar.secomp_ufscar.utilities.RecyclerTouchListener;
 
-public class PessoaDetalhes extends AppCompatActivity implements
-        NavigationView.OnNavigationItemSelectedListener {
+public class PessoaDetalhes extends AppCompatActivity{
     public static final String EXTRA = "pessoa_atividade";
 
     public static List<Pessoa.Contato> contatoList = new ArrayList<>();
+    public static List<Atividade> atividadesList = new ArrayList<>();
 
-    RecyclerView recycler_contatos;
+
+    private RecyclerView recycler_contatos, recycler_atividades;
     private ContatoAdapter adapter;
+    private MinhasAtividadesAdapter atividadesAdapter;
 
     TextView nome, profissao_empresa, descricao;
-    ImageView foto, teste;
+    ImageView foto;
 
     private View contentView;
     private View loadingView;
+
+    private AlertDialog.Builder alertBuilder;
 
     Pessoa pessoaAtual;
 
@@ -54,6 +62,10 @@ public class PessoaDetalhes extends AppCompatActivity implements
 
         contatoList.clear();
         contatoList.addAll(pessoaAtual.getContatos());
+
+        atividadesList = DatabaseHandler.getDB().getAtividadesByMinistrante(pessoaAtual);
+
+        alertBuilder = new AlertDialog.Builder(this);
 
         setContentView(R.layout.activity_pessoa_detalhes);
 
@@ -77,10 +89,61 @@ public class PessoaDetalhes extends AppCompatActivity implements
         recycler_contatos.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recycler_contatos, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Toast.makeText(getBaseContext(), contatoList.get(position).toString(), Toast.LENGTH_SHORT).show();
+                final Pessoa.Contato contato = contatoList.get(position);
+
+                alertBuilder.setMessage(contato.toString());
+
+                alertBuilder.setPositiveButton("Abrir link", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        try {
+                            Uri url = Uri.parse(contato.getLink());
+
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, url);
+                            startActivity(browserIntent);
+                        } catch (Exception e) {
+                            Toast.makeText(getParent(), "Não foi possível abrir o link",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+                alertBuilder.setNegativeButton("Voltar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                });
+                AlertDialog dialog = alertBuilder.create();
+                dialog.show();
             }
+
             @Override
-            public void onLongClick(View view, int position){
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
+
+        atividadesAdapter = new MinhasAtividadesAdapter(this, atividadesList);
+
+        recycler_atividades = (RecyclerView) findViewById(R.id.recycler_atividades_pessoa);
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this.getApplicationContext());
+        recycler_atividades.setLayoutManager(mLayoutManager);
+
+        recycler_atividades.setAdapter(atividadesAdapter);
+
+        recycler_atividades.addOnItemTouchListener(new RecyclerTouchListener(this.getApplicationContext(), recycler_atividades, new ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Atividade atividade = atividadesList.get(position);
+
+                Context context = view.getContext();
+                Intent detalhesAtividade = new Intent(context, AtividadeDetalhes.class);
+                detalhesAtividade.putExtra("id_atividade", atividade.getId());
+                context.startActivity(detalhesAtividade);
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
 
             }
         }));
@@ -107,11 +170,6 @@ public class PessoaDetalhes extends AppCompatActivity implements
 
         backgroundCollapsing.setColorFilter(ContextCompat.getColor(getBaseContext(), R.color.pessoaDetalhe), PorterDuff.Mode.MULTIPLY);
         backgroundCollapsing.setImageDrawable(ContextCompat.getDrawable(getBaseContext(), R.drawable.fundo_triangulos_branco));
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        return false;
     }
 
     @Override

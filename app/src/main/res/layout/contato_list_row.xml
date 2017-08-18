@@ -12,8 +12,8 @@
 
     <ImageView
         android:id="@+id/contato_tipo_image"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:tint="@color/white"/>
 
 </LinearLayout>

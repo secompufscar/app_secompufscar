@@ -8,16 +8,16 @@
     android:fitsSystemWindows="false">
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
         <RelativeLayout
             android:id="@+id/pessoa_detalhe_header"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:scaleType="centerCrop"
             app:layout_collapseMode="parallax">
 
             <ImageView
@@ -71,8 +71,8 @@
                 android:id="@+id/contatos_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_alignParentBottom="true">
+                android:layout_alignParentBottom="true"
+                android:gravity="center">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recycler_contatos"
@@ -88,39 +88,68 @@
             android:id="@+id/pessoa_detalhes_scroll"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
                 android:layout_marginTop="@dimen/appBarSize"
-                android:padding="@dimen/detalhes_body_padding">
+                android:paddingBottom="10dp"
+                android:orientation="vertical">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingEnd="@dimen/detalhes_body_padding"
+                    android:paddingStart="@dimen/detalhes_body_padding"
+                    android:paddingTop="@dimen/detalhes_body_padding">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/titulo_margin_bottom"
+                        android:text="@string/atividade_titulo_descricao"
+                        android:textColor="@color/pessoaDetalhe"
+                        android:textSize="@dimen/titulo_size" />
+
+                    <TextView
+                        android:id="@+id/pessoa_detalhe_descricao"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Descrição da pessoa"
+                        android:textColor="@color/secondaryText" />
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/titulo_margin_bottom"
-                    android:text="@string/atividade_titulo_descricao"
+                    android:layout_marginStart="@dimen/detalhes_body_padding"
+                    android:layout_marginTop="5dp"
+                    android:text="Atividades"
                     android:textColor="@color/pessoaDetalhe"
                     android:textSize="@dimen/titulo_size" />
 
-                <TextView
-                    android:id="@+id/pessoa_detalhe_descricao"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Descrição da pessoa"
-                    android:textColor="@color/secondaryText"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:background="@color/divider" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_atividades_pessoa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
     </LinearLayout>
 
-    <ProgressBar android:id="@+id/loading_spinner_pessoa"
+    <ProgressBar
+        android:id="@+id/loading_spinner_pessoa"
         style="?android:progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:progressTint="@color/colorAccent"/>
+        android:progressTint="@color/colorAccent" />
 </android.support.design.widget.CoordinatorLayout>

@@ -70,8 +70,8 @@
                 android:id="@+id/contatos_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_alignParentBottom="true">
+                android:layout_alignParentBottom="true"
+                android:gravity="center">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recycler_contatos"
@@ -95,34 +95,49 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="@dimen/detalhes_body_padding">
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingStart="@dimen/detalhes_body_padding"
+                    android:paddingTop="@dimen/detalhes_body_padding"
+                    android:paddingEnd="@dimen/detalhes_body_padding">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/titulo_margin_bottom"
+                        android:text="@string/atividade_titulo_descricao"
+                        android:textColor="@color/pessoaDetalhe"
+                        android:textSize="@dimen/titulo_size" />
+
+                    <TextView
+                        android:id="@+id/pessoa_detalhe_descricao"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Descrição da pessoa"
+                        android:textColor="@color/secondaryText" />
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/titulo_margin_bottom"
-                    android:text="@string/atividade_titulo_descricao"
+                    android:layout_marginTop="5dp"
+                    android:text="Atividades"
+                    android:layout_marginStart="@dimen/detalhes_body_padding"
                     android:textColor="@color/pessoaDetalhe"
                     android:textSize="@dimen/titulo_size" />
-
-                <TextView
-                    android:id="@+id/pessoa_detalhe_descricao"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Descrição da pessoa"
-                    android:textColor="@color/secondaryText" />
-
-                <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginBottom="@dimen/titulo_margin_bottom"-->
-                <!--android:layout_marginTop="@dimen/titulo_margin_top"-->
-                <!--android:text="Contato"-->
-                <!--android:textColor="@color/pessoaDetalhe"-->
-                <!--android:textSize="@dimen/titulo_size" />-->
-
-
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:background="@color/divider" />
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_atividades_pessoa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
     </LinearLayout>

@@ -52,7 +52,7 @@ public class MinhasAtividadesAdapter extends RecyclerView.Adapter<MinhasAtividad
             Atividade atividade = atividadeList.get(position);
             holder.nome.setText(atividade.getTitulo());
 
-            String local_atividade = atividade.getPredio() != null ? atividade.getLocal() : context.getResources().getString(R.string.atividade_indisponivel_local);
+            String local_atividade = atividade.getPredio() != null ? atividade.getPredio() : context.getResources().getString(R.string.atividade_indisponivel_local);
 
             holder.local.setText(local_atividade);
 

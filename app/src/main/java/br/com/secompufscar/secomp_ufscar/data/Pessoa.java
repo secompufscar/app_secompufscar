@@ -53,9 +53,9 @@ public class Pessoa {
         @Override
         public String toString() {
             if (this.tipo != null)
-                return this.tipo + ": " + this.link;
+                return "[" + this.tipo + "] " + this.link;
             else
-                return "Contato não inicializado";
+                return "";
         }
 
         public String getTipo() {
