@@ -219,22 +219,28 @@ public class Patrocinadores extends Fragment {
                 setupRecycler();
             }
 
-            recycler_patrocinadores.animate()
-                    .alpha(1f)
-                    .setDuration(getResources().getInteger(
-                            android.R.integer.config_longAnimTime))
-                    .setListener(null);
+            if(isAdded()){
+                recycler_patrocinadores.animate()
+                        .alpha(1f)
+                        .setDuration(getResources().getInteger(
+                                android.R.integer.config_longAnimTime))
+                        .setListener(null);
 
-            loadingView.animate()
-                    .alpha(0f)
-                    .setDuration(getResources().getInteger(
-                            android.R.integer.config_longAnimTime))
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            loadingView.setVisibility(View.GONE);
-                        }
-                    });
+                loadingView.animate()
+                        .alpha(0f)
+                        .setDuration(getResources().getInteger(
+                                android.R.integer.config_longAnimTime))
+                        .setListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                loadingView.setVisibility(View.GONE);
+                            }
+                        });
+            } else {
+                loadingView.setVisibility(View.GONE);
+                recycler_patrocinadores.setVisibility(View.VISIBLE);
+                recycler_patrocinadores.setAlpha(1f);
+            }
         }
     }
 }
