@@ -39,11 +39,9 @@
 
     <Switch
         android:id="@+id/settings_notification"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/receber_notifica_es_sobre_os_eventos_durante_a_secomp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
         android:onClick="onSwitch"
         android:layout_margin="@dimen/activity_horizontal_margin"/>
 
