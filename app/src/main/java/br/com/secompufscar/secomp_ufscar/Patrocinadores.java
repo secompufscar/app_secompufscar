@@ -16,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.net.URL;
@@ -39,6 +40,7 @@ public class Patrocinadores extends Fragment {
     private SectionedGridRecyclerViewAdapter sectionedAdapter;
 
     private View loadingView;
+    private View erro_screen;
 
 
     public Patrocinadores() {
@@ -58,7 +60,13 @@ public class Patrocinadores extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_patrocinadores, container, false);
 
+        erro_screen = view.findViewById(R.id.sem_dados);
+        TextView erro_text = (TextView) view.findViewById(R.id.texto_erro);
+        erro_text.setText(R.string.erro_sem_dados_patrocinadores);
+        erro_screen.setVisibility(View.GONE);
+
         loadingView = view.findViewById(R.id.loading_spinner_patrocinadores);
+        loadingView.setVisibility(View.GONE);
 
         //Your RecyclerView
         recycler_patrocinadores = (RecyclerView) view.findViewById(R.id.recycler_patrocinadores);
@@ -122,6 +130,7 @@ public class Patrocinadores extends Fragment {
     }
 
     private void setupRecycler() {
+
         if (getActivity() != null) {
             adapter = new PatrocinadorAdapter(getActivity(), patrocinadores);
             //This is the code to provide a sectioned grid
@@ -146,23 +155,6 @@ public class Patrocinadores extends Fragment {
 
             recycler_patrocinadores.setAlpha(0f);
             recycler_patrocinadores.setVisibility(View.VISIBLE);
-
-            recycler_patrocinadores.animate()
-                    .alpha(1f)
-                    .setDuration(getResources().getInteger(
-                            android.R.integer.config_longAnimTime))
-                    .setListener(null);
-
-            loadingView.animate()
-                    .alpha(0f)
-                    .setDuration(getResources().getInteger(
-                            android.R.integer.config_longAnimTime))
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            loadingView.setVisibility(View.GONE);
-                        }
-                    });
         }
     }
 
@@ -172,6 +164,10 @@ public class Patrocinadores extends Fragment {
     }
 
     private class GetPatrocinadores extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            loadingView.setVisibility(View.VISIBLE);
+        }
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -217,7 +213,28 @@ public class Patrocinadores extends Fragment {
 
         @Override
         protected void onPostExecute(Void param) {
-            setupRecycler();
+            if (patrocinadores.isEmpty()) {
+                erro_screen.setVisibility(View.VISIBLE);
+            } else {
+                setupRecycler();
+            }
+
+            recycler_patrocinadores.animate()
+                    .alpha(1f)
+                    .setDuration(getResources().getInteger(
+                            android.R.integer.config_longAnimTime))
+                    .setListener(null);
+
+            loadingView.animate()
+                    .alpha(0f)
+                    .setDuration(getResources().getInteger(
+                            android.R.integer.config_longAnimTime))
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            loadingView.setVisibility(View.GONE);
+                        }
+                    });
         }
     }
 }

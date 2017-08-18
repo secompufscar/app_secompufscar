@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,8 @@ public class ListaQuarta extends Fragment {
     public static List<Atividade> atividadeList = new ArrayList<>();
     private RecyclerView recycler_atividades;
     private AtividadesAdapter adapter;
+
+    private View erro_screen;
 
     public ListaQuarta() {
         // Required empty public constructor
@@ -58,6 +61,12 @@ public class ListaQuarta extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_lista_atividades, container, false);
+
+        erro_screen =  view.findViewById(R.id.sem_dados);
+        TextView erro_text = (TextView) view.findViewById(R.id.texto_erro);
+        erro_text.setText(R.string.erro_sem_dados_atividades);
+        erro_screen.setVisibility(View.GONE);
+
         recycler_atividades = (RecyclerView) view.findViewById(R.id.recycler_atividades);
 
         adapter = new AtividadesAdapter(getActivity(), atividadeList);
@@ -109,6 +118,10 @@ public class ListaQuarta extends Fragment {
             atividadeList.clear();
             atividadeList.addAll(atividadesFromDB);
             adapter.notifyDataSetChanged();
+
+            if(atividadeList.isEmpty()){
+                erro_screen.setVisibility(View.VISIBLE);
+            }
         }
     }
 

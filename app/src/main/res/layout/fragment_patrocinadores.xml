@@ -11,11 +11,16 @@
 
     </android.support.v7.widget.RecyclerView>
 
+    <include
+        android:id="@+id/sem_dados"
+        layout="@layout/erro_sem_dados"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <ProgressBar android:id="@+id/loading_spinner_patrocinadores"
         style="?android:progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:progressTint="@color/colorAccent"/>
+        android:layout_gravity="center"/>
 
 </FrameLayout>

@@ -30,6 +30,7 @@ public class Cronograma extends Fragment {
     private ViewPager viewPager;
 
     private View loadingView;
+    private View content;
     private GetAtividades getAtividades;
 
     private int current_tab;
@@ -53,6 +54,8 @@ public class Cronograma extends Fragment {
         loadingView = view.findViewById(R.id.loading_spinner_cronograma);
         loadingView.setVisibility(View.GONE);
 
+        content = view.findViewById(R.id.container);
+
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
 
         tabLayout = (TabLayout) view.findViewById(R.id.tabs);
@@ -62,7 +65,6 @@ public class Cronograma extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 current_tab = tab.getPosition();
-                Log.d("teste on select", String.valueOf(MainActivity.current_tab));
             }
 
             @Override
@@ -162,13 +164,12 @@ public class Cronograma extends Fragment {
         @Override
         protected void onPreExecute() {
             loadingView.setVisibility(View.VISIBLE);
-            viewPager.setVisibility(View.GONE);
+            content.setVisibility(View.GONE);
         }
 
         @Override
         protected Void doInBackground(Void... params) {
             if (MainActivity.get_atividades_from_server) {
-                Log.d("teste", "pegando do server");
                 Atividade.getAtividadesFromHTTP(getActivity());
             }
 
@@ -180,10 +181,7 @@ public class Cronograma extends Fragment {
             MainActivity.get_atividades_from_server = false;
 
             setupViewPager(viewPager);
-
             try {
-                Log.d("teste on try", String.valueOf(MainActivity.current_tab));
-
                 tabLayout.getTabAt(MainActivity.current_tab).select();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -191,11 +189,11 @@ public class Cronograma extends Fragment {
             }
 
             loadingView.setVisibility(View.GONE);
-            viewPager.setAlpha(0f);
+            content.setAlpha(0f);
 
-            viewPager.setVisibility(View.VISIBLE);
+            content.setVisibility(View.VISIBLE);
 
-            viewPager.animate()
+            content.animate()
                     .alpha(1f)
                     .setDuration(getResources().getInteger(
                             android.R.integer.config_longAnimTime))

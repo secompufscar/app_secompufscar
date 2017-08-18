@@ -315,6 +315,8 @@ public class MainActivity extends AppCompatActivity
                         .setNegativeButton("Não", dialogClickListener).show();
             } else {
                 current_fragment = HOME_POSITION;
+                itemSelected = R.id.nav_home;
+                previousItemSelected = itemSelected;
                 setFragment();
             }
         }

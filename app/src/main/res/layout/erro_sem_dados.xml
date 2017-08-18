@@ -3,10 +3,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Não há dados " />
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=":-("
+            android:textSize="50dp"
+            android:layout_marginBottom="20dp"/>
+
+        <TextView
+            android:id="@+id/texto_erro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/erro_default"/>
+    </LinearLayout>
 
 </FrameLayout>

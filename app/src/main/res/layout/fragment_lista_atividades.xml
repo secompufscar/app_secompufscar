@@ -1,8 +1,7 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="br.com.secompufscar.secomp_ufscar.listaAtividades.ListaAtividades">
 
     <android.support.v7.widget.RecyclerView
@@ -11,4 +10,10 @@
         android:layout_height="match_parent"
         android:scrollbars="vertical" />
 
-</LinearLayout>
+    <include
+        android:id="@+id/sem_dados"
+        layout="@layout/erro_sem_dados"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</RelativeLayout>

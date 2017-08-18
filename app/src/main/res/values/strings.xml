@@ -32,15 +32,11 @@
     <string name="atividade_indisponivel_local">Local indisponível</string>
     <string name="atividade_indisponivel_descricao">Descrição indisponível no momento</string>
 
+    <string name="erro_default">Houve algum problema, tente novamente</string>
+    <string name="erro_sem_dados_atividades">Não há atividades para serem mostradas</string>
+    <string name="erro_sem_dados_pessoas">Não há pessoas para serem mostradas</string>
+    <string name="erro_sem_dados_patrocinadores">Não há patrocinadores para serem mostrados</string>
 
-    <!-- Outros -->
-    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-        deserunt mollit anim id est laborum.
-    </string>
 
     <string name="twitter_user">feedtisecomp</string>
     <string name="now">#NOW</string>

@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,8 @@ public class Pessoas extends Fragment {
     private RecyclerView recycler_pessoas;
     private PessoasAdapter adapter;
 
+    private View erro_screen;
+
     public Pessoas() {
         // Required empty public constructor
     }
@@ -34,10 +37,6 @@ public class Pessoas extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
 
         adapter = new PessoasAdapter(getActivity(), pessoaList);
     }
@@ -47,6 +46,12 @@ public class Pessoas extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_pessoas, container, false);
+
+        erro_screen =  view.findViewById(R.id.sem_dados);
+        TextView erro_text = (TextView) view.findViewById(R.id.texto_erro);
+        erro_text.setText(R.string.erro_sem_dados_pessoas);
+        erro_screen.setVisibility(View.GONE);
+
         recycler_pessoas = (RecyclerView) view.findViewById(R.id.recycler_pessoas);
 
 
@@ -98,6 +103,10 @@ public class Pessoas extends Fragment {
             }
 
             adapter.notifyDataSetChanged();
+
+            if(pessoaList.isEmpty()){
+                erro_screen.setVisibility(View.VISIBLE);
+            }
         }
     }
 }

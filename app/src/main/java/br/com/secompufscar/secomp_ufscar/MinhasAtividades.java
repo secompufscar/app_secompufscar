@@ -2,6 +2,7 @@ package br.com.secompufscar.secomp_ufscar;
 
 import android.content.Context;
 import android.content.Intent;
+import android.icu.util.ValueIterator;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,8 @@ public class MinhasAtividades extends Fragment {
     private RecyclerView recycler_atividades;
     private MinhasAtividadesAdapter adapter;
 
+    private View erro_screen;
+
     public MinhasAtividades() {
         // Required empty public constructor
     }
@@ -42,8 +46,13 @@ public class MinhasAtividades extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_lista_atividades, container, false);
-        recycler_atividades = (RecyclerView) view.findViewById(R.id.recycler_atividades);
 
+        erro_screen =  view.findViewById(R.id.sem_dados);
+        TextView erro_text = (TextView) view.findViewById(R.id.texto_erro);
+        erro_text.setText(R.string.erro_sem_dados_atividades);
+        erro_screen.setVisibility(View.GONE);
+
+        recycler_atividades = (RecyclerView) view.findViewById(R.id.recycler_atividades);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recycler_atividades.setLayoutManager(mLayoutManager);
@@ -96,6 +105,10 @@ public class MinhasAtividades extends Fragment {
             atividadeList.clear();
             atividadeList.addAll(atividadesFromDB);
             adapter.notifyDataSetChanged();
+
+            if(atividadeList.isEmpty()){
+                erro_screen.setVisibility(View.VISIBLE);
+            }
         }
     }
 }
