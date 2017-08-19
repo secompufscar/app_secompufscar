@@ -1,5 +1,9 @@
 package br.com.secompufscar.secomp_ufscar;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.widget.Toast;
+
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -15,8 +19,15 @@ public class SECOMPFirebaseService extends FirebaseMessagingService {
         // If the application is in the foreground handle both data and notification messages here.
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated.
-        String msg = remoteMessage.getNotification().getBody();
-        //Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_LONG).show();
+        final String msg = remoteMessage.getNotification().getBody();
+
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            public void run() {
+                Toast.makeText(getBaseContext(),"Acontecendo agora: "+msg,Toast.LENGTH_LONG).show();
+                //findViewById(android.R.id.content)
+            }
+        });
 
 
 

@@ -1,7 +1,6 @@
 package br.com.secompufscar.secomp_ufscar;
 
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -10,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class Social extends AppCompatActivity {
     FragmentManager fm;
@@ -17,6 +17,7 @@ public class Social extends AppCompatActivity {
     Facebook facebook;
     Instagram instagram;
     FragmentTransaction ft;
+    private TextView textView;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -62,13 +63,14 @@ public class Social extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.redes_sociais);
-        //Início da gambiarra
-        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        toolbar.setTitle("Redes Sociais");
-        toolbar.setTitleTextColor(Color.BLACK);
+        textView = (TextView)findViewById(R.id.fragment_title);
+        //INICIO DA GAMBIARRA
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        textView.setText("Redes Sociais");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //Fim da gambiarra
+        //FIM DA GAMBIARRA
         twitterHashtag = new TwitterHashtag();
         facebook = new Facebook();
         instagram = new Instagram();
