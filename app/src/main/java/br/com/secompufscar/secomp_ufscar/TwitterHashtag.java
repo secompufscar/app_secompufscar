@@ -112,10 +112,14 @@ public class TwitterHashtag extends Fragment {
             }
 
             if(s!="Deu ruim") {
-                ListView ht;
-                ht = (ListView) getView().findViewById(R.id.hashtag);
-                ListHashtagAdapter adapter = new ListHashtagAdapter(getActivity(), user, tweet, location);
-                ht.setAdapter(adapter);
+                try {
+                    ListView ht;
+                    ht = (ListView) getView().findViewById(R.id.hashtag);
+                    ListHashtagAdapter adapter = new ListHashtagAdapter(getActivity(), user, tweet, location);
+                    ht.setAdapter(adapter);
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
             }
 
         }

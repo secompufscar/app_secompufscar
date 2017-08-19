@@ -40,6 +40,7 @@ public class Facebook extends Fragment {
     //    private AccessToken token = new AccessToken(ACCESS_TOKEN, APP_ID, USER_ID)
     private static ArrayList<FacebookPost> timelinePosts = new ArrayList<>();
     private static ArrayList<String> alreadyParsed = new ArrayList<>();
+    private GetDataTask getData = new GetDataTask();
 
 
     public Facebook() {
@@ -53,7 +54,15 @@ public class Facebook extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        new GetDataTask().execute();
+        Log.d("Facebook", getData.getStatus().toString());
+        if (getData.getStatus() != AsyncTask.Status.RUNNING) {
+            if (getData.getStatus() == AsyncTask.Status.FINISHED){
+                getData = new GetDataTask();
+                getData.execute();
+            } else {
+                getData.execute();
+            }
+        }
         return inflater.inflate(R.layout.rs_facebook, container, false);
 
     }
@@ -72,7 +81,14 @@ public class Facebook extends Fragment {
                     @Override
                     public void onRefresh() {
                         try {
-                            new GetDataTask().execute();
+                            if (getData.getStatus() != AsyncTask.Status.RUNNING) {
+                                if (getData.getStatus() == AsyncTask.Status.FINISHED){
+                                    getData = new GetDataTask();
+                                    getData.execute();
+                                } else {
+                                    getData.execute();
+                                }
+                            }
                         } catch (Exception e) {
                             Toast.makeText(getContext(), R.string.verifique, Toast.LENGTH_SHORT).show();
                             swipeRefreshLayout.setRefreshing(false);
@@ -121,7 +137,7 @@ public class Facebook extends Fragment {
                                 context)
                 );
             }
-        } catch (JSONException e) {
+        } catch (JSONException | NullPointerException e) {
             e.printStackTrace();
         }
     }
