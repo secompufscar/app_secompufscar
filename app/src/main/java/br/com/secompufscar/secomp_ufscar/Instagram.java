@@ -30,6 +30,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 
+import br.com.secompufscar.secomp_ufscar.adapters.InstagramAdapter;
 import br.com.secompufscar.secomp_ufscar.utilities.NetworkUtils;
 
 /**
