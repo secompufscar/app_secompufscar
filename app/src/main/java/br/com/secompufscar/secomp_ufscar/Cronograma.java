@@ -78,13 +78,14 @@ public class Cronograma extends Fragment {
             }
         });
 
+        getAtividades = new GetAtividades();
+        getAtividades.execute();
+
         return view;
     }
 
     @Override
     public void onResume(){
-        getAtividades = new GetAtividades();
-        getAtividades.execute();
         super.onResume();
     }
 
@@ -172,7 +173,6 @@ public class Cronograma extends Fragment {
             if (MainActivity.get_atividades_from_server) {
                 Atividade.getAtividadesFromHTTP(getActivity());
             }
-
             return null;
         }
 

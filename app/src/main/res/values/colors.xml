@@ -13,9 +13,8 @@
     <color name="detalhesTituloText">#3f6db3</color>
 
     <color name="floatButtonTintText">#FFF</color>
-    <color name="fav_button">#4b4b4b</color>
-    <color name="ver_mapa_button">#4b4b4b</color>
-
+    <color name="fav_button">#414141</color>
+    <color name="ver_mapa_button">#414141</color>
 
     <color name="white">#FFF</color>
 

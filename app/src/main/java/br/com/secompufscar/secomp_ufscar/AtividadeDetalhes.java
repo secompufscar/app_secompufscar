@@ -100,9 +100,6 @@ public class AtividadeDetalhes extends AppCompatActivity implements
                 break;
         }
 
-        //TODO:Verificar se não há outra forma para trocar a cor
-//        collapsingToolbar.setExpandedTitleColor(getResources().getColor(R.color.white));
-
         recycler_ministrantes = (RecyclerView) findViewById(R.id.recycler_ministrantes);
 
         adapter = new MinistrantesAdapter(getBaseContext(), ministranteList);

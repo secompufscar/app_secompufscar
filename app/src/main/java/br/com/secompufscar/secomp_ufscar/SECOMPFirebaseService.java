@@ -25,7 +25,6 @@ public class SECOMPFirebaseService extends FirebaseMessagingService {
         handler.post(new Runnable() {
             public void run() {
                 Toast.makeText(getBaseContext(),"Acontecendo agora: "+msg,Toast.LENGTH_LONG).show();
-                //findViewById(android.R.id.content)
             }
         });
 

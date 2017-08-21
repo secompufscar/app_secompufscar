@@ -73,9 +73,12 @@ public class NetworkUtils {
 
     @Nullable
     public static String getResponseFromHttpUrl(URL url, Context context) throws IOException {
+        int timeout = 5000;
         if (updateConnectionState(context)) {
 
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setConnectTimeout(timeout);
+            urlConnection.setReadTimeout(timeout);
             try {
                 InputStream in = urlConnection.getInputStream();
 
