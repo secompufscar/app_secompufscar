@@ -1,6 +1,5 @@
 package br.com.secompufscar.secomp_ufscar;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -89,12 +88,12 @@ public class Sobre extends Fragment {
         Secomp.add(getResources().getString(R.string.infoSecomp));
         Secomp.add(getResources().getString(R.string.infoSecomp2));
         Secomp.add(getResources().getString(R.string.infoSecomp3));
-        Secomp.add(getResources().getString(R.string.infoSecomp4));
+        //Secomp.add(getResources().getString(R.string.infoSecomp4));
 
         List<String> DC = new ArrayList<String>();
         DC.add(getResources().getString(R.string.infoDC));
         DC.add(getResources().getString(R.string.infoDC2));
-        DC.add(getResources().getString(R.string.infoDC3));
+        //DC.add(getResources().getString(R.string.infoDC3));
 
 
         List<String> UFSCar = new ArrayList<String>();
@@ -105,7 +104,7 @@ public class Sobre extends Fragment {
         UFSCar.add(getResources().getString(R.string.infoUFSCar5));
         UFSCar.add(getResources().getString(R.string.infoUFSCar6));
         UFSCar.add(getResources().getString(R.string.infoUFSCar7));
-        UFSCar.add(getResources().getString(R.string.infoUFSCar8));
+        //UFSCar.add(getResources().getString(R.string.infoUFSCar8));
 
 
         sobreInfo.put(sobreHeader.get(0), Secomp);
