@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity
     private HashMap<String, Fragment> fragmentos;
 
     private DrawerLayout drawer;
+    private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     private TextView title;
 
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity
             //TODO: esse processamento de ser feito no fragmento cronograma
             Calendar calendar = Calendar.getInstance();
             int day = calendar.get(Calendar.DAY_OF_WEEK); // começa em domingo = 1
-            if(day > 1){
+            if (day > 1) {
                 current_tab = day - 2;
             } else {
                 current_tab = 4;
@@ -101,21 +102,15 @@ public class MainActivity extends AppCompatActivity
 
         title = (TextView) findViewById(R.id.fragment_title);
 
-        fragmentos = new HashMap<>();
-        fragmentos.put("home", new Home());
-        fragmentos.put("cronograma", new Cronograma());
-        fragmentos.put("pessoas", new Pessoas());
-        fragmentos.put("patrocinadores", new Patrocinadores());
-        fragmentos.put("minhas_atividades", new MinhasAtividades());
-        fragmentos.put("sobre", new Sobre());
-
         contentView = findViewById(R.id.content_frame);
+        contentView.setVisibility(View.GONE);
+        initializeFragments();
+
         loadingView = findViewById(R.id.loading_spinner);
-
-
         loadingView.setVisibility(View.GONE);
+
         //Apaga todas as notificações ao entrar no app
-        NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancelAll();
 
         //Define uma font padrão para tudo no app
@@ -126,18 +121,14 @@ public class MainActivity extends AppCompatActivity
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+
+        toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             @Override
             public void onDrawerClosed(View drawerView) {
 
                 if (itemSelected != previousItemSelected) {
-                    if (getDataTask.getStatus() == AsyncTask.Status.RUNNING) {
-                        navigationView.getMenu().getItem(current_fragment).setChecked(true);
-                        itemSelected = previousItemSelected;
-                    } else {
-                        new HandleMenuClick().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, itemSelected);
-                    }
+                    new HandleMenuClick().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, itemSelected);
                 }
             }
         };
@@ -189,7 +180,10 @@ public class MainActivity extends AppCompatActivity
 
                 if (getDataTask.getStatus() != AsyncTask.Status.RUNNING) {
                     getDataTask.execute();
+                } else {
+                    contentView.setVisibility(View.VISIBLE);
                 }
+
             }
         };
 
@@ -205,6 +199,8 @@ public class MainActivity extends AppCompatActivity
             mEditor.putBoolean("first", false);
             mEditor.apply();
         } else {
+            contentView.setVisibility(View.VISIBLE);
+
             if (NetworkUtils.updateConnectionState(getBaseContext()) && getDataTask.getStatus() != AsyncTask.Status.RUNNING) {
                 getDataTask.execute();
             }
@@ -238,6 +234,16 @@ public class MainActivity extends AppCompatActivity
                         loadingView.setVisibility(View.GONE);
                     }
                 });
+    }
+
+    private void initializeFragments() {
+        fragmentos = new HashMap<>();
+        fragmentos.put("home", new Home());
+        fragmentos.put("cronograma", new Cronograma());
+        fragmentos.put("pessoas", new Pessoas());
+        fragmentos.put("patrocinadores", new Patrocinadores());
+        fragmentos.put("minhas_atividades", new MinhasAtividades());
+        fragmentos.put("sobre", new Sobre());
     }
 
     private void setFragment() {
@@ -452,6 +458,11 @@ public class MainActivity extends AppCompatActivity
     private class GetDataTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() {
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            toggle.onDrawerStateChanged(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            toggle.setDrawerIndicatorEnabled(false);
+            toggle.syncState();
+
             loadingView.setVisibility(View.VISIBLE);
             contentView.setVisibility(View.GONE);
         }
@@ -467,6 +478,11 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected void onPostExecute(Void s) {
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            toggle.onDrawerStateChanged(DrawerLayout.LOCK_MODE_UNLOCKED);
+            toggle.setDrawerIndicatorEnabled(true);
+            toggle.syncState();
+
             if (loadingView.isShown()) {
                 fadeOut();
             }

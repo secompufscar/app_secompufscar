@@ -6,6 +6,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -22,10 +23,12 @@ public class PatrocinadorAdapter extends RecyclerView.Adapter<PatrocinadorAdapte
     public static class SimpleViewHolder extends RecyclerView.ViewHolder {
 
         public final ImageView logo;
+        public final TextView title;
 
         public SimpleViewHolder(View view) {
             super(view);
             logo = (ImageView) view.findViewById(R.id.logo_patrocinador);
+            title = (TextView) view.findViewById(R.id.patrocinador_nome);
         }
     }
 
@@ -41,7 +44,16 @@ public class PatrocinadorAdapter extends RecyclerView.Adapter<PatrocinadorAdapte
 
     @Override
     public void onBindViewHolder(SimpleViewHolder holder, final int position) {
-        holder.logo.setImageBitmap(patrocinadores.get(position).getLogoBitmap());
+        holder.logo.setImageBitmap(patrocinadores.get(position).getLogoBitmap(context));
+        holder.title.setText(patrocinadores.get(position).getNome());
+        if(patrocinadores.get(position).getLogoBitmap(context) == null){
+            holder.title.setVisibility(View.VISIBLE);
+            holder.logo.setVisibility(View.GONE);
+        } else {
+            holder.title.setVisibility(View.GONE);
+            holder.logo.setVisibility(View.VISIBLE);
+
+        }
     }
 
     public void addItem(Patrocinador patrocinador) {

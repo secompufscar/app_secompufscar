@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -177,7 +175,9 @@ public class Patrocinadores extends Fragment {
 
         @Override
         protected void onPostExecute(Void param) {
-            new UpdatePatrocinadores().execute();
+            if (isAdded()) {
+                new UpdatePatrocinadores().execute();
+            }
         }
     }
 
@@ -189,7 +189,6 @@ public class Patrocinadores extends Fragment {
 
         @Override
         protected Void doInBackground(Void... params) {
-
             try {
                 patrocinadores.clear();
 
@@ -207,19 +206,18 @@ public class Patrocinadores extends Fragment {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
             return null;
         }
 
         @Override
         protected void onPostExecute(Void param) {
-            if (patrocinadores.isEmpty()) {
-                erro_screen.setVisibility(View.VISIBLE);
-            } else {
-                setupRecycler();
-            }
+            if (isAdded()) {
+                if (patrocinadores.isEmpty()) {
+                    erro_screen.setVisibility(View.VISIBLE);
+                } else {
+                    setupRecycler();
+                }
 
-            if(isAdded()){
                 recycler_patrocinadores.animate()
                         .alpha(1f)
                         .setDuration(getResources().getInteger(
@@ -236,10 +234,6 @@ public class Patrocinadores extends Fragment {
                                 loadingView.setVisibility(View.GONE);
                             }
                         });
-            } else {
-                loadingView.setVisibility(View.GONE);
-                recycler_patrocinadores.setVisibility(View.VISIBLE);
-                recycler_patrocinadores.setAlpha(1f);
             }
         }
     }

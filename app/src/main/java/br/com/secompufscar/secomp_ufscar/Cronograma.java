@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,7 +84,7 @@ public class Cronograma extends Fragment {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
     }
 
@@ -178,31 +177,34 @@ public class Cronograma extends Fragment {
 
         @Override
         protected void onPostExecute(Void s) {
-            MainActivity.get_atividades_from_server = false;
+            if (isAdded()) {
+                MainActivity.get_atividades_from_server = false;
 
-            setupViewPager(viewPager);
-            try {
-                tabLayout.getTabAt(MainActivity.current_tab).select();
-            } catch (Exception e) {
-                e.printStackTrace();
-                tabLayout.getTabAt(0).select();
+                setupViewPager(viewPager);
+
+                try {
+                    tabLayout.getTabAt(MainActivity.current_tab).select();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    tabLayout.getTabAt(0).select();
+                }
+
+                loadingView.setVisibility(View.GONE);
+                content.setAlpha(0f);
+
+                content.setVisibility(View.VISIBLE);
+
+                content.animate()
+                        .alpha(1f)
+                        .setDuration(getResources().getInteger(
+                                android.R.integer.config_longAnimTime))
+                        .setListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                loadingView.setVisibility(View.GONE);
+                            }
+                        });
             }
-
-            loadingView.setVisibility(View.GONE);
-            content.setAlpha(0f);
-
-            content.setVisibility(View.VISIBLE);
-
-            content.animate()
-                    .alpha(1f)
-                    .setDuration(getResources().getInteger(
-                            android.R.integer.config_longAnimTime))
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            loadingView.setVisibility(View.GONE);
-                        }
-                    });
         }
     }
 }

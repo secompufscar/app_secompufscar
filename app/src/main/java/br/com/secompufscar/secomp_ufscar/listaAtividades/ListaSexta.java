@@ -64,7 +64,6 @@ public class ListaSexta extends Fragment {
         erro_screen =  view.findViewById(R.id.sem_dados);
         TextView erro_text = (TextView) view.findViewById(R.id.texto_erro);
         erro_text.setText(R.string.erro_sem_dados_atividades);
-        erro_screen.setVisibility(View.GONE);
 
         recycler_atividades = (RecyclerView) view.findViewById(R.id.recycler_atividades);
 
@@ -118,7 +117,9 @@ public class ListaSexta extends Fragment {
             atividadeList.addAll(atividadesFromDB);
             adapter.notifyDataSetChanged();
 
-            if(atividadeList.isEmpty()){
+            if(!atividadeList.isEmpty()){
+                erro_screen.setVisibility(View.GONE);
+            } else {
                 erro_screen.setVisibility(View.VISIBLE);
             }
         }

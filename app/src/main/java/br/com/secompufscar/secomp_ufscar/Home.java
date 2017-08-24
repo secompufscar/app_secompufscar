@@ -34,7 +34,6 @@ public class Home extends Fragment {
         Minhas declarações
     */
 
-
     //Nossa amada lista de tweets (Visual)
     private ListView lv;
     //Nosso amado array de tweets
