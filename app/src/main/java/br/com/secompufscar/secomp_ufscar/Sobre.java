@@ -1,8 +1,8 @@
 package br.com.secompufscar.secomp_ufscar;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +15,7 @@ import java.util.List;
 import br.com.secompufscar.secomp_ufscar.utilities.SobreExpandableListAdapter;
 
 public class Sobre extends Fragment {
-
+    private int lastExpanded = -1;
     SobreExpandableListAdapter listAdapter;
     ExpandableListView expListView;
     List<String> sobreHeader;
@@ -65,7 +65,12 @@ public class Sobre extends Fragment {
         expListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             @Override
             public void onGroupExpand(int groupPosition) {
-                // oi, tudo bom? rs
+                // fecha o anterior quando abre o novo
+                // [comentar aqui para desativar esse feature]
+                if(lastExpanded != -1 && groupPosition  != lastExpanded) {
+                    expListView.collapseGroup(lastExpanded);
+                }
+                lastExpanded = groupPosition;
             }
         });
 
@@ -84,12 +89,12 @@ public class Sobre extends Fragment {
         sobreHeader.add(getResources().getString(R.string.sobreSecomp));
         sobreHeader.add(getResources().getString(R.string.sobreDC));
         sobreHeader.add(getResources().getString(R.string.sobreUFSCar));
+        sobreHeader.add(getString(R.string.dev));
 
         List<String> Secomp = new ArrayList<String>();
         Secomp.add(getResources().getString(R.string.infoSecomp));
         Secomp.add(getResources().getString(R.string.infoSecomp2));
         Secomp.add(getResources().getString(R.string.infoSecomp3));
-        Secomp.add(getResources().getString(R.string.infoSecomp4));
 
         List<String> DC = new ArrayList<String>();
         DC.add(getResources().getString(R.string.infoDC));
@@ -101,16 +106,16 @@ public class Sobre extends Fragment {
         UFSCar.add(getResources().getString(R.string.infoUFSCar));
         UFSCar.add(getResources().getString(R.string.infoUFSCar2));
         UFSCar.add(getResources().getString(R.string.infoUFSCar3));
-        UFSCar.add(getResources().getString(R.string.infoUFSCar4));
-        UFSCar.add(getResources().getString(R.string.infoUFSCar5));
-        UFSCar.add(getResources().getString(R.string.infoUFSCar6));
-        UFSCar.add(getResources().getString(R.string.infoUFSCar7));
-        UFSCar.add(getResources().getString(R.string.infoUFSCar8));
+
+        List<String> Desenvolvedores = new ArrayList<>();
+        Log.d("Preenchendo o map", getString(R.string.dev1));
+        Desenvolvedores.add(getString(R.string.dev1));
 
 
         sobreInfo.put(sobreHeader.get(0), Secomp);
         sobreInfo.put(sobreHeader.get(1), DC);
         sobreInfo.put(sobreHeader.get(2), UFSCar);
+        sobreInfo.put(sobreHeader.get(3), Desenvolvedores);
 
     }
 }

@@ -2,6 +2,9 @@ package br.com.secompufscar.secomp_ufscar.utilities;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +47,16 @@ public class SobreExpandableListAdapter extends BaseExpandableListAdapter {
         }
 
         TextView txtListChild = (TextView) convertView.findViewById(R.id.sobreListItem);
-        txtListChild.setText(childText);
+        txtListChild.setText(Html.fromHtml(childText));
+        // Alguns chamam de gambiarra, eu chamo de criatividade!
+        if (groupPosition == 3 && childPosition == 0 && isLastChild) {
+            // alinha apenas o bloco dos desenvolvedores ao centro
+            txtListChild.setGravity(Gravity.CENTER);
+        } else {
+            // senao, alinha a esquerda mesmo.
+            txtListChild.setGravity(Gravity.NO_GRAVITY);
+        }
+        txtListChild.setMovementMethod(LinkMovementMethod.getInstance());
         return convertView;
     }
 

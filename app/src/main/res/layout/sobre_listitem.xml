@@ -8,5 +8,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="TextView"
-        android:padding="20dp"/>
+        android:textColor="@color/black"
+        android:padding="4dp"/>
 </LinearLayout>
