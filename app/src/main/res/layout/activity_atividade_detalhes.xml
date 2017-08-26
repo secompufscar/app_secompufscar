@@ -192,12 +192,4 @@
         app:layout_anchor="@id/appbar"
         app:layout_anchorGravity="bottom|right|end" />
 
-
-    <ProgressBar
-        android:id="@+id/loading_spinner_atividade"
-        style="?android:progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
-
 </android.support.design.widget.CoordinatorLayout>

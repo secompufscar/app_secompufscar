@@ -25,9 +25,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="NOME DO FRAGMENTO"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textAllCaps="true"
                 android:textColor="@color/titleFragmentText"
-                android:textSize="@dimen/titulo_size"
-                android:textStyle="bold" />
+                android:textSize="@dimen/titulo_size" />
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>

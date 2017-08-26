@@ -294,6 +294,15 @@ public class Atividade {
             case "minicurso":
                 color = ContextCompat.getColor(context, R.color.minicursoColor);
                 break;
+            case "workshop":
+                color = ContextCompat.getColor(context, R.color.workshopColor);
+                break;
+            case "mesa-redonda":
+                color = ContextCompat.getColor(context, R.color.mesaredondaColor);
+                break;
+            case "palestra empresarial":
+                color = ContextCompat.getColor(context, R.color.palestraEmpresarialColor);
+                break;
             default:
                 color = ContextCompat.getColor(context, R.color.atividadeDefaultColor);
         }

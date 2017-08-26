@@ -19,6 +19,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -75,26 +76,24 @@ public class MainActivity extends AppCompatActivity
 
         if (savedInstanceState != null) {
             current_fragment = savedInstanceState.getInt(CURRENT_FRAGMENT_PARAM);
-
             //TODO: essas duas variáveis são utilizadas no fragmento cronograma, devemos achar uma forma de lidar com isso dentro do fragmento
             current_tab = savedInstanceState.getInt(CURRENT_TAB_PARAM);
             get_atividades_from_server = savedInstanceState.getBoolean(GET_DATA_PARAM);
 
         } else {
             current_fragment = HOME_POSITION;
-
             //TODO: esse processamento de ser feito no fragmento cronograma
             Calendar calendar = Calendar.getInstance();
             int day = calendar.get(Calendar.DAY_OF_WEEK); // começa em domingo = 1
-            if (day > 1) {
+
+            if (day > 1 && day < 7) {
                 current_tab = day - 2;
             } else {
                 current_tab = 4;
             }
+
             get_atividades_from_server = true;
         }
-
-        getDataTask = new GetDataTask();
 
         DatabaseHandler.setInstance(this);
 
@@ -177,13 +176,7 @@ public class MainActivity extends AppCompatActivity
                         break;
                 }
                 mEditor.apply();
-
-                if (getDataTask.getStatus() != AsyncTask.Status.RUNNING) {
-                    getDataTask.execute();
-                } else {
-                    contentView.setVisibility(View.VISIBLE);
-                }
-
+                new GetDataTask().execute();
             }
         };
 
@@ -201,8 +194,10 @@ public class MainActivity extends AppCompatActivity
         } else {
             contentView.setVisibility(View.VISIBLE);
 
-            if (NetworkUtils.updateConnectionState(getBaseContext()) && getDataTask.getStatus() != AsyncTask.Status.RUNNING) {
-                getDataTask.execute();
+            if (DatabaseHandler.getDB().getAtividadesCount() == 0) {
+                if (NetworkUtils.updateConnectionState(getBaseContext())) {
+                    new GetDataTask().execute();
+                }
             }
         }
 
@@ -255,32 +250,32 @@ public class MainActivity extends AppCompatActivity
 
         switch (current_fragment) {
             case CRONOGRAMA_POSITION:
-                title.setText("CRONOGRAMA");
+                title.setText(R.string.cronograma_button);
                 previousItemSelected = R.id.nav_cronograma;
                 fragment_atual = fragmentos.get("cronograma");
                 break;
             case PESSOAS_POSITION:
-                title.setText("PESSOAS");
+                title.setText(R.string.pessoas_button);
                 previousItemSelected = R.id.nav_pessoas;
                 fragment_atual = fragmentos.get("pessoas");
                 break;
             case MINHAS_ATIVIDADES_POSITION:
-                title.setText("MINHAS ATIVIDADES");
+                title.setText(R.string.favoritos_button);
                 previousItemSelected = R.id.nav_minhasAtividades;
                 fragment_atual = fragmentos.get("minhas_atividades");
                 break;
             case PATROCINADORES_POSITION:
-                title.setText("PATROCINIO");
+                title.setText(R.string.patrocinio_button);
                 previousItemSelected = R.id.nav_patrocinadores;
                 fragment_atual = fragmentos.get("patrocinadores");
                 break;
             case SOBRE_POSITION:
-                title.setText("SOBRE");
+                title.setText(R.string.sobre_button);
                 previousItemSelected = R.id.nav_sobre;
                 fragment_atual = fragmentos.get("sobre");
                 break;
             default:
-                title.setText("HOME");
+                title.setText(R.string.home_button);
                 current_fragment = HOME_POSITION;
                 previousItemSelected = R.id.nav_home;
                 fragment_atual = fragmentos.get("home");
@@ -331,8 +326,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         drawer.closeDrawer(GravityCompat.START);
@@ -340,22 +333,22 @@ public class MainActivity extends AppCompatActivity
 
         switch (item.getItemId()) {
             case R.id.nav_home:
-                title.setText("HOME");
+                title.setText(R.string.home_button);
                 break;
             case R.id.nav_cronograma:
-                title.setText("CRONOGRAMA");
+                title.setText(R.string.cronograma_button);
                 break;
             case R.id.nav_pessoas:
-                title.setText("PESSOAS");
+                title.setText(R.string.pessoas_button);
                 break;
             case R.id.nav_minhasAtividades:
-                title.setText("MINHAS ATIVIDADES");
+                title.setText(R.string.favoritos_button);
                 break;
             case R.id.nav_patrocinadores:
-                title.setText("PATROCINIO");
+                title.setText(R.string.patrocinio_button);
                 break;
             case R.id.nav_sobre:
-                title.setText("SOBRE");
+                title.setText(R.string.sobre_button);
                 break;
             default:
         }
@@ -469,9 +462,7 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected Void doInBackground(Void... params) {
-            if (DatabaseHandler.getDB().getAtividadesCount() == 0) {
-                Atividade.getAtividadesFromHTTP(getBaseContext());
-            }
+            Atividade.getAtividadesFromHTTP(getBaseContext());
 
             return null;
         }

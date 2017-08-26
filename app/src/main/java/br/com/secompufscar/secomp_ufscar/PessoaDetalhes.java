@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,7 +32,7 @@ import br.com.secompufscar.secomp_ufscar.data.Pessoa;
 import br.com.secompufscar.secomp_ufscar.utilities.ClickListener;
 import br.com.secompufscar.secomp_ufscar.utilities.RecyclerTouchListener;
 
-public class PessoaDetalhes extends AppCompatActivity{
+public class PessoaDetalhes extends AppCompatActivity {
     public static final String EXTRA = "pessoa_atividade";
 
     public static List<Pessoa.Contato> contatoList = new ArrayList<>();
@@ -71,13 +72,8 @@ public class PessoaDetalhes extends AppCompatActivity{
 
         contentView = findViewById(R.id.pessoa_detalhes_scroll);
         loadingView = findViewById(R.id.loading_spinner_pessoa);
+        loadingView.setVisibility(View.GONE);
 
-        if (savedInstanceState == null) {
-            contentView.setAlpha(0f);
-            new UpdatePessoa().execute();
-        } else {
-            loadingView.setVisibility(View.GONE);
-        }
 
         recycler_contatos = (RecyclerView) findViewById(R.id.recycler_contatos);
 
@@ -161,15 +157,22 @@ public class PessoaDetalhes extends AppCompatActivity{
         foto.setImageBitmap(pessoaAtual.getFotoBitmap(getBaseContext()));
 
         descricao = (TextView) findViewById(R.id.pessoa_detalhe_descricao);
-
-        String descricao_pessoa = pessoaAtual.getDescricao() != null ? pessoaAtual.getDescricao() : getResources().getString(R.string.atividade_indisponivel_descricao);
-
+        String descricao_pessoa;
+        if (pessoaAtual.getDescricao() == null) {
+            descricao_pessoa = getResources().getString(R.string.atividade_indisponivel_descricao);
+            contentView.setAlpha(0f);
+            loadingView.setVisibility(View.VISIBLE);
+        } else {
+            descricao_pessoa = pessoaAtual.getDescricao();
+        }
         descricao.setText(Html.fromHtml(descricao_pessoa));
 
         ImageView backgroundCollapsing = (ImageView) findViewById(R.id.imagem_fundo);
 
         backgroundCollapsing.setColorFilter(ContextCompat.getColor(getBaseContext(), R.color.pessoaDetalhe), PorterDuff.Mode.MULTIPLY);
         backgroundCollapsing.setImageDrawable(ContextCompat.getDrawable(getBaseContext(), R.drawable.fundo_triangulos_branco));
+
+        new UpdatePessoa().execute();
     }
 
     @Override
@@ -200,25 +203,25 @@ public class PessoaDetalhes extends AppCompatActivity{
                 adapter.notifyDataSetChanged();
             }
 
-            contentView.setAlpha(0f);
-            contentView.setVisibility(View.VISIBLE);
+            if (loadingView.isShown()) {
 
-            contentView.animate()
-                    .alpha(1f)
-                    .setDuration(getResources().getInteger(
-                            android.R.integer.config_longAnimTime))
-                    .setListener(null);
+                contentView.animate()
+                        .alpha(1f)
+                        .setDuration(getResources().getInteger(
+                                android.R.integer.config_longAnimTime))
+                        .setListener(null);
 
-            loadingView.animate()
-                    .alpha(0f)
-                    .setDuration(getResources().getInteger(
-                            android.R.integer.config_longAnimTime))
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            loadingView.setVisibility(View.GONE);
-                        }
-                    });
+                loadingView.animate()
+                        .alpha(0f)
+                        .setDuration(getResources().getInteger(
+                                android.R.integer.config_longAnimTime))
+                        .setListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                loadingView.setVisibility(View.GONE);
+                            }
+                        });
+            }
         }
     }
 }

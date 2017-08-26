@@ -10,7 +10,7 @@
     <string name="action_settings">Configurações</string>
 
     <!-- Menu -->
-    <string name="home_button">A SECOMP</string>
+    <string name="home_button">Home</string>
     <string name="cronograma_button">Cronograma</string>
     <string name="redes_sociais_button">Redes Sociais</string>
     <string name="pessoas_button">Pessoas</string>
@@ -25,6 +25,8 @@
     <string name="msg_favoritado">Atividade salva em Minhas Atividades</string>
     <string name="msg_nao_favoritado">Atividade excluída de Minhas Atividades</string>
     <string name="msg_erro_favoritado">Não foi possível gravar a alteração</string>
+
+    <string name="msg_sem_detalhes">Essa atividade não possui detalhes</string>
 
     <string name="atividade_titulo_descricao">Descrição</string>
     <string name="atividade_titulo_ministrantes">Ministrantes</string>

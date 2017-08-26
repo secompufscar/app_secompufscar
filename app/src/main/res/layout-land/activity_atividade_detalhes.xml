@@ -179,23 +179,4 @@
 
     </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/loading_spinner_atividade"
-        style="?android:progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:progressTint="@color/colorAccent" />
-
-    <!--<android.support.design.widget.FloatingActionButton-->
-    <!--android:id="@+id/atividade_detalhe_fab"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_margin="20dp"-->
-    <!--android:src="@drawable/ic_atividade_favorito_borda"-->
-    <!--android:tint="@color/floatButtonTint"-->
-    <!--app:fabSize="normal"-->
-    <!--app:layout_anchor="@id/atividade_detalhe_header"-->
-    <!--app:layout_anchorGravity="bottom|center" />-->
-
 </android.support.design.widget.CoordinatorLayout>
