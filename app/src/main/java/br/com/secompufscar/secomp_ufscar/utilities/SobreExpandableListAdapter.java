@@ -92,6 +92,12 @@ public class SobreExpandableListAdapter extends BaseExpandableListAdapter {
         TextView txtHeader = (TextView) convertView.findViewById(R.id.sobreListHeader);
         txtHeader.setTypeface(null, Typeface.BOLD);
         txtHeader.setText(headerTitle);
+        txtHeader.setGravity(Gravity.CENTER);
+
+        // gambiarra para acertar o alinhamento
+        float scale = context.getResources().getDisplayMetrics().density;
+        int padding = (int) (-4*scale + 0.5f);
+        txtHeader.setPadding(padding, 0, 0, 0);
 
         return convertView;
     }
