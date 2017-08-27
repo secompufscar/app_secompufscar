@@ -9,6 +9,7 @@ import android.location.LocationManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -18,6 +19,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback{
+
+    //TODO: Pergunta 3g ou dados? usar opçao com rede ou apenas gps
 
     private static final String TAG = "MapsActivity";
     private GoogleMap mMap;
@@ -77,6 +80,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             case 0:
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(Centro_UFSCar));
                 mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
+                Toast.makeText(getBaseContext(),"Localização não encontrada", Toast.LENGTH_SHORT).show();
                 break;
             case 1:
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(DC));
