@@ -2,15 +2,21 @@ package br.com.secompufscar.secomp_ufscar;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 import br.com.secompufscar.secomp_ufscar.utilities.ListHashtagAdapter;
+import twitter4j.MediaEntity;
 import twitter4j.Query;
 import twitter4j.QueryResult;
 import twitter4j.Twitter;
@@ -25,6 +31,8 @@ public class TwitterHashtag extends Fragment {
     private SwipeRefreshLayout swipeLayout;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         return inflater.inflate(R.layout.rs_twitter, container, false);
 
     }
@@ -62,6 +70,11 @@ public class TwitterHashtag extends Fragment {
         String[] tweet;
         String[] user;
         String[] location;
+        String[] photos;
+        String[] username;
+        Date[] datas;
+        ArrayList<ArrayList<String>> medias;
+        boolean[] hasMedia;
         @Override
         protected void onPreExecute() {
 
@@ -81,15 +94,31 @@ public class TwitterHashtag extends Fragment {
                 Twitter twitter = tf.getInstance();
                 Query query = new Query("#SECOMPUFSCar");
                 QueryResult result = twitter.search(query);
+                int tamanho = result.getTweets().size();
+                tweet = new String[tamanho];
+                user = new String[tamanho];
+                location = new String[tamanho];
+                photos = new String[tamanho];
+                username = new String[tamanho];
+                datas = new Date[tamanho];
+                medias = new ArrayList<>();
+                hasMedia = new boolean[tamanho];
 
-                tweet = new String[result.getCount()];
-                user = new String[result.getCount()];
-                location = new String[result.getCount()];
+                Log.d("catcher", String.valueOf(result.getCount()));
                 int x=0;
                 for (twitter4j.Status status : result.getTweets())
                 {
+                    medias.add(extractMediaURL(status.getMediaEntities()));
+                    if (medias.get(x).isEmpty()){
+                        hasMedia[x] = false;
+                    } else {
+                        hasMedia[x] = true;
+                    }
                     user[x] = ("@"+status.getUser().getScreenName());
                     tweet[x] = (status.getText());
+                    photos[x] = (status.getUser().getOriginalProfileImageURL());
+                    username[x] = (status.getUser().getName());
+                    datas[x] = status.getCreatedAt();
                     if(status.getGeoLocation()!=null)
                         location[x] = (status.getGeoLocation().toString());
                     x++;
@@ -101,6 +130,16 @@ public class TwitterHashtag extends Fragment {
                 return "Deu ruim";
             }
             return null;
+        }
+
+        private ArrayList<String> extractMediaURL(MediaEntity[] medias){
+            ArrayList<String> urls = new ArrayList<>();
+            for (MediaEntity m : medias){
+                if (m.getType().equals("photo")){
+                    urls.add(m.getMediaURL());
+                }
+            }
+            return urls;
         }
 
         @Override
@@ -115,7 +154,7 @@ public class TwitterHashtag extends Fragment {
                 try {
                     ListView ht;
                     ht = (ListView) getView().findViewById(R.id.hashtag);
-                    ListHashtagAdapter adapter = new ListHashtagAdapter(getActivity(), user, tweet, location);
+                    ListHashtagAdapter adapter = new ListHashtagAdapter(getActivity(), user, tweet, location, photos, username, datas, medias, hasMedia);
                     ht.setAdapter(adapter);
                 } catch (NullPointerException e) {
                     e.printStackTrace();
