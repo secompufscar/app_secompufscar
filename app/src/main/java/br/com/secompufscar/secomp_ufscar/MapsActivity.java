@@ -31,7 +31,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private LocationManager locationManager;
     private AlertDialog.Builder alertBuilder;
-    private int Local = 0;
+    private int Local = 5;
     private int Nav;
 
     @Override
@@ -156,6 +156,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             case 2:
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(BentoPrado));
                 mMap.moveCamera(CameraUpdateFactory.zoomTo(17));
+                break;
+            case 5:
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(Centro_UFSCar));
+                mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
                 break;
         }
 
