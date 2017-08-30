@@ -24,7 +24,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
-    //TODO: Pergunta 3g ou dados? usar opçao com rede ou apenas gps
+    //TODO:LENTIDAO, VERIFICAÇÃO DO CRASH E VERIFICAR SE A PESSOA ESTÁ UTILIZANDO DADOS OU NÃO ANTES DE MOSTRAR DIALOG, ERRO COM PERMISSOES
 
     private static final String TAG = "MapsActivity";
     private GoogleMap mMap;
@@ -52,7 +52,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         alertBuilder = new AlertDialog.Builder(this);
 
-        //NAO SEI SE ESTA CORRETO /////////////////////////
         alertBuilder.setMessage("Deseja usar dados móveis para obter sua localização?");
 
         alertBuilder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
