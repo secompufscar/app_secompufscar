@@ -8,6 +8,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -50,23 +51,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
 
-        alertBuilder = new AlertDialog.Builder(this);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                alertBuilder = new AlertDialog.Builder(MapsActivity.this);
 
-        alertBuilder.setMessage("Deseja usar dados móveis para obter sua localização?");
+                alertBuilder.setMessage("Deseja usar dados móveis para obter sua localização?");
 
-        alertBuilder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                Nav = 1;
+                alertBuilder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Nav = 1;
+                    }
+                });
+
+                alertBuilder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Nav = 0;
+                    }
+                });
+                AlertDialog dialog = alertBuilder.create();
+                dialog.show();
             }
-        });
-
-        alertBuilder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                Nav = 0;
-            }
-        });
-        AlertDialog dialog = alertBuilder.create();
-        dialog.show();
+        }, 4000);
 
     }
 
