@@ -233,7 +233,7 @@ public class AtividadeDetalhes extends AppCompatActivity implements
 
         Bundle params = new Bundle();
         switch (atividadeAtual.getPredio()) {
-            case "Auditório Mauro Biajiz":
+            case "Departamento de Computação":
                 params.putInt("Local", 1);
                 break;
             case "Anfiteatro Bento Prado Jr.":

@@ -63,6 +63,7 @@
     <string name="infoSecomp3">Convidamos vocês a acompanhar nosso crescimento e inclusive a nos sugerir melhorias, por entendermos que você, participante, é a peça fundamental para a nossa evolução!</string>
     <string name="infoDC">O Departamento de Computação existe desde 1972, sendo responsável por habilitar e colocar com excelência anualmente no mercado de trabalho cerca de uma centena de profissionais, que atuam em empresas e em Instituições de Ensino Superior.</string>
     <string name="infoDC2">Atento à constante evolução na área de computação, o DC-UFSCar tem atuado na vanguarda do desenvolvimento tecnológico, firmando-se no cenário nacional e internacional como um centro de pesquisa bastante atuante.</string>
+  
     <string name="infoDC3"><![CDATA[Texto adaptado da página institucional do Departamento de Computação da UFSCar, disponível em <a href="http://www.dc.ufscar.br">www.dc.ufscar.br</a>.]]></string>
     <string name="infoUFSCar">Fundada em 1968, a Universidade Federal de São Carlos (UFSCar) destaca-se pelo alto nível de qualificação de seu corpo docente: 96,1% são doutores ou mestres. A Universidade possui quatro campi, sendo que o principal fica em São Carlos, município localizado a 235 km da capital do Estado, e tem 645 hectares de extensão, sendo 196 mil m² de área construída.</string>
     <string name="infoUFSCar2">Em 2014, a <b>UFSCar</b> obteve a 18ª colocação entre as 300 universidades da América Latina incluídas no ranking elaborado pela Quacquarelli Symonds (QS). A instituição obteve 82 pontos na avaliação geral e é, portanto, considerada a 10ª melhor instituição brasileira.</string>
@@ -81,10 +82,8 @@
             <p><b><br/>Problemas com o app?</b> <br/> Entre em contato com: <br/> <a href="mailto:ti@secompufscar.com.br">ti@secompufscar.com.br</a></p>
         </html>]]></string>
 
-
     <string name="config">Configurações</string>
-
     <string name="sair">Deseja realmente sair do aplicativo?</string>
-
     <string name="open_browser_patrocinador">Você deseja visualizar o site de %1$s?</string>
+    <string name="mapinfo">Deseja usar dados móveis para obter sua localização?</string>
 </resources>

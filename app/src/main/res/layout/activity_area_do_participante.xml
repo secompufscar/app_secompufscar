@@ -5,7 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="br.com.secompufscar.secomp_ufscar.AreaDoParticipante">
-
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="24dp"
+        android:background="@color/colorPrimaryDark"
+        android:layout_marginTop="0dp">
+    </View>
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="0dp"
