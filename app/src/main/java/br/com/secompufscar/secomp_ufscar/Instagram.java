@@ -8,6 +8,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Shader;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -48,6 +50,12 @@ public class Instagram extends Fragment {
 
     public Instagram() {
 
+    }
+
+    private static boolean usingWIFI(Context context) {
+        ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        return mWifi.isConnected();
     }
 
     @Override
@@ -127,7 +135,12 @@ public class Instagram extends Fragment {
                 } else {
                     alreadyParsed.add(id);
                 }
-                String url_image = post.getJSONObject("images").getJSONObject("standard_resolution").getString("url");
+                String url_image;
+                if (Instagram.usingWIFI(context)) {
+                    url_image = post.getJSONObject("images").getJSONObject("standard_resolution").getString("url");
+                } else {
+                    url_image = post.getJSONObject("images").getJSONObject("low_resolution").getString("url");
+                }
                 String legenda = "";
                 if (post.has("caption")) {
                     legenda = post.getJSONObject("caption").getString("text");
