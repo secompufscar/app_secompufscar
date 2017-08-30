@@ -81,7 +81,7 @@ public class AtividadeDetalhes extends AppCompatActivity implements
                         (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
                 collapsingToolbar.setExpandedTitleColor(0);
                 // Set title of Detail page
-                collapsingToolbar.setTitle("Detalhes de "+atividadeAtual.getTipo());
+                collapsingToolbar.setTitle("Detalhes de " + atividadeAtual.getTipo());
 
                 break;
             case Surface.ROTATION_90:
@@ -127,7 +127,7 @@ public class AtividadeDetalhes extends AppCompatActivity implements
         descricao = (TextView) findViewById(R.id.atividade_detalhe_descricao);
         String descricao_atividade = atividadeAtual.getDescricao() != null ? atividadeAtual.getDescricao() : getResources().getString(R.string.atividade_indisponivel_descricao);
 
-        descricao.setText(Html.fromHtml(descricao_atividade));
+        descricao.setText(Html.fromHtml("<html>" + descricao_atividade + "</html>"));
 
         ImageView backgroundCollapsing = (ImageView) findViewById(R.id.imagem_tipo_atividade);
 

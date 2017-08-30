@@ -51,9 +51,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Local = params.getInt("Local");
             }
         }
-
-
-
     }
 
     @Override
@@ -61,7 +58,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         alertBuilder = new AlertDialog.Builder(this);
 
-        //NAO SEI SE ESTA CORRETO /////////////////////////
         alertBuilder.setMessage(R.string.mapinfo);
 
         alertBuilder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
@@ -75,6 +71,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Nav = 0;
             }
         });
+
         AlertDialog dialog = alertBuilder.create();
         dialog.show();
         mMap = googleMap;
@@ -102,10 +99,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 ActivityCompat.requestPermissions(this, new String[] {
                                 Manifest.permission.ACCESS_FINE_LOCATION,
-                                Manifest.permission.ACCESS_COARSE_LOCATION },
-                        1);
+                                Manifest.permission.ACCESS_COARSE_LOCATION }, 1);
             }
-            locationManager.getProvider(LocationManager.GPS_PROVIDER);
+
+            try {
+                locationManager.getProvider(LocationManager.GPS_PROVIDER);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+
+
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
                 //    ActivityCompat#requestPermissions
@@ -116,6 +119,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 // for ActivityCompat#requestPermissions for more details.
                 return;
             }
+
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 10, this);
         }
 

@@ -195,8 +195,10 @@ public class PessoaDetalhes extends AppCompatActivity {
             if (pessoaAtualizada != null) {
                 pessoaAtual = pessoaAtualizada;
 
+                foto.setImageBitmap(pessoaAtual.getFotoBitmap(getBaseContext()));
+
                 String descricao_pessoa = pessoaAtual.getDescricao() != null ? pessoaAtual.getDescricao() : getResources().getString(R.string.atividade_indisponivel_descricao);
-                descricao.setText(Html.fromHtml(descricao_pessoa));
+                descricao.setText(Html.fromHtml("<html>" + descricao_pessoa + "</html>"));
 
                 contatoList.clear();
                 contatoList.addAll(pessoaAtualizada.getContatos());

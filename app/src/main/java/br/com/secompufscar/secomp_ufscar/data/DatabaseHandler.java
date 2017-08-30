@@ -668,6 +668,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return map;
     }
 
+    public int getPatrocinadoresCount() {
+        String countQuery = "SELECT  * FROM " + TABLE_PATROCINADOR;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
+    }
+
     /**
      * Operações para a tabela Ministrante
      **/

@@ -122,7 +122,16 @@ public class Patrocinadores extends Fragment {
             }
         }));
 
-        new GetPatrocinadores().execute();
+        if (DatabaseHandler.getDB().getPatrocinadoresCount() == 0) {
+            loadingView.setVisibility(View.VISIBLE);
+            new GetPatrocinadores().execute();
+            new UpdatePatrocinadores().execute();
+
+        } else {
+            loadingView.setVisibility(View.VISIBLE);
+            new UpdatePatrocinadores().execute();
+            new GetPatrocinadores().execute();
+        }
 
         return view;
     }
@@ -150,9 +159,6 @@ public class Patrocinadores extends Fragment {
 
             //Apply this adapter to the RecyclerView
             recycler_patrocinadores.setAdapter(sectionedAdapter);
-
-            recycler_patrocinadores.setAlpha(0f);
-            recycler_patrocinadores.setVisibility(View.VISIBLE);
         }
     }
 
@@ -161,31 +167,15 @@ public class Patrocinadores extends Fragment {
         super.onResume();
     }
 
-    private class GetPatrocinadores extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected void onPreExecute() {
-            loadingView.setVisibility(View.VISIBLE);
-        }
+    private class GetPatrocinadores extends AsyncTask<Void, Void, Boolean> {
 
         @Override
-        protected Void doInBackground(Void... params) {
-            Patrocinador.getPatrocinadoresFromHTTP(getActivity());
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void param) {
-            if (isAdded()) {
-                new UpdatePatrocinadores().execute();
-            }
+        protected Boolean doInBackground(Void... params) {
+            return Patrocinador.getPatrocinadoresFromHTTP(getActivity());
         }
     }
 
     private class UpdatePatrocinadores extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected void onPreExecute() {
-            loadingView.setVisibility(View.VISIBLE);
-        }
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -216,24 +206,28 @@ public class Patrocinadores extends Fragment {
                     erro_screen.setVisibility(View.VISIBLE);
                 } else {
                     setupRecycler();
+
+                    recycler_patrocinadores.setVisibility(View.VISIBLE);
+
+                    recycler_patrocinadores.animate()
+                            .alpha(1f)
+                            .setDuration(getResources().getInteger(
+                                    android.R.integer.config_longAnimTime))
+                            .setListener(null);
                 }
 
-                recycler_patrocinadores.animate()
-                        .alpha(1f)
-                        .setDuration(getResources().getInteger(
-                                android.R.integer.config_longAnimTime))
-                        .setListener(null);
-
-                loadingView.animate()
-                        .alpha(0f)
-                        .setDuration(getResources().getInteger(
-                                android.R.integer.config_longAnimTime))
-                        .setListener(new AnimatorListenerAdapter() {
-                            @Override
-                            public void onAnimationEnd(Animator animation) {
-                                loadingView.setVisibility(View.GONE);
-                            }
-                        });
+                if (loadingView.isShown()) {
+                    loadingView.animate()
+                            .alpha(0f)
+                            .setDuration(getResources().getInteger(
+                                    android.R.integer.config_longAnimTime))
+                            .setListener(new AnimatorListenerAdapter() {
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    loadingView.setVisibility(View.GONE);
+                                }
+                            });
+                }
             }
         }
     }

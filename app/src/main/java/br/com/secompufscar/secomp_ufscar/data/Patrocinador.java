@@ -89,18 +89,18 @@ public class Patrocinador {
 
     public Bitmap getLogoBitmap(Context context) {
 
-        if(this.logo != null){
+        if (this.logo != null) {
             Bitmap image = BitmapFactory.decodeByteArray(this.logo, 0, this.logo.length);
 
-            if(image.getWidth() > LOGO_SIZE_LIMIT){
-                double ratio = (double)image.getHeight()/(double)image.getWidth();
+            if (image.getWidth() > LOGO_SIZE_LIMIT) {
+                double ratio = (double) image.getHeight() / (double) image.getWidth();
                 int newHeight = (int) (LOGO_SIZE_LIMIT * ratio);
                 return Bitmap.createScaledBitmap(image, LOGO_SIZE_LIMIT, newHeight, false);
-            } else if(image.getHeight() > LOGO_SIZE_LIMIT){
-                double ratio = (double)image.getWidth()/(double)image.getHeight();
+            } else if (image.getHeight() > LOGO_SIZE_LIMIT) {
+                double ratio = (double) image.getWidth() / (double) image.getHeight();
                 int newWidth = (int) (LOGO_SIZE_LIMIT * ratio);
                 return Bitmap.createScaledBitmap(image, newWidth, LOGO_SIZE_LIMIT, false);
-            }else {
+            } else {
                 return image;
             }
         } else {
@@ -190,7 +190,7 @@ public class Patrocinador {
         }
     }
 
-    public static void getPatrocinadoresFromHTTP(Context context) {
+    public static boolean getPatrocinadoresFromHTTP(Context context) {
         URL url = NetworkUtils.buildUrl(API_URL);
         String response;
 
@@ -198,16 +198,20 @@ public class Patrocinador {
             response = NetworkUtils.getResponseFromHttpUrl(url, context);
             if (response != null) {
                 try {
-                    JSONObject jsonObj = new JSONObject(response);
-                    if (NetworkUtils.checkUpdate(context, jsonObj.getString(TAG_ULTIMA_ATUALIZACAO), "patrocinadores")) {
-                        DatabaseHandler.getDB().addManyPatrocinadores(patrocinadoresParseJSON(response, context));
-                    }
-                } catch (JSONException e) {
+//                    JSONObject jsonObj = new JSONObject(response);
+//                    if (NetworkUtils.checkUpdate(context, jsonObj.getString(TAG_ULTIMA_ATUALIZACAO), "patrocinadores")) {
+                    DatabaseHandler.getDB().addManyPatrocinadores(patrocinadoresParseJSON(response, context));
+
+                    return true;
+//                    }
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return false;
     }
 }

@@ -463,7 +463,6 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected Void doInBackground(Void... params) {
             Atividade.getAtividadesFromHTTP(getBaseContext());
-
             return null;
         }
 

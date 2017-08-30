@@ -130,7 +130,7 @@
             android:resource="@color/colorAccent" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBSkMUeB9aEhdb4Man1EDQRZhjKvWIP0j4"/>
+            android:value="@string/google_maps_key"/>
 
     </application>
 
