@@ -39,9 +39,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        alertBuilder = new AlertDialog.Builder(MapsActivity.this);
+
+        alertBuilder.setMessage("Deseja usar dados móveis para obter sua localização?");
+
+        alertBuilder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Nav = 1;
+            }
+        });
+
+        alertBuilder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Nav = 0;
+            }
+        });
+        AlertDialog dialog = alertBuilder.create();
+        dialog.show();
+        if(!dialog.isShowing()) {
+            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.map);
+            mapFragment.getMapAsync(this);
+        }
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -51,7 +70,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
 
-        new Handler().postDelayed(new Runnable() {
+        /*new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 alertBuilder = new AlertDialog.Builder(MapsActivity.this);
@@ -72,8 +91,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 AlertDialog dialog = alertBuilder.create();
                 dialog.show();
             }
-        }, 4000);
-
+        }, 4000);*/
     }
 
     @Override
