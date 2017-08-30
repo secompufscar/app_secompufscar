@@ -1,7 +1,5 @@
 package br.com.secompufscar.secomp_ufscar;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -51,9 +49,6 @@ public class AtividadeDetalhes extends AppCompatActivity implements
 
     private Atividade atividadeAtual;
 
-    private View contentView;
-    private View loadingView;
-
     public static final int TELA_DETALHES_ATIVIDADE = 1; //IDENTIFICAO DE QUAL TELA O RESULTADO ESTA VINDO
 
     @Override
@@ -69,14 +64,8 @@ public class AtividadeDetalhes extends AppCompatActivity implements
 
         setContentView(R.layout.activity_atividade_detalhes);
 
-        contentView = findViewById(R.id.atividade_content);
-        loadingView = findViewById(R.id.loading_spinner_atividade);
-
         if (savedInstanceState == null) {
-            contentView.setVisibility(View.GONE);
             new UpdateDetalhes().execute();
-        } else {
-            loadingView.setVisibility(View.GONE);
         }
 
         //Get current screen orientation
@@ -92,7 +81,7 @@ public class AtividadeDetalhes extends AppCompatActivity implements
                         (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
                 collapsingToolbar.setExpandedTitleColor(0);
                 // Set title of Detail page
-                collapsingToolbar.setTitle(atividadeAtual.getTitulo());
+                collapsingToolbar.setTitle("Detalhes de "+atividadeAtual.getTipo());
 
                 break;
             case Surface.ROTATION_90:
@@ -216,26 +205,6 @@ public class AtividadeDetalhes extends AppCompatActivity implements
                 ministranteList.addAll(atividadeAtual.getMinistrantes());
                 adapter.notifyDataSetChanged();
             }
-
-            contentView.setAlpha(0f);
-            contentView.setVisibility(View.VISIBLE);
-
-            contentView.animate()
-                    .alpha(1f)
-                    .setDuration(getResources().getInteger(
-                            android.R.integer.config_longAnimTime))
-                    .setListener(null);
-
-            loadingView.animate()
-                    .alpha(0f)
-                    .setDuration(getResources().getInteger(
-                            android.R.integer.config_longAnimTime))
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            loadingView.setVisibility(View.GONE);
-                        }
-                    });
         }
     }
 

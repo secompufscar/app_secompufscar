@@ -2,7 +2,6 @@ package br.com.secompufscar.secomp_ufscar;
 
 import android.content.Context;
 import android.content.Intent;
-import android.icu.util.ValueIterator;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -50,7 +49,6 @@ public class MinhasAtividades extends Fragment {
         erro_screen =  view.findViewById(R.id.sem_dados);
         TextView erro_text = (TextView) view.findViewById(R.id.texto_erro);
         erro_text.setText(R.string.erro_sem_dados_atividades);
-        erro_screen.setVisibility(View.GONE);
 
         recycler_atividades = (RecyclerView) view.findViewById(R.id.recycler_atividades);
 
@@ -76,39 +74,25 @@ public class MinhasAtividades extends Fragment {
             }
         }));
 
-        new UpdateAtividades().execute();
-
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        new UpdateAtividades().execute();
+        updateAtividades();
     }
 
+    public void updateAtividades(){
 
+        atividadeList.clear();
+        atividadeList.addAll(DatabaseHandler.getDB().getAllFavoritos());
+        adapter.notifyDataSetChanged();
 
-    private class UpdateAtividades extends AsyncTask<Void, Void, List<Atividade>> {
-        @Override
-        protected List<Atividade> doInBackground(Void... params) {
-            try {
-                return DatabaseHandler.getDB().getAllFavoritos();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(List<Atividade> atividadesFromDB) {
-            atividadeList.clear();
-            atividadeList.addAll(atividadesFromDB);
-            adapter.notifyDataSetChanged();
-
-            if(atividadeList.isEmpty()){
-                erro_screen.setVisibility(View.VISIBLE);
-            }
+        if(!atividadeList.isEmpty()){
+            erro_screen.setVisibility(View.GONE);
+        } else {
+            erro_screen.setVisibility(View.VISIBLE);
         }
     }
 }

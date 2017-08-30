@@ -19,6 +19,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity
     private HashMap<String, Fragment> fragmentos;
 
     private DrawerLayout drawer;
+    private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     private TextView title;
 
@@ -74,26 +76,24 @@ public class MainActivity extends AppCompatActivity
 
         if (savedInstanceState != null) {
             current_fragment = savedInstanceState.getInt(CURRENT_FRAGMENT_PARAM);
-
             //TODO: essas duas variáveis são utilizadas no fragmento cronograma, devemos achar uma forma de lidar com isso dentro do fragmento
             current_tab = savedInstanceState.getInt(CURRENT_TAB_PARAM);
             get_atividades_from_server = savedInstanceState.getBoolean(GET_DATA_PARAM);
 
         } else {
             current_fragment = HOME_POSITION;
-
             //TODO: esse processamento de ser feito no fragmento cronograma
             Calendar calendar = Calendar.getInstance();
             int day = calendar.get(Calendar.DAY_OF_WEEK); // começa em domingo = 1
-            if(day > 1){
+
+            if (day > 1 && day < 7) {
                 current_tab = day - 2;
             } else {
                 current_tab = 4;
             }
+
             get_atividades_from_server = true;
         }
-
-        getDataTask = new GetDataTask();
 
         DatabaseHandler.setInstance(this);
 
@@ -101,21 +101,15 @@ public class MainActivity extends AppCompatActivity
 
         title = (TextView) findViewById(R.id.fragment_title);
 
-        fragmentos = new HashMap<>();
-        fragmentos.put("home", new Home());
-        fragmentos.put("cronograma", new Cronograma());
-        fragmentos.put("pessoas", new Pessoas());
-        fragmentos.put("patrocinadores", new Patrocinadores());
-        fragmentos.put("minhas_atividades", new MinhasAtividades());
-        fragmentos.put("sobre", new Sobre());
-
         contentView = findViewById(R.id.content_frame);
+        contentView.setVisibility(View.GONE);
+        initializeFragments();
+
         loadingView = findViewById(R.id.loading_spinner);
-
-
         loadingView.setVisibility(View.GONE);
+
         //Apaga todas as notificações ao entrar no app
-        NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancelAll();
 
         //Define uma font padrão para tudo no app
@@ -126,18 +120,14 @@ public class MainActivity extends AppCompatActivity
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+
+        toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             @Override
             public void onDrawerClosed(View drawerView) {
 
                 if (itemSelected != previousItemSelected) {
-                    if (getDataTask.getStatus() == AsyncTask.Status.RUNNING) {
-                        navigationView.getMenu().getItem(current_fragment).setChecked(true);
-                        itemSelected = previousItemSelected;
-                    } else {
-                        new HandleMenuClick().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, itemSelected);
-                    }
+                    new HandleMenuClick().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, itemSelected);
                 }
             }
         };
@@ -186,10 +176,7 @@ public class MainActivity extends AppCompatActivity
                         break;
                 }
                 mEditor.apply();
-
-                if (getDataTask.getStatus() != AsyncTask.Status.RUNNING) {
-                    getDataTask.execute();
-                }
+                new GetDataTask().execute();
             }
         };
 
@@ -205,8 +192,12 @@ public class MainActivity extends AppCompatActivity
             mEditor.putBoolean("first", false);
             mEditor.apply();
         } else {
-            if (NetworkUtils.updateConnectionState(getBaseContext()) && getDataTask.getStatus() != AsyncTask.Status.RUNNING) {
-                getDataTask.execute();
+            contentView.setVisibility(View.VISIBLE);
+
+            if (DatabaseHandler.getDB().getAtividadesCount() == 0) {
+                if (NetworkUtils.updateConnectionState(getBaseContext())) {
+                    new GetDataTask().execute();
+                }
             }
         }
 
@@ -240,6 +231,16 @@ public class MainActivity extends AppCompatActivity
                 });
     }
 
+    private void initializeFragments() {
+        fragmentos = new HashMap<>();
+        fragmentos.put("home", new Home());
+        fragmentos.put("cronograma", new Cronograma());
+        fragmentos.put("pessoas", new Pessoas());
+        fragmentos.put("patrocinadores", new Patrocinadores());
+        fragmentos.put("minhas_atividades", new MinhasAtividades());
+        fragmentos.put("sobre", new Sobre());
+    }
+
     private void setFragment() {
         contentView.setAlpha(1f);
 
@@ -249,32 +250,32 @@ public class MainActivity extends AppCompatActivity
 
         switch (current_fragment) {
             case CRONOGRAMA_POSITION:
-                title.setText("CRONOGRAMA");
+                title.setText(R.string.cronograma_button);
                 previousItemSelected = R.id.nav_cronograma;
                 fragment_atual = fragmentos.get("cronograma");
                 break;
             case PESSOAS_POSITION:
-                title.setText("PESSOAS");
+                title.setText(R.string.pessoas_button);
                 previousItemSelected = R.id.nav_pessoas;
                 fragment_atual = fragmentos.get("pessoas");
                 break;
             case MINHAS_ATIVIDADES_POSITION:
-                title.setText("MINHAS ATIVIDADES");
+                title.setText(R.string.favoritos_button);
                 previousItemSelected = R.id.nav_minhasAtividades;
                 fragment_atual = fragmentos.get("minhas_atividades");
                 break;
             case PATROCINADORES_POSITION:
-                title.setText("PATROCINIO");
+                title.setText(R.string.patrocinio_button);
                 previousItemSelected = R.id.nav_patrocinadores;
                 fragment_atual = fragmentos.get("patrocinadores");
                 break;
             case SOBRE_POSITION:
-                title.setText("SOBRE");
+                title.setText(R.string.sobre_button);
                 previousItemSelected = R.id.nav_sobre;
                 fragment_atual = fragmentos.get("sobre");
                 break;
             default:
-                title.setText("HOME");
+                title.setText(R.string.home_button);
                 current_fragment = HOME_POSITION;
                 previousItemSelected = R.id.nav_home;
                 fragment_atual = fragmentos.get("home");
@@ -325,8 +326,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         drawer.closeDrawer(GravityCompat.START);
@@ -334,22 +333,22 @@ public class MainActivity extends AppCompatActivity
 
         switch (item.getItemId()) {
             case R.id.nav_home:
-                title.setText("HOME");
+                title.setText(R.string.home_button);
                 break;
             case R.id.nav_cronograma:
-                title.setText("CRONOGRAMA");
+                title.setText(R.string.cronograma_button);
                 break;
             case R.id.nav_pessoas:
-                title.setText("PESSOAS");
+                title.setText(R.string.pessoas_button);
                 break;
             case R.id.nav_minhasAtividades:
-                title.setText("MINHAS ATIVIDADES");
+                title.setText(R.string.favoritos_button);
                 break;
             case R.id.nav_patrocinadores:
-                title.setText("PATROCINIO");
+                title.setText(R.string.patrocinio_button);
                 break;
             case R.id.nav_sobre:
-                title.setText("SOBRE");
+                title.setText(R.string.sobre_button);
                 break;
             default:
         }
@@ -452,21 +451,29 @@ public class MainActivity extends AppCompatActivity
     private class GetDataTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() {
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            toggle.onDrawerStateChanged(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            toggle.setDrawerIndicatorEnabled(false);
+            toggle.syncState();
+
             loadingView.setVisibility(View.VISIBLE);
             contentView.setVisibility(View.GONE);
         }
 
         @Override
         protected Void doInBackground(Void... params) {
-            if (DatabaseHandler.getDB().getAtividadesCount() == 0) {
-                Atividade.getAtividadesFromHTTP(getBaseContext());
-            }
+            Atividade.getAtividadesFromHTTP(getBaseContext());
 
             return null;
         }
 
         @Override
         protected void onPostExecute(Void s) {
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            toggle.onDrawerStateChanged(DrawerLayout.LOCK_MODE_UNLOCKED);
+            toggle.setDrawerIndicatorEnabled(true);
+            toggle.syncState();
+
             if (loadingView.isShown()) {
                 fadeOut();
             }

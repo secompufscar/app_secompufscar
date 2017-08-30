@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +66,6 @@ public class ListaSegunda extends Fragment {
         erro_screen =  view.findViewById(R.id.sem_dados);
         TextView erro_text = (TextView) view.findViewById(R.id.texto_erro);
         erro_text.setText(R.string.erro_sem_dados_atividades);
-        erro_screen.setVisibility(View.GONE);
 
         recycler_atividades = (RecyclerView) view.findViewById(R.id.recycler_atividades);
 
@@ -79,10 +79,14 @@ public class ListaSegunda extends Fragment {
             public void onClick(View view, int position) {
                 Atividade atividade = atividadeList.get(position);
 
-                Context context = view.getContext();
-                Intent detalhesAtividade = new Intent(context, AtividadeDetalhes.class);
-                detalhesAtividade.putExtra("id_atividade", atividade.getId());
-                context.startActivity(detalhesAtividade);
+                if(!atividade.getTipo().equals("outro")){
+                    Context context = view.getContext();
+                    Intent detalhesAtividade = new Intent(context, AtividadeDetalhes.class);
+                    detalhesAtividade.putExtra("id_atividade", atividade.getId());
+                    context.startActivity(detalhesAtividade);
+                } else {
+                    Toast.makeText(getContext(), R.string.msg_sem_detalhes, Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -91,38 +95,28 @@ public class ListaSegunda extends Fragment {
             }
         }));
 
-        new UpdateAtividades().execute();
-
         return view;
+    }
+
+    public void updateAtividades(){
+        try {
+            atividadeList.clear();
+            atividadeList.addAll(DatabaseHandler.getDB().getAtividadesByDay(offset));
+            adapter.notifyDataSetChanged();
+
+            if(!atividadeList.isEmpty()){
+                erro_screen.setVisibility(View.GONE);
+            } else {
+                erro_screen.setVisibility(View.VISIBLE);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        new UpdateAtividades().execute();
+        updateAtividades();
     }
-
-    private class UpdateAtividades extends AsyncTask<Void, Void, List<Atividade>> {
-        @Override
-        protected List<Atividade> doInBackground(Void... params) {
-            try {
-                return DatabaseHandler.getDB().getAtividadesByDay(offset);
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(List<Atividade> atividadesFromDB) {
-            atividadeList.clear();
-            atividadeList.addAll(atividadesFromDB);
-            adapter.notifyDataSetChanged();
-
-            if(atividadeList.isEmpty()){
-                erro_screen.setVisibility(View.VISIBLE);
-            }
-        }
-    }
-
 }

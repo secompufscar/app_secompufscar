@@ -44,6 +44,7 @@ public class Instagram extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private static ArrayList<InstagramPost> timelinePosts = new ArrayList<>();
     private static ArrayList<String> alreadyParsed = new ArrayList<>();
+    private GetDataTask getData = new GetDataTask();
 
     public Instagram() {
 
@@ -57,7 +58,15 @@ public class Instagram extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        new GetDataTask().execute();
+        Log.d("Instagram", getData.getStatus().toString());
+        if (getData.getStatus() != AsyncTask.Status.RUNNING) {
+            if (getData.getStatus() == AsyncTask.Status.FINISHED){
+                getData = new GetDataTask();
+                getData.execute();
+            } else {
+                getData.execute();
+            }
+        }
         return inflater.inflate(R.layout.rs_instagram, container, false);
     }
 
@@ -75,7 +84,14 @@ public class Instagram extends Fragment {
                     @Override
                     public void onRefresh() {
                         try {
-                            new GetDataTask().execute();
+                            if (getData.getStatus() != AsyncTask.Status.RUNNING) {
+                                if (getData.getStatus() == AsyncTask.Status.FINISHED){
+                                    getData = new GetDataTask();
+                                    getData.execute();
+                                } else {
+                                    getData.execute();
+                                }
+                            }
                         } catch (Exception e) {
                             Toast.makeText(getContext(), R.string.verifique, Toast.LENGTH_SHORT).show();
                             swipeRefreshLayout.setRefreshing(false);
@@ -130,7 +146,7 @@ public class Instagram extends Fragment {
                 );
             }
             Log.d("instagram", timelinePosts.toString());
-        } catch (JSONException e) {
+        } catch (JSONException | NullPointerException e) {
             e.printStackTrace();
         }
     }

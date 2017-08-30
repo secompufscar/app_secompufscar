@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.secompufscar.secomp_ufscar.data.Atividade;
+import br.com.secompufscar.secomp_ufscar.data.DatabaseHandler;
 import br.com.secompufscar.secomp_ufscar.listaAtividades.ListaQuarta;
 import br.com.secompufscar.secomp_ufscar.listaAtividades.ListaQuinta;
 import br.com.secompufscar.secomp_ufscar.listaAtividades.ListaSegunda;
@@ -34,6 +35,7 @@ public class Cronograma extends Fragment {
     private GetAtividades getAtividades;
 
     private int current_tab;
+    private boolean needSetupViewPager;
 
     public Cronograma() {
         // Required empty public constructor
@@ -85,7 +87,7 @@ public class Cronograma extends Fragment {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
     }
 
@@ -129,6 +131,14 @@ public class Cronograma extends Fragment {
         adapter.addFragment(listaSex, "Sex");
 
         viewPager.setAdapter(adapter);
+        Log.d("teste tab",String.valueOf(MainActivity.current_tab));
+
+        try {
+            tabLayout.getTabAt(MainActivity.current_tab).select();
+        } catch (Exception e) {
+            e.printStackTrace();
+            tabLayout.getTabAt(0).select();
+        }
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -164,8 +174,18 @@ public class Cronograma extends Fragment {
     private class GetAtividades extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() {
-            loadingView.setVisibility(View.VISIBLE);
-            content.setVisibility(View.GONE);
+
+            if (DatabaseHandler.getDB().getAtividadesCount() > 0) {
+                setupViewPager(viewPager);
+
+                loadingView.setVisibility(View.GONE);
+                content.setVisibility(View.VISIBLE);
+                needSetupViewPager = false;
+            } else {
+                loadingView.setVisibility(View.VISIBLE);
+                content.setVisibility(View.GONE);
+                needSetupViewPager = true;
+            }
         }
 
         @Override
@@ -178,31 +198,29 @@ public class Cronograma extends Fragment {
 
         @Override
         protected void onPostExecute(Void s) {
-            MainActivity.get_atividades_from_server = false;
+            if (isAdded()) {
+                Log.d("teste","onpost cronograma");
+                MainActivity.get_atividades_from_server = false;
+                if (needSetupViewPager) {
+                    setupViewPager(viewPager);
 
-            setupViewPager(viewPager);
-            try {
-                tabLayout.getTabAt(MainActivity.current_tab).select();
-            } catch (Exception e) {
-                e.printStackTrace();
-                tabLayout.getTabAt(0).select();
+                    loadingView.setVisibility(View.GONE);
+                    content.setAlpha(0f);
+
+                    content.setVisibility(View.VISIBLE);
+
+                    content.animate()
+                            .alpha(1f)
+                            .setDuration(getResources().getInteger(
+                                    android.R.integer.config_longAnimTime))
+                            .setListener(new AnimatorListenerAdapter() {
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    loadingView.setVisibility(View.GONE);
+                                }
+                            });
+                }
             }
-
-            loadingView.setVisibility(View.GONE);
-            content.setAlpha(0f);
-
-            content.setVisibility(View.VISIBLE);
-
-            content.animate()
-                    .alpha(1f)
-                    .setDuration(getResources().getInteger(
-                            android.R.integer.config_longAnimTime))
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            loadingView.setVisibility(View.GONE);
-                        }
-                    });
         }
     }
 }

@@ -47,10 +47,9 @@ public class Pessoas extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_pessoas, container, false);
 
-        erro_screen =  view.findViewById(R.id.sem_dados);
+        erro_screen = view.findViewById(R.id.sem_dados);
         TextView erro_text = (TextView) view.findViewById(R.id.texto_erro);
         erro_text.setText(R.string.erro_sem_dados_pessoas);
-        erro_screen.setVisibility(View.GONE);
 
         recycler_pessoas = (RecyclerView) view.findViewById(R.id.recycler_pessoas);
 
@@ -78,35 +77,24 @@ public class Pessoas extends Fragment {
             }
         }));
 
-        new UpdatePessoas().execute();
-
         return view;
     }
 
-    private class UpdatePessoas extends AsyncTask<Void, Void, List<Pessoa>> {
-        @Override
-        protected List<Pessoa> doInBackground(Void... params) {
-            try {
-                return DatabaseHandler.getDB().getAllPessoas();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
+    @Override
+    public void onResume() {
+        super.onResume();
+        updatePessoas();
+    }
 
-        @Override
-        protected void onPostExecute(List<Pessoa> pessoasFromDB) {
-            pessoaList.clear();
+    public void updatePessoas() {
+        pessoaList.clear();
+        pessoaList.addAll(DatabaseHandler.getDB().getAllPessoas());
+        adapter.notifyDataSetChanged();
 
-            if(pessoasFromDB != null){
-                pessoaList.addAll(pessoasFromDB);
-            }
-
-            adapter.notifyDataSetChanged();
-
-            if(pessoaList.isEmpty()){
-                erro_screen.setVisibility(View.VISIBLE);
-            }
+        if (pessoaList.isEmpty()) {
+            erro_screen.setVisibility(View.VISIBLE);
+        } else {
+            erro_screen.setVisibility(View.GONE);
         }
     }
 }

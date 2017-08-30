@@ -87,20 +87,25 @@ public class Patrocinador {
         return this.logo;
     }
 
-    public Bitmap getLogoBitmap() {
+    public Bitmap getLogoBitmap(Context context) {
 
-        Bitmap image = BitmapFactory.decodeByteArray(this.logo, 0, this.logo.length);
+        if(this.logo != null){
+            Bitmap image = BitmapFactory.decodeByteArray(this.logo, 0, this.logo.length);
 
-        if(image.getWidth() > LOGO_SIZE_LIMIT){
-            double ratio = (double)image.getHeight()/(double)image.getWidth();
-            int newHeight = (int) (LOGO_SIZE_LIMIT * ratio);
-            return Bitmap.createScaledBitmap(image, LOGO_SIZE_LIMIT, newHeight, false);
-        } else if(image.getHeight() > LOGO_SIZE_LIMIT){
-            double ratio = (double)image.getWidth()/(double)image.getHeight();
-            int newWidth = (int) (LOGO_SIZE_LIMIT * ratio);
-            return Bitmap.createScaledBitmap(image, newWidth, LOGO_SIZE_LIMIT, false);
-        }else {
-            return image;
+            if(image.getWidth() > LOGO_SIZE_LIMIT){
+                double ratio = (double)image.getHeight()/(double)image.getWidth();
+                int newHeight = (int) (LOGO_SIZE_LIMIT * ratio);
+                return Bitmap.createScaledBitmap(image, LOGO_SIZE_LIMIT, newHeight, false);
+            } else if(image.getHeight() > LOGO_SIZE_LIMIT){
+                double ratio = (double)image.getWidth()/(double)image.getHeight();
+                int newWidth = (int) (LOGO_SIZE_LIMIT * ratio);
+                return Bitmap.createScaledBitmap(image, newWidth, LOGO_SIZE_LIMIT, false);
+            }else {
+                return image;
+            }
+        } else {
+//            return BitmapFactory.decodeResource(context.getResources(), R.drawable.pessoa_foto_default);
+            return null;
         }
     }
 
