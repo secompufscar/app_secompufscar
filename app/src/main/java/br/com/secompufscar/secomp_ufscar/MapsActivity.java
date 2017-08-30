@@ -54,13 +54,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Nav = 0;
             }
         });
+
         AlertDialog dialog = alertBuilder.create();
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                        .findFragmentById(R.id.map);
+                mapFragment.getMapAsync(MapsActivity.this);
+
+            }
+        });
         dialog.show();
-        if(!dialog.isShowing()) {
-            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.map);
-            mapFragment.getMapAsync(this);
-        }
+
+
 
         Intent intent = getIntent();
         if (intent != null) {
