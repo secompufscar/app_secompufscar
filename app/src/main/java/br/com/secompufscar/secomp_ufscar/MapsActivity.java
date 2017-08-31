@@ -1,6 +1,5 @@
 package br.com.secompufscar.secomp_ufscar;
 
-import android.*;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,14 +26,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
-    //TODO:LENTIDAO, VERIFICAÇÃO DO CRASH E VERIFICAR SE A PESSOA ESTÁ UTILIZANDO DADOS OU NÃO ANTES DE MOSTRAR DIALOG, ERRO COM PERMISSOES
+    //TODO:VERIFICAR SE A PESSOA ESTÁ UTILIZANDO DADOS OU NÃO ANTES DE MOSTRAR DIALOG, PESQUISAR DIFERENÇA ENTRE ACCESS FINE LOCATION E ACCESS COARSE LOCATION
 
     private static final String TAG = "MapsActivity";
     private GoogleMap mMap;
     private LocationManager locationManager;
     private AlertDialog.Builder alertBuilder;
     private int Local = 5;
-    private int Nav;
+    private int Nav, GPS;
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 81;
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 82;
     private String pA[]={Manifest.permission.ACCESS_FINE_LOCATION},pB[]={Manifest.permission.ACCESS_COARSE_LOCATION};
@@ -149,7 +148,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 return;
             }
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 10, this);
+            if(GPS==1) {
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 10, this);
+            }
         }
 
         LatLng DC = new LatLng(-21.979509, -47.880528);
@@ -212,7 +213,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                     // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
+                    // task you need to do.
 
                 } else {
 
@@ -228,12 +229,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                     // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
+                    // task you need to do.
+
+                    GPS=1;
 
                 } else {
 
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
+
+                    GPS=0;
                 }
                 return;
             }
