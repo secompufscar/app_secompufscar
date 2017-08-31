@@ -15,7 +15,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -134,6 +133,7 @@ public class PessoaDetalhes extends AppCompatActivity {
 
                 Context context = view.getContext();
                 Intent detalhesAtividade = new Intent(context, AtividadeDetalhes.class);
+                detalhesAtividade.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 detalhesAtividade.putExtra("id_atividade", atividade.getId());
                 context.startActivity(detalhesAtividade);
             }
