@@ -33,7 +33,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LocationManager locationManager;
     private AlertDialog.Builder alertBuilder;
     private int Local = 5;
-    private int Nav, GPS;
+    private int Nav, GPS, FL;
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 81;
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 82;
     private String pA[]={Manifest.permission.ACCESS_FINE_LOCATION},pB[]={Manifest.permission.ACCESS_COARSE_LOCATION};
@@ -113,15 +113,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.getUiSettings().setZoomControlsEnabled(true);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        if (Nav == 1) {
+        if (Nav == 1) {  //Sim quanto a usar dados no mapa
             try {
                 //locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
                 //mMap = googleMap;
+                if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                    ActivityCompat.requestPermissions(this,pA,MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+                    onRequestPermissionsResult(MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION,pA,new int[1]);
+
+                    return;
+                }
+
 
                 Criteria criteria = new Criteria();
 
                 //locationManager.getBestProvider(criteria, true);
-                locationManager.getAllProviders();
+                if(FL==1) {   //Sim quanto a permissao de localização precisa
+                    locationManager.getAllProviders();
+                }else{     //Nao quanto ao uso de localização precisa
+                    locationManager.getBestProvider(criteria,true);
+                }
                 locationManager.requestLocationUpdates(locationManager.getBestProvider(criteria, true),3000, 10, this);
 
                 //botoes de zoom e sua localizacao
@@ -130,9 +142,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             } catch (SecurityException ex) {
                 Log.e(TAG, "Error while acquiring location", ex);
             }
-        } else {
+        } else {    //Nao quanto a usar dados no mapa
             locationManager.getProvider(LocationManager.GPS_PROVIDER);
-            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            //if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
                 // TODO: Consider calling
                 //    ActivityCompat#requestPermissions
                 // here to request the missing permissions, and then overriding
@@ -140,15 +154,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 //                                          int[] grantResults)
                 // to handle the case where the user grants the permission. See the documentation
                 // for ActivityCompat#requestPermissions for more details.
-                ActivityCompat.requestPermissions(this,pA,MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-                onRequestPermissionsResult(MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION,pA,new int[1]);
 
                 ActivityCompat.requestPermissions(this,pB,MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
                 onRequestPermissionsResult(MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION,pA,new int[1]);
 
                 return;
             }
-            if(GPS==1) {
+            if(GPS==1) {    //Sim quanto a permissao de GPS
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 10, this);
             }
         }
@@ -214,11 +226,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     // permission was granted, yay! Do the
                     // task you need to do.
+                    FL=1;
 
                 } else {
 
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
+                    FL=0;
                 }
                 return;
             }
