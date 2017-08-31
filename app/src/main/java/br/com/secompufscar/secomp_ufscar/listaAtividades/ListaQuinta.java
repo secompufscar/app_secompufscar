@@ -78,14 +78,10 @@ public class ListaQuinta extends Fragment {
             public void onClick(View view, int position) {
                 Atividade atividade = atividadeList.get(position);
 
-                if(!atividade.getTipo().equals("outro")){
-                    Context context = view.getContext();
-                    Intent detalhesAtividade = new Intent(context, AtividadeDetalhes.class);
-                    detalhesAtividade.putExtra("id_atividade", atividade.getId());
-                    context.startActivity(detalhesAtividade);
-                } else {
-                    Toast.makeText(getContext(), R.string.msg_sem_detalhes, Toast.LENGTH_SHORT).show();
-                }
+                Context context = view.getContext();
+                Intent detalhesAtividade = new Intent(context, AtividadeDetalhes.class);
+                detalhesAtividade.putExtra("id_atividade", atividade.getId());
+                context.startActivity(detalhesAtividade);
             }
 
             @Override

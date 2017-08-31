@@ -81,7 +81,11 @@ public class AtividadeDetalhes extends AppCompatActivity implements
                         (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
                 collapsingToolbar.setExpandedTitleColor(0);
                 // Set title of Detail page
-                collapsingToolbar.setTitle("Detalhes de " + atividadeAtual.getTipo());
+                if(!atividadeAtual.getTipo().equals("outro")){
+                    collapsingToolbar.setTitle("Detalhes de " + atividadeAtual.getTipo());
+                } else {
+                    collapsingToolbar.setTitle("Detalhes de " + atividadeAtual.getTitulo());
+                }
 
                 break;
             case Surface.ROTATION_90:
@@ -89,29 +93,37 @@ public class AtividadeDetalhes extends AppCompatActivity implements
                 break;
         }
 
+
+
         recycler_ministrantes = (RecyclerView) findViewById(R.id.recycler_ministrantes);
 
-        adapter = new MinistrantesAdapter(getBaseContext(), ministranteList);
-        recycler_ministrantes.setAdapter(adapter);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        recycler_ministrantes.setLayoutManager(layoutManager);
+        if(atividadeAtual.getMinistrantes().isEmpty()){
+            findViewById(R.id.title_ministrantes).setVisibility(View.GONE);
+            recycler_ministrantes.setVisibility(View.GONE);
+        } else {
 
-        recycler_ministrantes.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recycler_ministrantes, new ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                Pessoa ministrantes = ministranteList.get(position);
+            adapter = new MinistrantesAdapter(getBaseContext(), ministranteList);
+            recycler_ministrantes.setAdapter(adapter);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+            recycler_ministrantes.setLayoutManager(layoutManager);
 
-                Context context = view.getContext();
-                Intent detalhesPessoa = new Intent(context, PessoaDetalhes.class);
-                detalhesPessoa.putExtra(PessoaDetalhes.EXTRA, ministrantes.getId());
-                context.startActivity(detalhesPessoa);
-            }
+            recycler_ministrantes.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recycler_ministrantes, new ClickListener() {
+                @Override
+                public void onClick(View view, int position) {
+                    Pessoa ministrantes = ministranteList.get(position);
 
-            @Override
-            public void onLongClick(View view, int position) {
+                    Context context = view.getContext();
+                    Intent detalhesPessoa = new Intent(context, PessoaDetalhes.class);
+                    detalhesPessoa.putExtra(PessoaDetalhes.EXTRA, ministrantes.getId());
+                    context.startActivity(detalhesPessoa);
+                }
 
-            }
-        }));
+                @Override
+                public void onLongClick(View view, int position) {
+
+                }
+            }));
+        }
 
         titulo = (TextView) findViewById(R.id.atividade_detalhe_titulo);
         titulo.setText(atividadeAtual.getTitulo());
@@ -136,7 +148,6 @@ public class AtividadeDetalhes extends AppCompatActivity implements
 
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.atividade_detalhe_fab);
         fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getBaseContext(), R.color.fav_button)));
-
 
         if (atividadeAtual.isFavorito()) {
             fab.setImageResource(R.drawable.ic_menu_favorite);
@@ -163,7 +174,6 @@ public class AtividadeDetalhes extends AppCompatActivity implements
 
         final FloatingActionButton fab_map = (FloatingActionButton) findViewById(R.id.atividade_detalhe_ver_mapa);
         fab_map.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getBaseContext(), R.color.ver_mapa_button)));
-
     }
 
     @Override

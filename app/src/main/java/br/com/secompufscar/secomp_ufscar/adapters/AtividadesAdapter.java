@@ -59,6 +59,7 @@ public class AtividadesAdapter extends RecyclerView.Adapter<AtividadesAdapter.My
             if(atividade.getTipo().equals("outro")){
                 holder.tipo.setVisibility(View.GONE);
             } else {
+                holder.tipo.setVisibility(View.VISIBLE);
                 holder.tipo.setText(atividade.getTipo());
             }
             holder.horario.setText(atividade.getHorarioInicial());

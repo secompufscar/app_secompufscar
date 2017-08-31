@@ -366,6 +366,7 @@ public class Atividade {
     }
 
     public static Atividade detalheAtividadeParseJSON(String json, Context context) {
+
         if (json != null) {
             try {
                 JSONObject atividadeObject = new JSONObject(json);

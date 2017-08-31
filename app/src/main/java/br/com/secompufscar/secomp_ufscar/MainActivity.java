@@ -451,6 +451,8 @@ public class MainActivity extends AppCompatActivity
     private class GetDataTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() {
+            title.setVisibility(View.GONE);
+
             drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
             toggle.onDrawerStateChanged(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
             toggle.setDrawerIndicatorEnabled(false);
@@ -476,6 +478,8 @@ public class MainActivity extends AppCompatActivity
             if (loadingView.isShown()) {
                 fadeOut();
             }
+
+            title.setVisibility(View.VISIBLE);
         }
     }
 }

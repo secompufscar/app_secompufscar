@@ -56,14 +56,19 @@ public class MinhasAtividadesAdapter extends RecyclerView.Adapter<MinhasAtividad
 
             holder.local.setText(local_atividade);
 
-            holder.tipo.setText(atividade.getTipo());
+            if(atividade.getTipo().equals("outro")){
+                holder.tipo.setVisibility(View.GONE);
+            } else {
+                holder.tipo.setVisibility(View.VISIBLE);
+                holder.tipo.setText(atividade.getTipo());
+            }
+
             holder.horario.setText(atividade.getHorarioInicialDiaDaSemana());
 
             holder.layout_tipo.setBackgroundColor(atividade.getColor(context));
         } catch (Exception e){
             e.printStackTrace();
         }
-
     }
 
     @Override
