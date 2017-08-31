@@ -240,7 +240,7 @@ public class AtividadeDetalhes extends AppCompatActivity implements
                 params.putInt("Local", 2);
                 break;
             default:
-                params.putInt("Local", 0);
+                params.putInt("Local", 5);
         }
         Intent i = new Intent(this, MapsActivity.class);
         i.putExtras(params);

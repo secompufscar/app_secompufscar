@@ -33,7 +33,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LocationManager locationManager;
     private AlertDialog.Builder alertBuilder;
     private int Local = 0;
-    private int Nav;
+    //private int Nav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,29 +59,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        alertBuilder = new AlertDialog.Builder(this);
-
-        //NAO SEI SE ESTA CORRETO /////////////////////////
-        alertBuilder.setMessage(R.string.mapinfo);
-
-        alertBuilder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                Nav = 1;
-            }
-        });
-
-        alertBuilder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                Nav = 0;
-            }
-        });
-        AlertDialog dialog = alertBuilder.create();
-        dialog.show();
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        if (Nav == 1) {
             try {
                 //locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
                 //mMap = googleMap;
@@ -89,7 +70,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Criteria criteria = new Criteria();
 
                 //locationManager.getBestProvider(criteria, true);
-                locationManager.getAllProviders();
+                locationManager.getBestProvider(criteria, true);
                 locationManager.requestLocationUpdates(locationManager.getBestProvider(criteria, true),3000, 10, this);
 
                 //botoes de zoom e sua localizacao
@@ -98,26 +79,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             } catch (SecurityException ex) {
                 Log.e(TAG, "Error while acquiring location", ex);
             }
-        } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                ActivityCompat.requestPermissions(this, new String[] {
-                                Manifest.permission.ACCESS_FINE_LOCATION,
-                                Manifest.permission.ACCESS_COARSE_LOCATION },
-                        1);
-            }
-            locationManager.getProvider(LocationManager.GPS_PROVIDER);
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return;
-            }
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 10, this);
-        }
+
 
         LatLng DC = new LatLng(-21.979509, -47.880528);
         LatLng BentoPrado = new LatLng(-21.983667, -47.881668);
@@ -132,7 +94,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             case 0:
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(Centro_UFSCar));
                 mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
-                Toast.makeText(getBaseContext(),"Localização não encontrada", Toast.LENGTH_SHORT).show();
                 break;
             case 1:
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(DC));
@@ -141,6 +102,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             case 2:
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(BentoPrado));
                 mMap.moveCamera(CameraUpdateFactory.zoomTo(17));
+                break;
+            case 5:
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(Centro_UFSCar));
+                mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
+                Toast.makeText(getBaseContext(),"Localização não encontrada", Toast.LENGTH_SHORT).show();
                 break;
         }
 
