@@ -1,5 +1,7 @@
 package br.com.secompufscar.secomp_ufscar;
 
+import android.*;
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -33,6 +35,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private AlertDialog.Builder alertBuilder;
     private int Local = 5;
     private int Nav;
+    private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 81;
+    private static final int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 82;
+    private String pA[]={Manifest.permission.ACCESS_FINE_LOCATION},pB[]={Manifest.permission.ACCESS_COARSE_LOCATION};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,6 +141,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 //                                          int[] grantResults)
                 // to handle the case where the user grants the permission. See the documentation
                 // for ActivityCompat#requestPermissions for more details.
+                ActivityCompat.requestPermissions(this,pA,MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+                onRequestPermissionsResult(MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION,pA,new int[1]);
+
+                ActivityCompat.requestPermissions(this,pB,MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
+                onRequestPermissionsResult(MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION,pA,new int[1]);
+
                 return;
             }
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 10, this);
@@ -190,5 +201,44 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onProviderDisabled(String s) {
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            case MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 }
