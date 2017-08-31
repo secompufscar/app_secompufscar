@@ -11,7 +11,6 @@ import android.graphics.Shader;
 import android.graphics.Typeface;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,27 +69,40 @@ public class ListHashtagAdapter extends ArrayAdapter<String> {
         TextView username_v = (TextView) rowView.findViewById(R.id.ht_name);
         ImageView photo_v = (ImageView) rowView.findViewById(R.id.ht_photo);
         TextView data_v = (TextView) rowView.findViewById(R.id.ht_data);
+        ImageView tweet_image = (ImageView) rowView.findViewById(R.id.ht_image);
+
         user.setText(users[position]);
-        tweeto.setText(getFormattedTweet(tweet[position]));
+
+        if (hasMedia[position]){ // se tem foto no tweet
+            tweet_image.setImageBitmap(getTweetImage(media.get(position).get(0)));
+        }
+
+        tweeto.setText(getFormattedTweet(tweet[position], hasMedia[position]));
+
         username_v.setText(username[position]);
+
         if (datas[position] != null) {
             data_v.setText(getFormatedData(datas[position]));
         }
+
         if (photo[position] != null) {
             try {
                 photo_v.setImageBitmap(
                         getFotoBitmap(getImageByte(photo[position]))
                 );
             } catch (Exception e) {
-                Log.d("twitter", "deu ruim");
+                e.printStackTrace();
             }
         }
+
         if(location[position]!=null) {
             locationo.setText(location[position]);
         } else {
             // só pra dar uma ajeitada no layout e não ficar um espaço em branco muito grande
-            tweeto.setPadding(0, tweeto.getPaddingTop()-16, 0, 0);
+            locationo.setVisibility(View.GONE);
         }
+
+
         return rowView;
     }
 
@@ -101,6 +113,19 @@ public class ListHashtagAdapter extends ArrayAdapter<String> {
             e.printStackTrace();
             return null;
         }
+    }
+
+    private Bitmap getTweetImage(String url) {
+        byte[] image_b = getImageByte(url);
+        Bitmap image;
+        image = BitmapFactory.decodeByteArray(image_b, 0, image_b.length);
+        Bitmap imageRounded = Bitmap.createBitmap(image.getWidth(), image.getHeight(), image.getConfig());
+        Canvas canvas = new Canvas(imageRounded);
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setShader(new BitmapShader(image, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
+        canvas.drawRoundRect((new RectF(0, 0, image.getWidth(), image.getHeight())), 12 , 12 , paint);
+        return imageRounded;
     }
 
     private Bitmap getFotoBitmap(byte[] photo) {
@@ -143,14 +168,28 @@ public class ListHashtagAdapter extends ArrayAdapter<String> {
         return out;
     }
 
-    private SpannableStringBuilder getFormattedTweet (String tweet){
+    private SpannableStringBuilder getFormattedTweet (String tweet, boolean hasMedia){
+        if (hasMedia) {
+            int excluir = tweet.indexOf("https://t.co/");
+            while (tweet.indexOf("https://t.co/", excluir + 1) != excluir) {
+                int excluir_novo = tweet.indexOf("https://t.co/", excluir + 1);
+                if (excluir_novo == -1){
+                    break;
+                } else {
+                    excluir = excluir_novo;
+                }
+            }
+            tweet = tweet.replace(tweet.substring(excluir, tweet.length()), "");
+        }
         SpannableStringBuilder str = new SpannableStringBuilder(tweet);
         ArrayList<int[]> indexes = new ArrayList<>();
         int start = -1;
-        while(tweet.indexOf("#", start) != start) {
-            int current = tweet.indexOf("#", start);
+        while(true) { // É TÃO DIVERTIDO BRINCAR COM FOGO.
+            int current = tweet.indexOf("#", start+1);
+            if (current == -1) {
+                break;
+            }
             indexes.add(new int[] { current, tweet.indexOf(" ", current)});
-            Log.d("hashtag", String.valueOf(current));
             start = current;
         }
         for (int[] arr : indexes) {

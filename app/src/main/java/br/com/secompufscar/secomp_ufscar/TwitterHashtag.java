@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,7 +91,7 @@ public class TwitterHashtag extends Fragment {
                         .setOAuthAccessTokenSecret(getString(R.string.OAuthTokenSecret));
                 TwitterFactory tf = new TwitterFactory(cf.build());
                 Twitter twitter = tf.getInstance();
-                Query query = new Query("#SECOMPUFSCar");
+                Query query = new Query("#secompufscar");
                 QueryResult result = twitter.search(query);
                 int tamanho = result.getTweets().size();
                 tweet = new String[tamanho];
@@ -104,7 +103,6 @@ public class TwitterHashtag extends Fragment {
                 medias = new ArrayList<>();
                 hasMedia = new boolean[tamanho];
 
-                Log.d("catcher", String.valueOf(result.getCount()));
                 int x=0;
                 for (twitter4j.Status status : result.getTweets())
                 {
