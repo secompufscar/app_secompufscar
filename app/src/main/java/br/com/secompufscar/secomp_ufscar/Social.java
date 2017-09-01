@@ -56,8 +56,6 @@ public class Social extends AppCompatActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-
-
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,10 +82,4 @@ public class Social extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
     }
-
-
-
-
-
-
 }

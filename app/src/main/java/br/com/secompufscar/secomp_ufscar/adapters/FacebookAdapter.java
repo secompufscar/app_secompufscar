@@ -27,7 +27,7 @@ import br.com.secompufscar.secomp_ufscar.utilities.NetworkUtils;
  * Created by felipequecole on 11/08/17.
  */
 
-public class FacebookAdapter extends RecyclerView.Adapter<FacebookAdapter.ViewHolder>{
+public class FacebookAdapter extends RecyclerView.Adapter<FacebookAdapter.ViewHolder> {
     public static ArrayList<Facebook.FacebookPost> posts;
     private static String username;
     private static byte[] user_photo;
@@ -50,6 +50,7 @@ public class FacebookAdapter extends RecyclerView.Adapter<FacebookAdapter.ViewHo
         public ImageView profile_picture;
         public TextView username;
         public TextView created_time;
+
         public ViewHolder(View view) {
             super(view);
             conteudo_post = (TextView) view.findViewById(R.id.fb_text);
@@ -60,7 +61,7 @@ public class FacebookAdapter extends RecyclerView.Adapter<FacebookAdapter.ViewHo
         }
     }
 
-    public FacebookAdapter(ArrayList<Facebook.FacebookPost> posts){
+    public FacebookAdapter(ArrayList<Facebook.FacebookPost> posts) {
         FacebookAdapter.posts = posts;
     }
 
@@ -75,17 +76,24 @@ public class FacebookAdapter extends RecyclerView.Adapter<FacebookAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.conteudo_post.setText(posts.get(position).getMessage());
-        holder.foto_post.setImageBitmap(
-                BitmapFactory.decodeByteArray(posts.get(position).getImage(), 0, posts.get(position).getImage().length)
-        );
-        holder.profile_picture.setImageBitmap(
-                BitmapFactory.decodeByteArray(FacebookAdapter.user_photo, 0, FacebookAdapter.user_photo.length)
-        );
+
+        if (posts.get(position).getImage() != null) {
+            holder.foto_post.setImageBitmap(
+                    BitmapFactory.decodeByteArray(posts.get(position).getImage(), 0, posts.get(position).getImage().length)
+            );
+        }
+
+        if(FacebookAdapter.user_photo != null){
+            holder.profile_picture.setImageBitmap(
+                    BitmapFactory.decodeByteArray(FacebookAdapter.user_photo, 0, FacebookAdapter.user_photo.length)
+            );
+        }
+
         holder.username.setText(FacebookAdapter.username);
         holder.created_time.setText(getTimeStampString(posts.get(position).getCreatedTime()));
     }
 
-    private String getTimeStampString(Date dt){
+    private String getTimeStampString(Date dt) {
         String out;
         DateTime d1 = new DateTime(dt);
         DateTime d2 = DateTime.now();
@@ -98,21 +106,20 @@ public class FacebookAdapter extends RecyclerView.Adapter<FacebookAdapter.ViewHo
         boolean ontem = (daydif == 1 && (days < 2));
         if (minutes < 60) {
             out = String.valueOf(minutes) + " min";
-        }
-        else if (hours < 24 && !ontem) {
+        } else if (hours < 24 && !ontem) {
             out = String.valueOf(hours) + " h";
         } else {
             SimpleDateFormat format = new SimpleDateFormat("d,MMM/yyyy-H:mm", new Locale("pt", "BR"));
             format.setTimeZone(TimeZone.getDefault());
             String aux = format.format(dt);
-            if (ontem){
-                String[] split =  aux.split("-");
-                out = "Ontem às " + split[split.length-1];
+            if (ontem) {
+                String[] split = aux.split("-");
+                out = "Ontem às " + split[split.length - 1];
             } else {
-                if(thisyear){
+                if (thisyear) {
                     String year = String.valueOf(d2.getYear());
                     out = aux.replace(",", " de ");
-                    out =  out.replace("/"+year+"-", " às ");
+                    out = out.replace("/" + year + "-", " às ");
                 } else {
                     out = aux.replace(",", " de ");
                     out = out.replace("/", " de");

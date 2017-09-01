@@ -81,7 +81,7 @@ public class AtividadeDetalhes extends AppCompatActivity implements
                         (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
                 collapsingToolbar.setExpandedTitleColor(0);
                 // Set title of Detail page
-                if(!atividadeAtual.getTipo().equals("outro")){
+                if (!atividadeAtual.getTipo().equals("outro")) {
                     collapsingToolbar.setTitle("Detalhes de " + atividadeAtual.getTipo());
                 } else {
                     collapsingToolbar.setTitle("Detalhes de " + atividadeAtual.getTitulo());
@@ -89,41 +89,38 @@ public class AtividadeDetalhes extends AppCompatActivity implements
 
                 break;
             case Surface.ROTATION_90:
-
                 break;
         }
 
-
-
         recycler_ministrantes = (RecyclerView) findViewById(R.id.recycler_ministrantes);
 
-        if(atividadeAtual.getMinistrantes().isEmpty()){
+        if (atividadeAtual.getMinistrantes().isEmpty()) {
             findViewById(R.id.title_ministrantes).setVisibility(View.GONE);
             recycler_ministrantes.setVisibility(View.GONE);
-        } else {
-
-            adapter = new MinistrantesAdapter(getBaseContext(), ministranteList);
-            recycler_ministrantes.setAdapter(adapter);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-            recycler_ministrantes.setLayoutManager(layoutManager);
-
-            recycler_ministrantes.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recycler_ministrantes, new ClickListener() {
-                @Override
-                public void onClick(View view, int position) {
-                    Pessoa ministrantes = ministranteList.get(position);
-
-                    Context context = view.getContext();
-                    Intent detalhesPessoa = new Intent(context, PessoaDetalhes.class);
-                    detalhesPessoa.putExtra(PessoaDetalhes.EXTRA, ministrantes.getId());
-                    context.startActivity(detalhesPessoa);
-                }
-
-                @Override
-                public void onLongClick(View view, int position) {
-
-                }
-            }));
         }
+
+        adapter = new MinistrantesAdapter(getBaseContext(), ministranteList);
+        recycler_ministrantes.setAdapter(adapter);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recycler_ministrantes.setLayoutManager(layoutManager);
+
+        recycler_ministrantes.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recycler_ministrantes, new ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Pessoa ministrantes = ministranteList.get(position);
+
+                Context context = view.getContext();
+                Intent detalhesPessoa = new Intent(context, PessoaDetalhes.class);
+                detalhesPessoa.putExtra(PessoaDetalhes.EXTRA, ministrantes.getId());
+                context.startActivity(detalhesPessoa);
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
+
 
         titulo = (TextView) findViewById(R.id.atividade_detalhe_titulo);
         titulo.setText(atividadeAtual.getTitulo());
@@ -198,7 +195,6 @@ public class AtividadeDetalhes extends AppCompatActivity implements
 
         @Override
         protected void onPostExecute(Atividade atividadeAtualizada) {
-
             if (atividadeAtualizada != null) {
                 boolean favorito = atividadeAtual.isFavorito();
 

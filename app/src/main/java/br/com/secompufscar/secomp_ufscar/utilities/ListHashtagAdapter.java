@@ -46,7 +46,7 @@ public class ListHashtagAdapter extends ArrayAdapter<String> {
     private final ArrayList<ArrayList<String>> media;
 
 
-    public ListHashtagAdapter(Activity context, String[] users,String[] tweet,String[] location, String[] photos, String[] username, Date[] datas, ArrayList<ArrayList<String>> media, boolean[] hasMedia) {
+    public ListHashtagAdapter(Activity context, String[] users, String[] tweet, String[] location, String[] photos, String[] username, Date[] datas, ArrayList<ArrayList<String>> media, boolean[] hasMedia) {
         super(context, R.layout.listview_twitter, tweet);
         this.context = context;
         this.users = users;
@@ -62,7 +62,7 @@ public class ListHashtagAdapter extends ArrayAdapter<String> {
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
-        View rowView= inflater.inflate(R.layout.listview_hashtag,parent, false);
+        View rowView = inflater.inflate(R.layout.listview_hashtag, parent, false);
         TextView user = (TextView) rowView.findViewById(R.id.ht_user);
         TextView locationo = (TextView) rowView.findViewById(R.id.location);
         TextView tweeto = (TextView) rowView.findViewById(R.id.tweet);
@@ -73,7 +73,7 @@ public class ListHashtagAdapter extends ArrayAdapter<String> {
 
         user.setText(users[position]);
 
-        if (hasMedia[position]){ // se tem foto no tweet
+        if (hasMedia[position]) { // se tem foto no tweet
             tweet_image.setImageBitmap(getTweetImage(media.get(position).get(0)));
         }
 
@@ -95,7 +95,7 @@ public class ListHashtagAdapter extends ArrayAdapter<String> {
             }
         }
 
-        if(location[position]!=null) {
+        if (location[position] != null) {
             locationo.setText(location[position]);
         } else {
             // só pra dar uma ajeitada no layout e não ficar um espaço em branco muito grande
@@ -117,14 +117,21 @@ public class ListHashtagAdapter extends ArrayAdapter<String> {
 
     private Bitmap getTweetImage(String url) {
         byte[] image_b = getImageByte(url);
+
         Bitmap image;
-        image = BitmapFactory.decodeByteArray(image_b, 0, image_b.length);
+
+        if (image_b != null) {
+            image = BitmapFactory.decodeByteArray(image_b, 0, image_b.length);
+        } else {
+            image = BitmapFactory.decodeResource(context.getResources(), R.drawable.pessoa_foto_default);
+        }
+
         Bitmap imageRounded = Bitmap.createBitmap(image.getWidth(), image.getHeight(), image.getConfig());
         Canvas canvas = new Canvas(imageRounded);
         Paint paint = new Paint();
         paint.setAntiAlias(true);
         paint.setShader(new BitmapShader(image, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
-        canvas.drawRoundRect((new RectF(0, 0, image.getWidth(), image.getHeight())), 12 , 12 , paint);
+        canvas.drawRoundRect((new RectF(0, 0, image.getWidth(), image.getHeight())), 12, 12, paint);
         return imageRounded;
     }
 
@@ -142,13 +149,13 @@ public class ListHashtagAdapter extends ArrayAdapter<String> {
         return imageRounded;
     }
 
-    private String getFormatedData (Date d) {
+    private String getFormatedData(Date d) {
         String out;
         DateTime d1 = new DateTime(d);
         DateTime now = DateTime.now();
         long diff = now.getMillis() - d1.getMillis();
         long diff_hours = TimeUnit.MILLISECONDS.toHours(diff);
-        if (diff_hours < 24){
+        if (diff_hours < 24) {
             if (diff_hours > 0) {
                 out = String.valueOf(diff_hours) + "h";
             } else {
@@ -168,12 +175,12 @@ public class ListHashtagAdapter extends ArrayAdapter<String> {
         return out;
     }
 
-    private SpannableStringBuilder getFormattedTweet (String tweet, boolean hasMedia){
+    private SpannableStringBuilder getFormattedTweet(String tweet, boolean hasMedia) {
         if (hasMedia) {
             int excluir = tweet.indexOf("https://t.co/");
             while (tweet.indexOf("https://t.co/", excluir + 1) != excluir) {
                 int excluir_novo = tweet.indexOf("https://t.co/", excluir + 1);
-                if (excluir_novo == -1){
+                if (excluir_novo == -1) {
                     break;
                 } else {
                     excluir = excluir_novo;
@@ -184,12 +191,12 @@ public class ListHashtagAdapter extends ArrayAdapter<String> {
         SpannableStringBuilder str = new SpannableStringBuilder(tweet);
         ArrayList<int[]> indexes = new ArrayList<>();
         int start = -1;
-        while(true) { // É TÃO DIVERTIDO BRINCAR COM FOGO.
-            int current = tweet.indexOf("#", start+1);
+        while (true) { // É TÃO DIVERTIDO BRINCAR COM FOGO.
+            int current = tweet.indexOf("#", start + 1);
             if (current == -1) {
                 break;
             }
-            indexes.add(new int[] { current, tweet.indexOf(" ", current)});
+            indexes.add(new int[]{current, tweet.indexOf(" ", current)});
             start = current;
         }
         for (int[] arr : indexes) {
