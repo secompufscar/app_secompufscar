@@ -68,14 +68,16 @@ public class ListHashtagAdapter extends ArrayAdapter<String> {
         TextView tweeto = (TextView) rowView.findViewById(R.id.tweet);
         TextView username_v = (TextView) rowView.findViewById(R.id.ht_name);
         ImageView photo_v = (ImageView) rowView.findViewById(R.id.ht_photo);
+        photo_v.setVisibility(View.GONE);
         TextView data_v = (TextView) rowView.findViewById(R.id.ht_data);
         ImageView tweet_image = (ImageView) rowView.findViewById(R.id.ht_image);
-
+        tweet_image.setVisibility(View.GONE);
         user.setText(users[position]);
 
-        if (hasMedia[position]) { // se tem foto no tweet
-            tweet_image.setImageBitmap(getTweetImage(media.get(position).get(0)));
-        }
+//        if (hasMedia[position]) { // se tem foto no tweet
+//            // TODO: Arrumar a aquisição e exibiçao de imagens
+////            tweet_image.setImageBitmap(getTweetImage(media.get(position).get(0)));
+//        }
 
         tweeto.setText(getFormattedTweet(tweet[position], hasMedia[position]));
 
@@ -84,16 +86,16 @@ public class ListHashtagAdapter extends ArrayAdapter<String> {
         if (datas[position] != null) {
             data_v.setText(getFormatedData(datas[position]));
         }
-
-        if (photo[position] != null) {
-            try {
-                photo_v.setImageBitmap(
-                        getFotoBitmap(getImageByte(photo[position]))
-                );
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+//
+//        if (photo[position] != null) {
+//            try {
+//                photo_v.setImageBitmap(
+//                        getFotoBitmap(getImageByte(photo[position]))
+//                );
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
 
         if (location[position] != null) {
             locationo.setText(location[position]);
