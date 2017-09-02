@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="br.com.secompufscar.secomp_ufscar">
+    package="br.com.secompufscar.app">
 
     <!-- Permissões -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -18,7 +18,7 @@
 
         <!-- Splash Screen -->
         <activity
-            android:name=".SplashScreen"
+            android:name="br.com.secompufscar.app.SplashScreen"
             android:theme="@style/SplashTheme">
 
             <intent-filter>
@@ -30,7 +30,7 @@
 
         <!-- Main Activity -->
         <activity
-            android:name=".MainActivity"
+            android:name="br.com.secompufscar.app.MainActivity"
             android:label=""
             android:theme="@style/AppTheme"
             android:configChanges="keyboardHidden|orientation|screenSize">
@@ -42,78 +42,78 @@
 
         <!-- Tela de Detalhes de atividades -->
         <activity
-            android:name=".AtividadeDetalhes"
+            android:name="br.com.secompufscar.app.AtividadeDetalhes"
             android:configChanges="orientation|keyboardHidden"
             android:label="Detalhe Atividade"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName="br.com.secompufscar.app.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value="br.com.secompufscar.app.MainActivity" />
         </activity>
 
         <!-- Tela de Detalhes de pessoa -->
         <activity
-            android:name=".PessoaDetalhes"
+            android:name="br.com.secompufscar.app.PessoaDetalhes"
             android:configChanges="orientation|keyboardHidden"
             android:label="Detalhe Pessoa"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName="br.com.secompufscar.app.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value="br.com.secompufscar.app.MainActivity" />
         </activity>
 
         <activity
-            android:name=".Social"
+            android:name="br.com.secompufscar.app.Social"
             android:label="Redes Sociais"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName="br.com.secompufscar.app.MainActivity"
             android:theme="@style/AppTheme"
             android:configChanges="keyboardHidden|orientation|screenSize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value="br.com.secompufscar.app.MainActivity" />
 
         </activity>
 
         <!-- WebView para Area do Participante -->
         <activity
-            android:name=".AreaDoParticipante"
+            android:name="br.com.secompufscar.app.AreaDoParticipante"
             android:label="Área do Participante"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName="br.com.secompufscar.app.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value="br.com.secompufscar.app.MainActivity" />
         </activity>
 
         <activity
-            android:name=".Settings"
-            android:parentActivityName=".MainActivity"
+            android:name="br.com.secompufscar.app.Settings"
+            android:parentActivityName="br.com.secompufscar.app.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value="br.com.secompufscar.app.MainActivity" />
         </activity>
 
         <activity
-            android:name=".MapsActivity"
+            android:name="br.com.secompufscar.app.MapsActivity"
             android:label="Mapa"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName="br.com.secompufscar.app.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value="br.com.secompufscar.app.MainActivity" />
         </activity>
 
         <!-- Declaração de serviços -->
-        <service android:name=".SECOMPFirebaseService">
+        <service android:name="br.com.secompufscar.app.SECOMPFirebaseService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <service android:name=".FirebaseIDService">
+        <service android:name="br.com.secompufscar.app.FirebaseIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>

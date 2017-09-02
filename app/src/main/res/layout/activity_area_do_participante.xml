@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="br.com.secompufscar.secomp_ufscar.AreaDoParticipante">
+    tools:context="br.com.secompufscar.app.AreaDoParticipante">
     <View
         android:layout_width="fill_parent"
         android:layout_height="24dp"
