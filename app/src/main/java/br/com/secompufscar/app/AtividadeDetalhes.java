@@ -111,6 +111,7 @@ public class AtividadeDetalhes extends AppCompatActivity implements
 
                 Context context = view.getContext();
                 Intent detalhesPessoa = new Intent(context, PessoaDetalhes.class);
+                detalhesPessoa.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 detalhesPessoa.putExtra(PessoaDetalhes.EXTRA, ministrantes.getId());
                 context.startActivity(detalhesPessoa);
             }
