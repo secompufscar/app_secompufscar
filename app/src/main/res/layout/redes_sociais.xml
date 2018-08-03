@@ -20,7 +20,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@color/darkgrey"
             android:weightSum="1"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="CAPOERA MATA UM"
-                android:textColor="@color/titleFragmentText"
+                android:textColor="@color/white"
                 android:textSize="@dimen/titulo_size"
                 android:textStyle="bold" />
         </android.support.v7.widget.Toolbar>

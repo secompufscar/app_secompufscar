@@ -86,4 +86,5 @@
     <string name="sair">Deseja realmente sair do aplicativo?</string>
     <string name="open_browser_patrocinador">Você deseja visualizar o site de %1$s?</string>
     <string name="mapinfo">Deseja usar dados móveis para obter sua localização?</string>
+
 </resources>

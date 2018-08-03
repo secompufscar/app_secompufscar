@@ -40,7 +40,7 @@ import br.com.secompufscar.app.utilities.NetworkUtils;
  */
 
 public class Instagram extends Fragment {
-    private final static String URL_INSTAGRAM = "https://beta.secompufscar.com.br/api/instagram/";
+    private final static String URL_INSTAGRAM = "https://beta.secompufscar.com.br/2017/api/instagram/";
     private RecyclerView igRecyclerView;
     private InstagramAdapter igAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;

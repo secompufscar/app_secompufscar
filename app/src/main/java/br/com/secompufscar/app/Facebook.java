@@ -35,7 +35,7 @@ public class Facebook extends Fragment {
     private RecyclerView fbRecyclerView;
     private FacebookAdapter fbAdapter;
     public SwipeRefreshLayout swipeRefreshLayout;
-    private final static String URL_FACEBOOK = "https://beta.secompufscar.com.br/api/facebook/";
+    private final static String URL_FACEBOOK = "https://beta.secompufscar.com.br/2017/api/facebook/";
 
     //    private AccessToken token = new AccessToken(ACCESS_TOKEN, APP_ID, USER_ID)
     private static ArrayList<FacebookPost> timelinePosts = new ArrayList<>();

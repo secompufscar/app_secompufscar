@@ -6,7 +6,8 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>
-
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="android:listDivider">@color/white</item>
     </style>
 
     <!--Tema do Splash Screen-->
@@ -18,5 +19,10 @@
     <!-- Estilos para a toolbar -->
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Light" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="DrawerArrowStyle" parent="@style/Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>   
+        <item name="color">@android:color/white</item>
+    </style>
 
 </resources>

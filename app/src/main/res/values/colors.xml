@@ -49,6 +49,7 @@
     <color name="atividadeDefaultColor">#212121</color>
 
     <color name="pessoaDetalhe">#1b1c1d</color>
+    <color name="darkgrey">#262626</color>
 
 
 </resources>
