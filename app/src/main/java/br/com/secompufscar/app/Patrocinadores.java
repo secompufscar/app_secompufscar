@@ -1,6 +1,6 @@
 package br.com.secompufscar.app;
 
-import android.animation.Animator;
+    import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -32,7 +32,7 @@ import br.com.secompufscar.app.utilities.SectionedGridRecyclerViewAdapter;
 public class Patrocinadores extends Fragment {
 
     private List<Patrocinador> patrocinadores;
-    private int delimOuro, delimPrata, delimDesafio, delimApoio;
+    private int delimOuro, delimPrata, delimApoio;
     private RecyclerView recycler_patrocinadores;
     private PatrocinadorAdapter adapter;
     private SectionedGridRecyclerViewAdapter sectionedAdapter;
@@ -147,7 +147,6 @@ public class Patrocinadores extends Fragment {
             sections.add(new SectionedGridRecyclerViewAdapter.Section(0, "Diamante", ContextCompat.getColor(getActivity(), R.color.diamanteColor)));
             sections.add(new SectionedGridRecyclerViewAdapter.Section(delimOuro, "Ouro", ContextCompat.getColor(getActivity(), R.color.ouroColor)));
             sections.add(new SectionedGridRecyclerViewAdapter.Section(delimPrata, "Prata", ContextCompat.getColor(getActivity(), R.color.prataColor)));
-            sections.add(new SectionedGridRecyclerViewAdapter.Section(delimDesafio, "Desafio", ContextCompat.getColor(getActivity(), R.color.desafioColor)));
             sections.add(new SectionedGridRecyclerViewAdapter.Section(delimApoio, "Apoio", ContextCompat.getColor(getActivity(), R.color.apoioColor)));
 
             //Add your adapter to the sectionAdapter
@@ -188,8 +187,6 @@ public class Patrocinadores extends Fragment {
                 patrocinadores.addAll(patrocioByCota.get(Patrocinador.COTA_OURO));
                 delimPrata = patrocinadores.size();
                 patrocinadores.addAll(patrocioByCota.get(Patrocinador.COTA_PRATA));
-                delimDesafio = patrocinadores.size();
-                patrocinadores.addAll(patrocioByCota.get(Patrocinador.COTA_DESAFIO));
                 delimApoio = patrocinadores.size();
                 patrocinadores.addAll(patrocioByCota.get(Patrocinador.COTA_APOIO));
 

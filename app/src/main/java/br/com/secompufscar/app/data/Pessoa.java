@@ -44,7 +44,7 @@ public class Pessoa {
     public final static String TAG_CONTATO_TIPO = "tipo_contato";
 
     public final static String TAG_ULTIMA_ATUALIZACAO = "ultima_atualizacao";
-    public final static String API_URL = "api/ministrantes/";
+    public final static String API_URL = "2018/api/ministrantes/";
 
 
     public class Contato {

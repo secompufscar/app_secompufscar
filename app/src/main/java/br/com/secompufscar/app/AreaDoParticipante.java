@@ -26,7 +26,7 @@ public class AreaDoParticipante extends AppCompatActivity {
         areaParticipante.getSettings().setJavaScriptEnabled(true);
         areaParticipante.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
 
-        areaParticipante.loadUrl(NetworkUtils.BASE_URL+"area-do-participante/");
+        areaParticipante.loadUrl(NetworkUtils.BASE_URL+"2018/area-do-participante/");
     }
 
     class MyBrowser extends WebViewClient {

@@ -42,7 +42,7 @@ public class Atividade {
 
 
     public final static String TAG_ULTIMA_ATUALIZACAO = "ultima_atualizacao";
-    public final static String API_URL = "api/atividades/";
+    public final static String API_URL = "2018/api/atividades";
     public final static String RESUMO_URL = API_URL + "?ministrantes_resumo=True";
 
     class Horario {

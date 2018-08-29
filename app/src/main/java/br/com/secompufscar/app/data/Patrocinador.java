@@ -41,7 +41,7 @@ public class Patrocinador {
     public final static String COTA_APOIO = "apoio";
 
     public final static String TAG_ULTIMA_ATUALIZACAO = "ultima_atualizacao";
-    public final static String API_URL = "api/patrocinadores/";
+    public final static String API_URL = "2018/api/patrocinadores/";
 
     public final static int LOGO_SIZE_LIMIT = 900;
 
