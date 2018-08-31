@@ -5,9 +5,9 @@
         android:id="@+id/menu_set_1"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
+            android:id="@+id/nav_atualizacoes"
             android:icon="@drawable/ic_menu_home"
-            android:title="@string/home_button" />
+            android:title="@string/atualizacoes_button" />
         <item
             android:id="@+id/nav_cronograma"
             android:icon="@drawable/ic_menu_cronograma"

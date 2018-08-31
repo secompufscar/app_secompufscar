@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:drawable="@color/colorBackSplash"/>
-    <item>
-        <bitmap
-            android:gravity="center"
-            android:src="@drawable/launch_logo_icone"
-            android:mipMap="true"/>
-    </item>
+        android:drawable="@drawable/logo_fundo_splash"/>
 </layer-list>
+

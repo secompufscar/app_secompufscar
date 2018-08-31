@@ -13,6 +13,6 @@
         android:gravity="center_horizontal"
         android:padding="16dp"
         android:text=""
-        android:textColor="@color/primaryText"
+        android:textColor="@color/black"
         android:textSize="@dimen/titulo_size" />
 </RelativeLayout>
