@@ -35,7 +35,7 @@ import br.com.secompufscar.app.utilities.NetworkUtils;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        Home.OnFragmentInteractionListener {
+        Atualizacoes.OnFragmentInteractionListener {
 
     private final String CURRENT_FRAGMENT_PARAM = "current_fragment";
 
@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity
     public static boolean get_atividades_from_server = true;
 
     private static final int HOME_POSITION = 0;
+
     private static final int CRONOGRAMA_POSITION = 1;
     private static final int PESSOAS_POSITION = 3;
     private static final int MINHAS_ATIVIDADES_POSITION = 4;
@@ -233,7 +234,7 @@ public class MainActivity extends AppCompatActivity
 
     private void initializeFragments() {
         fragmentos = new HashMap<>();
-        fragmentos.put("home", new Home());
+        fragmentos.put("atualizacoes", new Atualizacoes());
         fragmentos.put("cronograma", new Cronograma());
         fragmentos.put("pessoas", new Pessoas());
         fragmentos.put("patrocinadores", new Patrocinadores());
@@ -277,7 +278,7 @@ public class MainActivity extends AppCompatActivity
             default:
                 title.setText(R.string.home_button);
                 current_fragment = HOME_POSITION;
-                previousItemSelected = R.id.nav_home;
+                previousItemSelected = R.id.nav_atualizacoes;
                 fragment_atual = fragmentos.get("home");
                 break;
         }
@@ -319,7 +320,7 @@ public class MainActivity extends AppCompatActivity
                         .setNegativeButton("Não", dialogClickListener).show();
             } else {
                 current_fragment = HOME_POSITION;
-                itemSelected = R.id.nav_home;
+                itemSelected = R.id.nav_atualizacoes;
                 previousItemSelected = itemSelected;
                 setFragment();
             }
@@ -332,7 +333,7 @@ public class MainActivity extends AppCompatActivity
         itemSelected = item.getItemId();
 
         switch (item.getItemId()) {
-            case R.id.nav_home:
+            case R.id.nav_atualizacoes:
                 title.setText(R.string.home_button);
                 break;
             case R.id.nav_cronograma:
@@ -391,8 +392,8 @@ public class MainActivity extends AppCompatActivity
             Fragment fragment = null;
 
             switch (id) {
-                case R.id.nav_home:
-                    fragment = fragmentos.get("home");
+                case R.id.nav_atualizacoes:
+                    fragment = fragmentos.get("atualizacoes");
                     current_fragment = HOME_POSITION;
                     break;
                 case R.id.nav_cronograma:
