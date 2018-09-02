@@ -40,26 +40,23 @@ public class MainActivity extends AppCompatActivity
 
 
         implements NavigationView.OnNavigationItemSelectedListener,
-        Atualizacoes.OnFragmentInteractionListener {
+        Home.OnFragmentInteractionListener {
 
-    {
+    private final String CURRENT_FRAGMENT_PARAM = "current_fragment";
 
-        private final String CURRENT_FRAGMENT_PARAM = "current_fragment";
+    public static final String CURRENT_TAB_PARAM = "currenttab";
+    public static final String GET_DATA_PARAM = "getdata";
+    public static int current_tab;
+    public static boolean get_atividades_from_server = true;
 
     private static final int HOME_POSITION = 0;
+    private static final int ATUALIZACOES_POSITION = 1;
+    private static final int CRONOGRAMA_POSITION = 2;
+    private static final int PESSOAS_POSITION = 4;
+    private static final int MINHAS_ATIVIDADES_POSITION = 5;
+    private static final int PATROCINADORES_POSITION = 8;
+    private static final int SOBRE_POSITION = 9;
 
-    private static final int CRONOGRAMA_POSITION = 1;
-    private static final int PESSOAS_POSITION = 3;
-    private static final int MINHAS_ATIVIDADES_POSITION = 4;
-    private static final int PATROCINADORES_POSITION = 7;
-    private static final int SOBRE_POSITION = 8;
-
-        private static final int HOME_POSITION = 0;
-        private static final int CRONOGRAMA_POSITION = 1;
-        private static final int PESSOAS_POSITION = 3;
-        private static final int MINHAS_ATIVIDADES_POSITION = 4;
-        private static final int PATROCINADORES_POSITION = 7;
-        private static final int SOBRE_POSITION = 8;
 
         private SharedPreferences preferencias;
         private boolean notifications;
@@ -250,6 +247,7 @@ public class MainActivity extends AppCompatActivity
 
         private void initializeFragments () {
         fragmentos = new HashMap<>();
+        fragmentos.put("home", new Home());
         fragmentos.put("atualizacoes", new Atualizacoes());
         fragmentos.put("cronograma", new Cronograma());
         fragmentos.put("pessoas", new Pessoas());
@@ -266,6 +264,11 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment_atual;
 
         switch (current_fragment) {
+            case ATUALIZACOES_POSITION:
+                title.setText(R.string.atualizacoes_button);
+                previousItemSelected = R.id.nav_atualizacoes;
+                fragment_atual = fragmentos.get("atualizacoes");
+                break;
             case CRONOGRAMA_POSITION:
                 title.setText(R.string.cronograma_button);
                 previousItemSelected = R.id.nav_cronograma;
@@ -294,7 +297,7 @@ public class MainActivity extends AppCompatActivity
             default:
                 title.setText(R.string.home_button);
                 current_fragment = HOME_POSITION;
-                previousItemSelected = R.id.nav_atualizacoes;
+                previousItemSelected = R.id.nav_home;
                 fragment_atual = fragmentos.get("home");
                 break;
         }
@@ -336,7 +339,7 @@ public class MainActivity extends AppCompatActivity
                         .setNegativeButton("Não", dialogClickListener).show();
             } else {
                 current_fragment = HOME_POSITION;
-                itemSelected = R.id.nav_atualizacoes;
+                itemSelected = R.id.nav_home;
                 previousItemSelected = itemSelected;
                 setFragment();
             }
@@ -349,8 +352,11 @@ public class MainActivity extends AppCompatActivity
         itemSelected = item.getItemId();
 
         switch (item.getItemId()) {
-            case R.id.nav_atualizacoes:
+            case R.id.nav_home:
                 title.setText(R.string.home_button);
+                break;
+            case R.id.nav_atualizacoes:
+                title.setText(R.string.atualizacoes_button);
                 break;
             case R.id.nav_cronograma:
                 title.setText(R.string.cronograma_button);
@@ -408,9 +414,13 @@ public class MainActivity extends AppCompatActivity
                 Fragment fragment = null;
 
             switch (id) {
+                case R.id.nav_home:
+                    fragment = fragmentos.get("home");
+                    current_fragment = HOME_POSITION;
+                    break;
                 case R.id.nav_atualizacoes:
                     fragment = fragmentos.get("atualizacoes");
-                    current_fragment = HOME_POSITION;
+                    current_fragment = ATUALIZACOES_POSITION;
                     break;
                 case R.id.nav_cronograma:
                     fragment = fragmentos.get("cronograma");

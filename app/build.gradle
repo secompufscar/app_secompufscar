@@ -42,3 +42,8 @@ dependencies {
     compile 'com.google.android.gms:play-services-maps:10.2.1'
 }
 apply plugin:'com.google.gms.google-services'
+
+
+dependencies {
+    implementation 'com.elyeproj.libraries:loaderviewlibrary:1.5.0'
+}
