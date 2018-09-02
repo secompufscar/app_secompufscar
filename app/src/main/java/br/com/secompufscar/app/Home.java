@@ -3,6 +3,7 @@ import android.app.ListActivity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -92,6 +93,9 @@ public class Home extends Fragment {
         antes.resetLoader();
         agora.resetLoader();
         depois.resetLoader();
+        antes.setMovementMethod(new ScrollingMovementMethod());
+        agora.setMovementMethod(new ScrollingMovementMethod());
+        depois.setMovementMethod(new ScrollingMovementMethod());
 
         MegaChecker a = new MegaChecker();
         a.execute("");
@@ -143,7 +147,7 @@ public class Home extends Fragment {
             js = j;
             String before="", now="", after="";
             JSONArray x = new JSONArray();
-
+            //Antes
             try {
                 x = js.getJSONObject("anterior").getJSONArray("atividades");
             } catch (JSONException e) {
@@ -173,6 +177,7 @@ public class Home extends Fragment {
                 }
                 antes.setText(before);
             }
+            //Agora
             try {
                 x = js.getJSONObject("agora").getJSONArray("atividades");
             } catch (JSONException e) {
@@ -202,7 +207,7 @@ public class Home extends Fragment {
                 }
                 agora.setText(now);
             }
-
+            //Próximo
             try {
                 x = js.getJSONObject("proximo").getJSONArray("atividades");
             } catch (JSONException e) {
@@ -226,7 +231,7 @@ public class Home extends Fragment {
                     }
                 }
                 try {
-                    after += "\n\n" + js.getJSONObject("anterior").getString("horario");
+                    after += "\n\n" + js.getJSONObject("proximo").getString("horario");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
