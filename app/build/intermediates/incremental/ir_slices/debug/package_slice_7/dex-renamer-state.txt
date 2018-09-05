@@ -1,0 +1,4 @@
+#Tue Sep 04 20:39:26 BRT 2018
+base.0=/home/mfelipe/app_secompufscar/app/build/intermediates/transforms/dexMerger/debug/365
+path.0=classes.dex
+renamed.0=classes.dex

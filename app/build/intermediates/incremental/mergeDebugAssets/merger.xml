@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="/home/mfelipe/app_secompufscar/app/src/main/assets"><file name="fonts/ClearSans-Regular.ttf" path="/home/mfelipe/app_secompufscar/app/src/main/assets/fonts/ClearSans-Regular.ttf"/></source><source path="/home/mfelipe/app_secompufscar/app/build/generated/assets/shaders/debug"/></dataSet><dataSet config="debug"><source path="/home/mfelipe/app_secompufscar/app/src/debug/assets"/></dataSet></merger>

@@ -1,0 +1,511 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:2:1-137:12
+INJECTED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:2:1-137:12
+INJECTED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:2:1-137:12
+INJECTED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:2:1-137:12
+MERGED from [com.android.support:design:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/design-25.3.1.aar/a1df44de6baba05053bfde3e0544105b/AndroidManifest.xml:17:1-31:12
+MERGED from [com.android.support:recyclerview-v7:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/recyclerview-v7-25.3.1.aar/40fbfa7d9d3a148400554d54b4ced32b/AndroidManifest.xml:17:1-26:12
+MERGED from [com.android.support:appcompat-v7:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/appcompat-v7-25.3.1.aar/c69a61b9e3750064a180c8222cf30b0d/AndroidManifest.xml:17:1-31:12
+MERGED from [com.android.support.constraint:constraint-layout:1.0.2] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.0.2.aar/942d69af00a076e0a68a21448ed68f9e/AndroidManifest.xml:2:1-11:12
+MERGED from [com.android.support:transition:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/transition-25.3.1.aar/1a9a8ae7d5581e4fbfadfdf354a0dc4f/AndroidManifest.xml:17:1-28:12
+MERGED from [com.google.firebase:firebase-messaging:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-messaging-10.2.1.aar/b9d5edf565e8d62b98fcc583ffffd56b/AndroidManifest.xml:16:1-30:12
+MERGED from [com.google.android.gms:play-services-maps:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/play-services-maps-10.2.1.aar/d599f867c6d3b86a723f4ddbab9539fb/AndroidManifest.xml:16:1-25:12
+MERGED from [com.google.firebase:firebase-core:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-core-10.2.1.aar/a6a70b20f8dee05f55138c79d41f9f0b/AndroidManifest.xml:2:1-6:12
+MERGED from [com.google.firebase:firebase-analytics:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.2.1.aar/b29e72be2084b584988dc613af9aaa04/AndroidManifest.xml:16:1-34:12
+MERGED from [com.google.firebase:firebase-analytics-impl:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-10.2.1.aar/f78546440821da4851ca8f4d738ef095/AndroidManifest.xml:16:1-29:12
+MERGED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:16:1-50:12
+MERGED from [com.google.firebase:firebase-common:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-common-10.2.1.aar/2ff990f77ace4d70107f3a99b2afd3b6/AndroidManifest.xml:2:1-8:12
+MERGED from [com.google.android.gms:play-services-base:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/play-services-base-10.2.1.aar/3e6700bc0358e9131eccb3d627285eb3/AndroidManifest.xml:16:1-21:12
+MERGED from [com.google.android.gms:play-services-tasks:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/play-services-tasks-10.2.1.aar/f75ab6b6c9f200a97b4dca147d3e911a/AndroidManifest.xml:2:1-5:12
+MERGED from [com.google.android.gms:play-services-basement:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/play-services-basement-10.2.1.aar/9b8e9b014731645b7bf3a6a3e24874f5/AndroidManifest.xml:16:1-23:12
+MERGED from [com.android.support:support-v4:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-v4-25.3.1.aar/ff2755e21ce5a89d77b0eb5b2fd3ab5a/AndroidManifest.xml:17:1-31:12
+MERGED from [com.github.douglasjunior:android-simple-tooltip:0.2.0] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/android-simple-tooltip-0.2.0.aar/2634486c4e99b4612b3949b81f2609df/AndroidManifest.xml:2:1-14:12
+MERGED from [com.android.support:cardview-v7:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/cardview-v7-25.3.1.aar/53dba62ee41661d8be54f72c403a5bf0/AndroidManifest.xml:17:1-28:12
+MERGED from [com.elyeproj.libraries:loaderviewlibrary:1.5.0] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/loaderviewlibrary-1.5.0.aar/e9190c5a6ac9e1f92eb5a68c66dc41c5/AndroidManifest.xml:2:1-11:12
+MERGED from [com.android.support:support-fragment:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-fragment-25.3.1.aar/9cb6c74ea9b92a979f99c1dc31f80d83/AndroidManifest.xml:17:1-31:12
+MERGED from [com.android.support:support-core-ui:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-core-ui-25.3.1.aar/77532a0c7675f76477401441664d32cb/AndroidManifest.xml:17:1-31:12
+MERGED from [com.android.support:animated-vector-drawable:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-25.3.1.aar/20dbd79f688a1b8d5dbc2a0c84ce525d/AndroidManifest.xml:17:1-28:12
+MERGED from [com.android.support:support-vector-drawable:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-25.3.1.aar/85090944d165f99f47340779175d9362/AndroidManifest.xml:17:1-28:12
+MERGED from [com.android.support:support-media-compat:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-media-compat-25.3.1.aar/2197b75eee9be08f58c27fa273d2f055/AndroidManifest.xml:17:1-31:12
+MERGED from [com.android.support:support-core-utils:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-core-utils-25.3.1.aar/ba515ca26fa114ab5e9f8abbc93f22dd/AndroidManifest.xml:17:1-31:12
+MERGED from [com.android.support:support-compat:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-compat-25.3.1.aar/e878167702577c001aed1e58d0b32ad1/AndroidManifest.xml:17:1-31:12
+INJECTED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:2:1-137:12
+INJECTED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:2:1-137:12
+INJECTED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:2:1-137:12
+	package
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:3:5-38
+		INJECTED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml
+		INJECTED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:2:1-137:12
+		INJECTED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml
+	android:versionCode
+		INJECTED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:2:1-137:12
+		INJECTED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:2:11-69
+uses-permission#android.permission.INTERNET
+ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:6:5-67
+MERGED from [com.google.android.gms:play-services-maps:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/play-services-maps-10.2.1.aar/d599f867c6d3b86a723f4ddbab9539fb/AndroidManifest.xml:20:5-66
+MERGED from [com.google.android.gms:play-services-maps:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/play-services-maps-10.2.1.aar/d599f867c6d3b86a723f4ddbab9539fb/AndroidManifest.xml:20:5-66
+MERGED from [com.google.firebase:firebase-analytics:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.2.1.aar/b29e72be2084b584988dc613af9aaa04/AndroidManifest.xml:20:5-66
+MERGED from [com.google.firebase:firebase-analytics:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.2.1.aar/b29e72be2084b584988dc613af9aaa04/AndroidManifest.xml:20:5-66
+MERGED from [com.google.firebase:firebase-analytics-impl:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-10.2.1.aar/f78546440821da4851ca8f4d738ef095/AndroidManifest.xml:20:5-66
+MERGED from [com.google.firebase:firebase-analytics-impl:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-10.2.1.aar/f78546440821da4851ca8f4d738ef095/AndroidManifest.xml:20:5-66
+MERGED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:20:5-66
+MERGED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:20:5-66
+	android:name
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:6:22-64
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:7:5-81
+	android:name
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:7:22-78
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:8:5-79
+	android:name
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:8:22-76
+application
+ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:10:5-135:19
+MERGED from [com.android.support:design:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/design-25.3.1.aar/a1df44de6baba05053bfde3e0544105b/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:design:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/design-25.3.1.aar/a1df44de6baba05053bfde3e0544105b/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:appcompat-v7:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/appcompat-v7-25.3.1.aar/c69a61b9e3750064a180c8222cf30b0d/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:appcompat-v7:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/appcompat-v7-25.3.1.aar/c69a61b9e3750064a180c8222cf30b0d/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.0.2] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.0.2.aar/942d69af00a076e0a68a21448ed68f9e/AndroidManifest.xml:9:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.0.2] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.0.2.aar/942d69af00a076e0a68a21448ed68f9e/AndroidManifest.xml:9:5-20
+MERGED from [com.android.support:transition:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/transition-25.3.1.aar/1a9a8ae7d5581e4fbfadfdf354a0dc4f/AndroidManifest.xml:26:5-20
+MERGED from [com.android.support:transition:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/transition-25.3.1.aar/1a9a8ae7d5581e4fbfadfdf354a0dc4f/AndroidManifest.xml:26:5-20
+MERGED from [com.google.firebase:firebase-messaging:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-messaging-10.2.1.aar/b9d5edf565e8d62b98fcc583ffffd56b/AndroidManifest.xml:19:5-29:19
+MERGED from [com.google.firebase:firebase-messaging:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-messaging-10.2.1.aar/b9d5edf565e8d62b98fcc583ffffd56b/AndroidManifest.xml:19:5-29:19
+MERGED from [com.google.android.gms:play-services-maps:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/play-services-maps-10.2.1.aar/d599f867c6d3b86a723f4ddbab9539fb/AndroidManifest.xml:24:5-19
+MERGED from [com.google.android.gms:play-services-maps:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/play-services-maps-10.2.1.aar/d599f867c6d3b86a723f4ddbab9539fb/AndroidManifest.xml:24:5-19
+MERGED from [com.google.firebase:firebase-core:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-core-10.2.1.aar/a6a70b20f8dee05f55138c79d41f9f0b/AndroidManifest.xml:5:5-20
+MERGED from [com.google.firebase:firebase-core:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-core-10.2.1.aar/a6a70b20f8dee05f55138c79d41f9f0b/AndroidManifest.xml:5:5-20
+MERGED from [com.google.firebase:firebase-analytics:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.2.1.aar/b29e72be2084b584988dc613af9aaa04/AndroidManifest.xml:24:5-33:19
+MERGED from [com.google.firebase:firebase-analytics:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.2.1.aar/b29e72be2084b584988dc613af9aaa04/AndroidManifest.xml:24:5-33:19
+MERGED from [com.google.firebase:firebase-analytics-impl:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-10.2.1.aar/f78546440821da4851ca8f4d738ef095/AndroidManifest.xml:24:5-28:19
+MERGED from [com.google.firebase:firebase-analytics-impl:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-10.2.1.aar/f78546440821da4851ca8f4d738ef095/AndroidManifest.xml:24:5-28:19
+MERGED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:28:5-49:19
+MERGED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:28:5-49:19
+MERGED from [com.google.firebase:firebase-common:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-common-10.2.1.aar/2ff990f77ace4d70107f3a99b2afd3b6/AndroidManifest.xml:4:5-7:19
+MERGED from [com.google.firebase:firebase-common:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-common-10.2.1.aar/2ff990f77ace4d70107f3a99b2afd3b6/AndroidManifest.xml:4:5-7:19
+MERGED from [com.google.android.gms:play-services-base:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/play-services-base-10.2.1.aar/3e6700bc0358e9131eccb3d627285eb3/AndroidManifest.xml:18:5-20:19
+MERGED from [com.google.android.gms:play-services-base:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/play-services-base-10.2.1.aar/3e6700bc0358e9131eccb3d627285eb3/AndroidManifest.xml:18:5-20:19
+MERGED from [com.google.android.gms:play-services-tasks:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/play-services-tasks-10.2.1.aar/f75ab6b6c9f200a97b4dca147d3e911a/AndroidManifest.xml:4:5-19
+MERGED from [com.google.android.gms:play-services-tasks:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/play-services-tasks-10.2.1.aar/f75ab6b6c9f200a97b4dca147d3e911a/AndroidManifest.xml:4:5-19
+MERGED from [com.google.android.gms:play-services-basement:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/play-services-basement-10.2.1.aar/9b8e9b014731645b7bf3a6a3e24874f5/AndroidManifest.xml:19:5-21:19
+MERGED from [com.google.android.gms:play-services-basement:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/play-services-basement-10.2.1.aar/9b8e9b014731645b7bf3a6a3e24874f5/AndroidManifest.xml:19:5-21:19
+MERGED from [com.android.support:support-v4:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-v4-25.3.1.aar/ff2755e21ce5a89d77b0eb5b2fd3ab5a/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-v4:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-v4-25.3.1.aar/ff2755e21ce5a89d77b0eb5b2fd3ab5a/AndroidManifest.xml:29:5-20
+MERGED from [com.github.douglasjunior:android-simple-tooltip:0.2.0] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/android-simple-tooltip-0.2.0.aar/2634486c4e99b4612b3949b81f2609df/AndroidManifest.xml:11:5-12:19
+MERGED from [com.github.douglasjunior:android-simple-tooltip:0.2.0] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/android-simple-tooltip-0.2.0.aar/2634486c4e99b4612b3949b81f2609df/AndroidManifest.xml:11:5-12:19
+MERGED from [com.android.support:cardview-v7:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/cardview-v7-25.3.1.aar/53dba62ee41661d8be54f72c403a5bf0/AndroidManifest.xml:26:5-20
+MERGED from [com.android.support:cardview-v7:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/cardview-v7-25.3.1.aar/53dba62ee41661d8be54f72c403a5bf0/AndroidManifest.xml:26:5-20
+MERGED from [com.android.support:support-fragment:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-fragment-25.3.1.aar/9cb6c74ea9b92a979f99c1dc31f80d83/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-fragment:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-fragment-25.3.1.aar/9cb6c74ea9b92a979f99c1dc31f80d83/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-core-ui:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-core-ui-25.3.1.aar/77532a0c7675f76477401441664d32cb/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-core-ui:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-core-ui-25.3.1.aar/77532a0c7675f76477401441664d32cb/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:animated-vector-drawable:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-25.3.1.aar/20dbd79f688a1b8d5dbc2a0c84ce525d/AndroidManifest.xml:26:5-20
+MERGED from [com.android.support:animated-vector-drawable:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-25.3.1.aar/20dbd79f688a1b8d5dbc2a0c84ce525d/AndroidManifest.xml:26:5-20
+MERGED from [com.android.support:support-vector-drawable:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-25.3.1.aar/85090944d165f99f47340779175d9362/AndroidManifest.xml:26:5-20
+MERGED from [com.android.support:support-vector-drawable:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-25.3.1.aar/85090944d165f99f47340779175d9362/AndroidManifest.xml:26:5-20
+MERGED from [com.android.support:support-media-compat:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-media-compat-25.3.1.aar/2197b75eee9be08f58c27fa273d2f055/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-media-compat:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-media-compat-25.3.1.aar/2197b75eee9be08f58c27fa273d2f055/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-core-utils:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-core-utils-25.3.1.aar/ba515ca26fa114ab5e9f8abbc93f22dd/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-core-utils:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-core-utils-25.3.1.aar/ba515ca26fa114ab5e9f8abbc93f22dd/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-compat:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-compat-25.3.1.aar/e878167702577c001aed1e58d0b32ad1/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-compat:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-compat-25.3.1.aar/e878167702577c001aed1e58d0b32ad1/AndroidManifest.xml:29:5-20
+	android:supportsRtl
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:14:9-35
+	android:label
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:13:9-41
+	android:icon
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:12:9-43
+	android:allowBackup
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:11:9-35
+	android:theme
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:15:9-40
+activity#br.com.secompufscar.app.SplashScreen
+ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:20:9-29:20
+	android:theme
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:22:13-47
+	android:name
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:21:13-64
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:24:13-27:29
+action#android.intent.action.MAIN
+ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:25:17-69
+	android:name
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:25:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:26:17-77
+	android:name
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:26:27-74
+activity#br.com.secompufscar.app.MainActivity
+ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:32:9-40:20
+	android:label
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:34:13-29
+	android:configChanges
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:36:13-74
+	android:theme
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:35:13-44
+	android:name
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:33:13-64
+intent-filter#action:name:android.intent.action.MAIN
+ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:37:13-39:29
+activity#br.com.secompufscar.app.AtividadeDetalhes
+ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:44:9-53:20
+	android:parentActivityName
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:48:13-78
+	android:label
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:47:13-46
+	android:configChanges
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:46:13-63
+	android:theme
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:49:13-44
+	android:name
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:45:13-69
+meta-data#android.support.PARENT_ACTIVITY
+ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:50:13-52:72
+	android:value
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:52:17-69
+	android:name
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:51:17-63
+activity#br.com.secompufscar.app.PessoaDetalhes
+ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:56:9-65:20
+	android:parentActivityName
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:60:13-78
+	android:label
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:59:13-43
+	android:configChanges
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:58:13-63
+	android:theme
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:61:13-44
+	android:name
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:57:13-66
+activity#br.com.secompufscar.app.Social
+ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:67:9-77:20
+	android:parentActivityName
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:70:13-78
+	android:label
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:69:13-42
+	android:configChanges
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:72:13-74
+	android:theme
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:71:13-44
+	android:name
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:68:13-58
+activity#br.com.secompufscar.app.AreaDoParticipante
+ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:80:9-88:20
+	android:parentActivityName
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:83:13-78
+	android:label
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:82:13-49
+	android:theme
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:84:13-44
+	android:name
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:81:13-70
+activity#br.com.secompufscar.app.Settings
+ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:90:9-97:20
+	android:parentActivityName
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:92:13-78
+	android:theme
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:93:13-44
+	android:name
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:91:13-60
+activity#br.com.secompufscar.app.MapsActivity
+ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:99:9-107:20
+	android:parentActivityName
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:102:13-78
+	android:label
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:101:13-33
+	android:theme
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:103:13-44
+	android:name
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:100:13-64
+service#br.com.secompufscar.app.SECOMPFirebaseService
+ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:110:9-114:19
+	android:name
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:110:18-78
+intent-filter#action:name:com.google.firebase.MESSAGING_EVENT
+ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:111:13-113:29
+action#com.google.firebase.MESSAGING_EVENT
+ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:112:17-78
+	android:name
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:112:25-75
+service#br.com.secompufscar.app.FirebaseIDService
+ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:116:9-120:19
+	android:name
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:116:18-74
+intent-filter#action:name:com.google.firebase.INSTANCE_ID_EVENT
+ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:117:13-119:29
+action#com.google.firebase.INSTANCE_ID_EVENT
+ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:118:17-80
+	android:name
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:118:25-77
+meta-data#com.google.firebase.messaging.default_notification_icon
+ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:123:9-125:52
+	android:resource
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:125:13-49
+	android:name
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:124:13-83
+meta-data#com.google.firebase.messaging.default_notification_color
+ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:128:9-130:53
+	android:resource
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:130:13-50
+	android:name
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:129:13-84
+meta-data#com.google.android.geo.API_KEY
+ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:131:9-133:54
+	android:value
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:133:13-52
+	android:name
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml:132:13-58
+uses-sdk
+INJECTED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml
+INJECTED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml
+MERGED from [com.android.support:design:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/design-25.3.1.aar/a1df44de6baba05053bfde3e0544105b/AndroidManifest.xml:21:5-23:62
+MERGED from [com.android.support:design:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/design-25.3.1.aar/a1df44de6baba05053bfde3e0544105b/AndroidManifest.xml:21:5-23:62
+MERGED from [com.android.support:recyclerview-v7:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/recyclerview-v7-25.3.1.aar/40fbfa7d9d3a148400554d54b4ced32b/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:recyclerview-v7:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/recyclerview-v7-25.3.1.aar/40fbfa7d9d3a148400554d54b4ced32b/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:appcompat-v7:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/appcompat-v7-25.3.1.aar/c69a61b9e3750064a180c8222cf30b0d/AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:appcompat-v7:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/appcompat-v7-25.3.1.aar/c69a61b9e3750064a180c8222cf30b0d/AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support.constraint:constraint-layout:1.0.2] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.0.2.aar/942d69af00a076e0a68a21448ed68f9e/AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support.constraint:constraint-layout:1.0.2] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.0.2.aar/942d69af00a076e0a68a21448ed68f9e/AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support:transition:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/transition-25.3.1.aar/1a9a8ae7d5581e4fbfadfdf354a0dc4f/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:transition:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/transition-25.3.1.aar/1a9a8ae7d5581e4fbfadfdf354a0dc4f/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-messaging:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-messaging-10.2.1.aar/b9d5edf565e8d62b98fcc583ffffd56b/AndroidManifest.xml:17:5-43
+MERGED from [com.google.firebase:firebase-messaging:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-messaging-10.2.1.aar/b9d5edf565e8d62b98fcc583ffffd56b/AndroidManifest.xml:17:5-43
+MERGED from [com.google.android.gms:play-services-maps:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/play-services-maps-10.2.1.aar/d599f867c6d3b86a723f4ddbab9539fb/AndroidManifest.xml:23:5-43
+MERGED from [com.google.android.gms:play-services-maps:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/play-services-maps-10.2.1.aar/d599f867c6d3b86a723f4ddbab9539fb/AndroidManifest.xml:23:5-43
+MERGED from [com.google.firebase:firebase-core:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-core-10.2.1.aar/a6a70b20f8dee05f55138c79d41f9f0b/AndroidManifest.xml:4:5-43
+MERGED from [com.google.firebase:firebase-core:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-core-10.2.1.aar/a6a70b20f8dee05f55138c79d41f9f0b/AndroidManifest.xml:4:5-43
+MERGED from [com.google.firebase:firebase-analytics:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.2.1.aar/b29e72be2084b584988dc613af9aaa04/AndroidManifest.xml:17:5-43
+MERGED from [com.google.firebase:firebase-analytics:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.2.1.aar/b29e72be2084b584988dc613af9aaa04/AndroidManifest.xml:17:5-43
+MERGED from [com.google.firebase:firebase-analytics-impl:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-10.2.1.aar/f78546440821da4851ca8f4d738ef095/AndroidManifest.xml:17:5-43
+MERGED from [com.google.firebase:firebase-analytics-impl:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-10.2.1.aar/f78546440821da4851ca8f4d738ef095/AndroidManifest.xml:17:5-43
+MERGED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:17:5-43
+MERGED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:17:5-43
+MERGED from [com.google.firebase:firebase-common:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-common-10.2.1.aar/2ff990f77ace4d70107f3a99b2afd3b6/AndroidManifest.xml:3:5-43
+MERGED from [com.google.firebase:firebase-common:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-common-10.2.1.aar/2ff990f77ace4d70107f3a99b2afd3b6/AndroidManifest.xml:3:5-43
+MERGED from [com.google.android.gms:play-services-base:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/play-services-base-10.2.1.aar/3e6700bc0358e9131eccb3d627285eb3/AndroidManifest.xml:17:5-43
+MERGED from [com.google.android.gms:play-services-base:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/play-services-base-10.2.1.aar/3e6700bc0358e9131eccb3d627285eb3/AndroidManifest.xml:17:5-43
+MERGED from [com.google.android.gms:play-services-tasks:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/play-services-tasks-10.2.1.aar/f75ab6b6c9f200a97b4dca147d3e911a/AndroidManifest.xml:3:5-43
+MERGED from [com.google.android.gms:play-services-tasks:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/play-services-tasks-10.2.1.aar/f75ab6b6c9f200a97b4dca147d3e911a/AndroidManifest.xml:3:5-43
+MERGED from [com.google.android.gms:play-services-basement:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/play-services-basement-10.2.1.aar/9b8e9b014731645b7bf3a6a3e24874f5/AndroidManifest.xml:17:5-43
+MERGED from [com.google.android.gms:play-services-basement:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/play-services-basement-10.2.1.aar/9b8e9b014731645b7bf3a6a3e24874f5/AndroidManifest.xml:17:5-43
+MERGED from [com.android.support:support-v4:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-v4-25.3.1.aar/ff2755e21ce5a89d77b0eb5b2fd3ab5a/AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-v4:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-v4-25.3.1.aar/ff2755e21ce5a89d77b0eb5b2fd3ab5a/AndroidManifest.xml:21:5-23:54
+MERGED from [com.github.douglasjunior:android-simple-tooltip:0.2.0] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/android-simple-tooltip-0.2.0.aar/2634486c4e99b4612b3949b81f2609df/AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.douglasjunior:android-simple-tooltip:0.2.0] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/android-simple-tooltip-0.2.0.aar/2634486c4e99b4612b3949b81f2609df/AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:cardview-v7:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/cardview-v7-25.3.1.aar/53dba62ee41661d8be54f72c403a5bf0/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:cardview-v7:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/cardview-v7-25.3.1.aar/53dba62ee41661d8be54f72c403a5bf0/AndroidManifest.xml:20:5-43
+MERGED from [com.elyeproj.libraries:loaderviewlibrary:1.5.0] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/loaderviewlibrary-1.5.0.aar/e9190c5a6ac9e1f92eb5a68c66dc41c5/AndroidManifest.xml:7:5-9:41
+MERGED from [com.elyeproj.libraries:loaderviewlibrary:1.5.0] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/loaderviewlibrary-1.5.0.aar/e9190c5a6ac9e1f92eb5a68c66dc41c5/AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:support-fragment:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-fragment-25.3.1.aar/9cb6c74ea9b92a979f99c1dc31f80d83/AndroidManifest.xml:21:5-23:60
+MERGED from [com.android.support:support-fragment:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-fragment-25.3.1.aar/9cb6c74ea9b92a979f99c1dc31f80d83/AndroidManifest.xml:21:5-23:60
+MERGED from [com.android.support:support-core-ui:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-core-ui-25.3.1.aar/77532a0c7675f76477401441664d32cb/AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-core-ui:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-core-ui-25.3.1.aar/77532a0c7675f76477401441664d32cb/AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:animated-vector-drawable:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-25.3.1.aar/20dbd79f688a1b8d5dbc2a0c84ce525d/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-25.3.1.aar/20dbd79f688a1b8d5dbc2a0c84ce525d/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-25.3.1.aar/85090944d165f99f47340779175d9362/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:support-vector-drawable:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-25.3.1.aar/85090944d165f99f47340779175d9362/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:support-media-compat:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-media-compat-25.3.1.aar/2197b75eee9be08f58c27fa273d2f055/AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-media-compat:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-media-compat-25.3.1.aar/2197b75eee9be08f58c27fa273d2f055/AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-core-utils:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-core-utils-25.3.1.aar/ba515ca26fa114ab5e9f8abbc93f22dd/AndroidManifest.xml:21:5-23:61
+MERGED from [com.android.support:support-core-utils:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-core-utils-25.3.1.aar/ba515ca26fa114ab5e9f8abbc93f22dd/AndroidManifest.xml:21:5-23:61
+MERGED from [com.android.support:support-compat:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-compat-25.3.1.aar/e878167702577c001aed1e58d0b32ad1/AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-compat:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-compat-25.3.1.aar/e878167702577c001aed1e58d0b32ad1/AndroidManifest.xml:21:5-23:58
+INJECTED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml
+INJECTED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml
+	tools:overrideLibrary
+		ADDED from [com.android.support:design:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/design-25.3.1.aar/a1df44de6baba05053bfde3e0544105b/AndroidManifest.xml:23:9-59
+	android:targetSdkVersion
+		INJECTED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml
+		INJECTED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml
+		ADDED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml
+		INJECTED from /home/mfelipe/app_secompufscar/app/src/main/AndroidManifest.xml
+meta-data#android.support.VERSION
+ADDED from [com.android.support:design:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/design-25.3.1.aar/a1df44de6baba05053bfde3e0544105b/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:recyclerview-v7:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/recyclerview-v7-25.3.1.aar/40fbfa7d9d3a148400554d54b4ced32b/AndroidManifest.xml:22:5-24:34
+MERGED from [com.android.support:recyclerview-v7:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/recyclerview-v7-25.3.1.aar/40fbfa7d9d3a148400554d54b4ced32b/AndroidManifest.xml:22:5-24:34
+MERGED from [com.android.support:appcompat-v7:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/appcompat-v7-25.3.1.aar/c69a61b9e3750064a180c8222cf30b0d/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:appcompat-v7:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/appcompat-v7-25.3.1.aar/c69a61b9e3750064a180c8222cf30b0d/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:transition:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/transition-25.3.1.aar/1a9a8ae7d5581e4fbfadfdf354a0dc4f/AndroidManifest.xml:22:5-24:34
+MERGED from [com.android.support:transition:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/transition-25.3.1.aar/1a9a8ae7d5581e4fbfadfdf354a0dc4f/AndroidManifest.xml:22:5-24:34
+MERGED from [com.android.support:support-v4:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-v4-25.3.1.aar/ff2755e21ce5a89d77b0eb5b2fd3ab5a/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-v4:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-v4-25.3.1.aar/ff2755e21ce5a89d77b0eb5b2fd3ab5a/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:cardview-v7:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/cardview-v7-25.3.1.aar/53dba62ee41661d8be54f72c403a5bf0/AndroidManifest.xml:22:5-24:34
+MERGED from [com.android.support:cardview-v7:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/cardview-v7-25.3.1.aar/53dba62ee41661d8be54f72c403a5bf0/AndroidManifest.xml:22:5-24:34
+MERGED from [com.android.support:support-fragment:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-fragment-25.3.1.aar/9cb6c74ea9b92a979f99c1dc31f80d83/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-fragment:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-fragment-25.3.1.aar/9cb6c74ea9b92a979f99c1dc31f80d83/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-core-ui:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-core-ui-25.3.1.aar/77532a0c7675f76477401441664d32cb/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-core-ui:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-core-ui-25.3.1.aar/77532a0c7675f76477401441664d32cb/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:animated-vector-drawable:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-25.3.1.aar/20dbd79f688a1b8d5dbc2a0c84ce525d/AndroidManifest.xml:22:5-24:34
+MERGED from [com.android.support:animated-vector-drawable:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-25.3.1.aar/20dbd79f688a1b8d5dbc2a0c84ce525d/AndroidManifest.xml:22:5-24:34
+MERGED from [com.android.support:support-vector-drawable:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-25.3.1.aar/85090944d165f99f47340779175d9362/AndroidManifest.xml:22:5-24:34
+MERGED from [com.android.support:support-vector-drawable:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-25.3.1.aar/85090944d165f99f47340779175d9362/AndroidManifest.xml:22:5-24:34
+MERGED from [com.android.support:support-media-compat:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-media-compat-25.3.1.aar/2197b75eee9be08f58c27fa273d2f055/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-media-compat:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-media-compat-25.3.1.aar/2197b75eee9be08f58c27fa273d2f055/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-core-utils:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-core-utils-25.3.1.aar/ba515ca26fa114ab5e9f8abbc93f22dd/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-core-utils:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-core-utils-25.3.1.aar/ba515ca26fa114ab5e9f8abbc93f22dd/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-compat:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-compat-25.3.1.aar/e878167702577c001aed1e58d0b32ad1/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-compat:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/support-compat-25.3.1.aar/e878167702577c001aed1e58d0b32ad1/AndroidManifest.xml:25:5-27:34
+	android:value
+		ADDED from [com.android.support:design:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/design-25.3.1.aar/a1df44de6baba05053bfde3e0544105b/AndroidManifest.xml:27:9-31
+	android:name
+		ADDED from [com.android.support:design:25.3.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/design-25.3.1.aar/a1df44de6baba05053bfde3e0544105b/AndroidManifest.xml:26:9-47
+service#com.google.firebase.messaging.FirebaseMessagingService
+ADDED from [com.google.firebase:firebase-messaging:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-messaging-10.2.1.aar/b9d5edf565e8d62b98fcc583ffffd56b/AndroidManifest.xml:23:9-27:19
+	android:exported
+		ADDED from [com.google.firebase:firebase-messaging:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-messaging-10.2.1.aar/b9d5edf565e8d62b98fcc583ffffd56b/AndroidManifest.xml:23:88-111
+	android:name
+		ADDED from [com.google.firebase:firebase-messaging:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-messaging-10.2.1.aar/b9d5edf565e8d62b98fcc583ffffd56b/AndroidManifest.xml:23:18-87
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from [com.google.android.gms:play-services-maps:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/play-services-maps-10.2.1.aar/d599f867c6d3b86a723f4ddbab9539fb/AndroidManifest.xml:19:5-78
+MERGED from [com.google.firebase:firebase-analytics:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.2.1.aar/b29e72be2084b584988dc613af9aaa04/AndroidManifest.xml:21:5-78
+MERGED from [com.google.firebase:firebase-analytics:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.2.1.aar/b29e72be2084b584988dc613af9aaa04/AndroidManifest.xml:21:5-78
+MERGED from [com.google.firebase:firebase-analytics-impl:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-10.2.1.aar/f78546440821da4851ca8f4d738ef095/AndroidManifest.xml:21:5-78
+MERGED from [com.google.firebase:firebase-analytics-impl:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-10.2.1.aar/f78546440821da4851ca8f4d738ef095/AndroidManifest.xml:21:5-78
+MERGED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:19:5-78
+MERGED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:19:5-78
+	android:name
+		ADDED from [com.google.android.gms:play-services-maps:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/play-services-maps-10.2.1.aar/d599f867c6d3b86a723f4ddbab9539fb/AndroidManifest.xml:19:22-76
+uses-feature#0x00020000
+ADDED from [com.google.android.gms:play-services-maps:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/play-services-maps-10.2.1.aar/d599f867c6d3b86a723f4ddbab9539fb/AndroidManifest.xml:21:5-77
+	android:glEsVersion
+		ADDED from [com.google.android.gms:play-services-maps:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/play-services-maps-10.2.1.aar/d599f867c6d3b86a723f4ddbab9539fb/AndroidManifest.xml:21:19-51
+	android:required
+		ADDED from [com.google.android.gms:play-services-maps:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/play-services-maps-10.2.1.aar/d599f867c6d3b86a723f4ddbab9539fb/AndroidManifest.xml:21:52-75
+uses-permission#android.permission.WAKE_LOCK
+ADDED from [com.google.firebase:firebase-analytics:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.2.1.aar/b29e72be2084b584988dc613af9aaa04/AndroidManifest.xml:22:5-67
+MERGED from [com.google.firebase:firebase-analytics-impl:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-10.2.1.aar/f78546440821da4851ca8f4d738ef095/AndroidManifest.xml:22:5-67
+MERGED from [com.google.firebase:firebase-analytics-impl:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-10.2.1.aar/f78546440821da4851ca8f4d738ef095/AndroidManifest.xml:22:5-67
+MERGED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:21:5-67
+MERGED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:21:5-67
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.2.1.aar/b29e72be2084b584988dc613af9aaa04/AndroidManifest.xml:22:22-65
+receiver#com.google.android.gms.measurement.AppMeasurementReceiver
+ADDED from [com.google.firebase:firebase-analytics:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.2.1.aar/b29e72be2084b584988dc613af9aaa04/AndroidManifest.xml:25:7-26:18
+MERGED from [com.google.firebase:firebase-analytics-impl:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-10.2.1.aar/f78546440821da4851ca8f4d738ef095/AndroidManifest.xml:25:7-26:18
+MERGED from [com.google.firebase:firebase-analytics-impl:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-10.2.1.aar/f78546440821da4851ca8f4d738ef095/AndroidManifest.xml:25:7-26:18
+	android:enabled
+		ADDED from [com.google.firebase:firebase-analytics:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.2.1.aar/b29e72be2084b584988dc613af9aaa04/AndroidManifest.xml:25:90-112
+	android:exported
+		ADDED from [com.google.firebase:firebase-analytics:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.2.1.aar/b29e72be2084b584988dc613af9aaa04/AndroidManifest.xml:25:113-137
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.2.1.aar/b29e72be2084b584988dc613af9aaa04/AndroidManifest.xml:25:17-89
+receiver#com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver
+ADDED from [com.google.firebase:firebase-analytics:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.2.1.aar/b29e72be2084b584988dc613af9aaa04/AndroidManifest.xml:27:7-31:18
+	android:enabled
+		ADDED from [com.google.firebase:firebase-analytics:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.2.1.aar/b29e72be2084b584988dc613af9aaa04/AndroidManifest.xml:27:162-184
+	android:permission
+		ADDED from [com.google.firebase:firebase-analytics:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.2.1.aar/b29e72be2084b584988dc613af9aaa04/AndroidManifest.xml:27:105-161
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.2.1.aar/b29e72be2084b584988dc613af9aaa04/AndroidManifest.xml:27:17-104
+intent-filter#action:name:com.android.vending.INSTALL_REFERRER
+ADDED from [com.google.firebase:firebase-analytics:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.2.1.aar/b29e72be2084b584988dc613af9aaa04/AndroidManifest.xml:28:11-30:27
+action#com.android.vending.INSTALL_REFERRER
+ADDED from [com.google.firebase:firebase-analytics:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.2.1.aar/b29e72be2084b584988dc613af9aaa04/AndroidManifest.xml:29:15-76
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.2.1.aar/b29e72be2084b584988dc613af9aaa04/AndroidManifest.xml:29:23-74
+service#com.google.android.gms.measurement.AppMeasurementService
+ADDED from [com.google.firebase:firebase-analytics:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.2.1.aar/b29e72be2084b584988dc613af9aaa04/AndroidManifest.xml:32:7-137
+MERGED from [com.google.firebase:firebase-analytics-impl:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-10.2.1.aar/f78546440821da4851ca8f4d738ef095/AndroidManifest.xml:27:7-137
+MERGED from [com.google.firebase:firebase-analytics-impl:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-10.2.1.aar/f78546440821da4851ca8f4d738ef095/AndroidManifest.xml:27:7-137
+	android:enabled
+		ADDED from [com.google.firebase:firebase-analytics:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.2.1.aar/b29e72be2084b584988dc613af9aaa04/AndroidManifest.xml:32:88-110
+	android:exported
+		ADDED from [com.google.firebase:firebase-analytics:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.2.1.aar/b29e72be2084b584988dc613af9aaa04/AndroidManifest.xml:32:111-135
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.2.1.aar/b29e72be2084b584988dc613af9aaa04/AndroidManifest.xml:32:16-87
+uses-permission#com.google.android.c2dm.permission.RECEIVE
+ADDED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:22:5-81
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:22:22-79
+permission#${applicationId}.permission.C2D_MESSAGE
+ADDED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:24:5-109
+	android:protectionLevel
+		ADDED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:24:72-107
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:24:17-71
+permission#br.com.secompufscar.app.permission.C2D_MESSAGE
+ADDED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:24:5-109
+	android:protectionLevel
+		ADDED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:24:72-107
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:24:17-71
+uses-permission#${applicationId}.permission.C2D_MESSAGE
+ADDED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:26:5-78
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:26:22-76
+uses-permission#br.com.secompufscar.app.permission.C2D_MESSAGE
+ADDED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:26:5-78
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:26:22-76
+receiver#com.google.firebase.iid.FirebaseInstanceIdReceiver
+ADDED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:30:9-35:20
+	android:exported
+		ADDED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:30:85-108
+	android:permission
+		ADDED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:30:109-169
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:30:19-84
+intent-filter#action:name:com.google.android.c2dm.intent.RECEIVE+category:name:${applicationId}
+ADDED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:31:13-34:29
+intent-filter#action:name:com.google.android.c2dm.intent.RECEIVE+category:name:br.com.secompufscar.app
+ADDED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:31:13-34:29
+action#com.google.android.c2dm.intent.RECEIVE
+ADDED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:32:17-80
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:32:25-78
+category#${applicationId}
+ADDED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:33:17-60
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:33:27-58
+category#br.com.secompufscar.app
+ADDED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:33:17-60
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:33:27-58
+receiver#com.google.firebase.iid.FirebaseInstanceIdInternalReceiver
+ADDED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:39:9-119
+	android:exported
+		ADDED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:39:93-117
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:39:19-92
+service#com.google.firebase.iid.FirebaseInstanceIdService
+ADDED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:43:9-47:19
+	android:exported
+		ADDED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:43:83-106
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.2.1.aar/a097baa4818475971d9f464d1876ac02/AndroidManifest.xml:43:18-82
+provider#com.google.firebase.provider.FirebaseInitProvider
+ADDED from [com.google.firebase:firebase-common:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-common-10.2.1.aar/2ff990f77ace4d70107f3a99b2afd3b6/AndroidManifest.xml:6:9-194
+	android:authorities
+		ADDED from [com.google.firebase:firebase-common:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-common-10.2.1.aar/2ff990f77ace4d70107f3a99b2afd3b6/AndroidManifest.xml:6:19-78
+	android:exported
+		ADDED from [com.google.firebase:firebase-common:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-common-10.2.1.aar/2ff990f77ace4d70107f3a99b2afd3b6/AndroidManifest.xml:6:144-168
+	android:initOrder
+		ADDED from [com.google.firebase:firebase-common:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-common-10.2.1.aar/2ff990f77ace4d70107f3a99b2afd3b6/AndroidManifest.xml:6:169-192
+	android:name
+		ADDED from [com.google.firebase:firebase-common:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/firebase-common-10.2.1.aar/2ff990f77ace4d70107f3a99b2afd3b6/AndroidManifest.xml:6:79-143
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/play-services-base-10.2.1.aar/3e6700bc0358e9131eccb3d627285eb3/AndroidManifest.xml:19:9-172
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/play-services-base-10.2.1.aar/3e6700bc0358e9131eccb3d627285eb3/AndroidManifest.xml:19:146-170
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/play-services-base-10.2.1.aar/3e6700bc0358e9131eccb3d627285eb3/AndroidManifest.xml:19:86-145
+	android:name
+		ADDED from [com.google.android.gms:play-services-base:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/play-services-base-10.2.1.aar/3e6700bc0358e9131eccb3d627285eb3/AndroidManifest.xml:19:19-85
+meta-data#com.google.android.gms.version
+ADDED from [com.google.android.gms:play-services-basement:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/play-services-basement-10.2.1.aar/9b8e9b014731645b7bf3a6a3e24874f5/AndroidManifest.xml:20:9-121
+	android:value
+		ADDED from [com.google.android.gms:play-services-basement:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/play-services-basement-10.2.1.aar/9b8e9b014731645b7bf3a6a3e24874f5/AndroidManifest.xml:20:66-119
+	android:name
+		ADDED from [com.google.android.gms:play-services-basement:10.2.1] /home/mfelipe/.gradle/caches/transforms-1/files-1.1/play-services-basement-10.2.1.aar/9b8e9b014731645b7bf3a6a3e24874f5/AndroidManifest.xml:20:20-65

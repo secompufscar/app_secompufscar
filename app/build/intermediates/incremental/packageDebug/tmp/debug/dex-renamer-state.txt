@@ -1,0 +1,13 @@
+#Tue Sep 04 20:39:27 BRT 2018
+path.3=classes.dex
+path.2=classes.dex
+path.1=classes.dex
+path.0=classes.dex
+renamed.3=classes4.dex
+renamed.2=classes3.dex
+renamed.1=classes2.dex
+renamed.0=classes.dex
+base.3=/home/mfelipe/app_secompufscar/app/build/intermediates/transforms/dexMerger/debug/370
+base.2=/home/mfelipe/app_secompufscar/app/build/intermediates/transforms/dexMerger/debug/371
+base.1=/home/mfelipe/app_secompufscar/app/build/intermediates/transforms/dexMerger/debug/369
+base.0=/home/mfelipe/app_secompufscar/app/build/intermediates/transforms/dexMerger/debug/372

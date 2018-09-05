@@ -45,10 +45,11 @@
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
                 android:gravity="top"
-                android:text="@string/hapnow"
-                android:textColor="@color/white"
+                android:text="AGORA"
+                android:textColor="#fff"
+                android:background="@drawable/preto_craquelado"
                 android:textSize="@dimen/detalhes_nome_size"
-                android:alpha="0.5"
+                android:alpha="1.0"
                 android:textStyle="bold"/>
 
             <TextView
